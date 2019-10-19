@@ -103,6 +103,13 @@ if ( HELGRIND )
   add_definitions(-DHELGRIND)
 endif()
 
+if ( ASAN )
+  message("")
+  message(" *** ASAN - WARNING!")
+  message(" *** Please note that this is for DEBUGGING WITH ADDRESS SANITIZER only!")
+  add_definitions(-DASAN)
+endif()
+
 if (BUILD_SHARED_LIBS)
   message("")
   message(" *** WITH_DYNAMIC_LINKING - INFO!")
