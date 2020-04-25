@@ -12,7 +12,8 @@ if(WITH_WARNINGS)
       -Winit-self
       -Wfatal-errors
       -Wno-mismatched-tags
-      -Woverloaded-virtual)
+      -Woverloaded-virtual
+      -Wno-deprecated-copy) # warning in g3d
 
   message(STATUS "Clang: All warnings enabled")
 endif()
