@@ -527,7 +527,7 @@ class boss_shekzeer : public CreatureScript
                     {
                         // We cancel the scheduled event as we enter in phase 1 immediately
                         events.CancelEvent(EVENT_CHANGE_PHASE);
-                        // NO BREAK!!!
+                        /* fallthrough */
                     }
                     // Entering in phase 1
                     case ACTION_COMBAT:

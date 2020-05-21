@@ -1050,7 +1050,7 @@ struct instance_blackrock_foundry : public InstanceScript
                 }
                 // });
 
-                /// No break needed here
+                /* fallthrough */
             }
             case EncounterState::FAIL:
             case EncounterState::NOT_STARTED:

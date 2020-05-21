@@ -10193,7 +10193,7 @@ void Player::SendInitWorldStates(uint32 zoneid, uint32 areaid)
         case 4197:
             if (bf && bf->GetTypeId() == BATTLEFIELD_WG)
                 bf->FillInitialWorldStates(packet);
-            // No break here, intended.
+            /* fallthrough */
         default:
             packet.Worldstates.emplace_back(0x914, 0x0);           // 7
             packet.Worldstates.emplace_back(0x913, 0x0);           // 8

@@ -804,7 +804,7 @@ class boss_spirit_kings : public CreatureScript
                             if (Player* victim = me->SelectNearestPlayer(50.0f))
                                 AttackStart(victim);
                     }
-                    // No Break
+                    /* fallthrough */
                     case ACTION_FIRST_FIGHT:
                     {
                         me->RemoveAurasDueToSpell(SPELL_INACTIVE);

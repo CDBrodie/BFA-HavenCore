@@ -848,7 +848,7 @@ class boss_hagara_the_stormbinder: public CreatureScript
                                     for (uint8 i = 0; i < 4; ++i)
                                         if (Creature* pCronductor = me->SummonCreature(NPC_CRYSTAL_CONDUCTOR, crystalconductorPos[i + 4]))
                                             pCronductor->CastSpell(me, SPELL_CRYSTALLINE_TETHER_2);
-                                // no break
+                                /* fallthrough */
                                 case DIFFICULTY_25_N:
                                 case DIFFICULTY_25_HC:
                                     for (uint8 i = 0; i < 4; ++i)

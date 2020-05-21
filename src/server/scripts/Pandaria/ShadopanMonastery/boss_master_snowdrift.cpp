@@ -252,7 +252,7 @@ class boss_master_snowdrift : public CreatureScript
                     case POINT_PHASE_FIGHT:
                         me->SetFaction(14);
                         me->SetReactState(REACT_AGGRESSIVE);
-                        // No Break
+                        /* fallthrough */
                     case POINT_BEGIN_EVENT:
                         me->SetFacingTo(me->GetAngle(3659.08f, 3015.38f));
                         break;
@@ -641,7 +641,7 @@ class npc_snowdrift_miniboss : public CreatureScript
                     case EVENT_WHIRLING_STEEL_FOCUS:
                         me->AddAura(SPELL_WHIRLING_STEEL_DAMAGE, me);
                         me->SetReactState(REACT_PASSIVE);
-                        // no break
+                        /* fallthrough */
                     case EVENT_WHIRLING_STEEL_CHANGE:
                         if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM))
                         {

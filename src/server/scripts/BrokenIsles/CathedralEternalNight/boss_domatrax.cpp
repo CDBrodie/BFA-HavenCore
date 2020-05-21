@@ -168,7 +168,7 @@ public:
             {
             case SPELL_WAVE_TWO:
                 Talk(SAY_WAVE_TWO);
-                // no break
+                /* fallthrough */
             case SPELL_WAVE_ONE:
                 Talk(SAY_WAVE);
                 uint8 position = urand(0, 3);
