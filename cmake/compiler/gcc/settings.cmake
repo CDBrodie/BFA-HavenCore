@@ -35,8 +35,7 @@ if( WITH_WARNINGS )
 
   target_compile_options(trinity-warning-interface
     INTERFACE
-      -Wno-error=unused-parameter
-      -Wno-deprecated-copy) # warning in g3d
+      -Wno-error=unused-parameter)
 
   message(STATUS "GCC: All warnings enabled")
 endif()
