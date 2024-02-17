@@ -16,13 +16,15 @@ if(PLATFORM EQUAL 32)
       -mfpmath=sse)
 endif()
 
-target_compile_definitions(trinity-compile-option-interface
-  INTERFACE
-    HAVE_SSE2
-    __SSE2__)
-message(STATUS "GCC: SFMT enabled, SSE2 flags forced")
+if(TRINITY_SYSTEM_PROCESSOR MATCHES "x86|amd64")
+  target_compile_definitions(trinity-compile-option-interface
+    INTERFACE
+      HAVE_SSE2
+      __SSE2__)
+  message(STATUS "GCC: SFMT enabled, SSE2 flags forced")
+endif()
 
-if( WITH_WARNINGS )
+if(WITH_WARNINGS)
   target_compile_options(trinity-warning-interface
     INTERFACE
       -W
@@ -41,7 +43,7 @@ if( WITH_WARNINGS )
   message(STATUS "GCC: All warnings enabled")
 endif()
 
-if( WITH_COREDEBUG )
+if(WITH_COREDEBUG)
   target_compile_options(trinity-compile-option-interface
     INTERFACE
       -g3)
