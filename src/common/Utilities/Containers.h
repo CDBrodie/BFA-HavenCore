@@ -145,7 +145,7 @@ namespace Trinity
         template<class C>
         inline void RandomShuffle(C& container)
         {
-            std::shuffle(std::begin(container), std::end(container), RandomEngine::Instance());
+            std::shuffle(std::begin(container), std::end(container), RandomEngine());
         }
 
         /**
