@@ -1,5 +1,8 @@
 sql/base/*.sql
 sql/base/*.rar
 client-data/**
+build/
 .claude/
+.superpowers/
+docs/superpowers/
 TODO.md
