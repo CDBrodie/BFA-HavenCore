@@ -33,6 +33,12 @@ void WorldSession::HandleBattlePetSummon(WorldPackets::BattlePet::BattlePetGuidR
     if (_player->IsOnVehicle() || _player->IsSitState())
         return;
 
+    if (_player->GetSummonedBattlePetGUID() == packet.BattlePetGUID)
+    {
+        _player->UnsummonCurrentBattlePetIfAny(false);
+        return;
+    }
+
     _player->UnsummonCurrentBattlePetIfAny(false);
     if (!_player->GetSummonedBattlePet())
         _player->SummonBattlePet(packet.BattlePetGUID);
@@ -123,16 +129,23 @@ void WorldSession::HandleCageBattlePet(WorldPackets::BattlePet::BattlePetGuidRea
     if (!battlePet)
         return;
 
-    if (!sDB2Manager.HasBattlePetSpeciesFlag(battlePet->Species, BATTLE_PET_SPECIES_FLAG_CAGEABLE))
+    if (sDB2Manager.HasBattlePetSpeciesFlag(battlePet->Species, BATTLE_PET_SPECIES_FLAG_NOT_CAGEABLE))
         return;
 
     ItemPosCountVec dest;
-    if (_player->CanStoreNewItem(NULL_BAG, NULL_SLOT, dest, BATTLE_PET_CAGE_ITEM_ID, 1) != EQUIP_ERR_OK)
+    InventoryResult inventoryResult = _player->CanStoreNewItem(NULL_BAG, NULL_SLOT, dest, BATTLE_PET_CAGE_ITEM_ID, 1);
+    if (inventoryResult != EQUIP_ERR_OK)
+    {
+        _player->SendEquipError(inventoryResult);
         return;
+    }
 
     Item* item = _player->StoreNewItem(dest, BATTLE_PET_CAGE_ITEM_ID, true);
     if (!item)
         return;
+
+    if (_player->GetSummonedBattlePetGUID() == packet.BattlePetGUID)
+        _player->UnsummonCurrentBattlePetIfAny(false);
 
     item->SetModifier(ITEM_MODIFIER_BATTLE_PET_SPECIES_ID, battlePet->Species);
     item->SetModifier(ITEM_MODIFIER_BATTLE_PET_BREED_DATA, battlePet->Breed | battlePet->Quality << 24);
@@ -604,13 +617,15 @@ void WorldSession::HandleBattlePetDelete(WorldPackets::BattlePet::BattlePetGuidR
             _player->GetGUID().ToString().c_str(), packet.BattlePetGUID.ToString().c_str());
         return;
     }
-    //@TODO
-    /*if (sDB2Manager.HasBattlePetSpeciesFlag(battlePet->Species, BATTLE_PET_SPECIES_FLAG_RELEASABLE))
+    if (sDB2Manager.HasBattlePetSpeciesFlag(battlePet->Species, BATTLE_PET_SPECIES_FLAG_NOT_RELEASABLE))
     {
         TC_LOG_ERROR("network", "CMSG_BATTLE_PET_DELETE - Player %s tryed to release Battle Pet %s which isn't releasable!",
             _player->GetGUID().ToString().c_str(), packet.BattlePetGUID.ToString().c_str());
         return;
-    }*/
+    }
+
+    if (_player->GetBattlePetCountForSpecies(battlePet->Species) <= 1)
+        return;
 
     SendBattlePetDeleted(packet.BattlePetGUID);
     battlePet->Remove(nullptr);

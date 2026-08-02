@@ -7080,6 +7080,10 @@ void ObjectMgr::SetHighestGuids()
     if (result)
         _voidItemId = (*result)[0].GetUInt64()+1;
 
+    result = CharacterDatabase.Query("SELECT MAX(id) FROM account_battlepet");
+    if (result)
+        GetGuidSequenceGenerator<HighGuid::BattlePet>().Set((*result)[0].GetUInt64() + 1);
+
     result = WorldDatabase.Query("SELECT MAX(guid) FROM creature");
     if (result)
         _creatureSpawnId = (*result)[0].GetUInt64() + 1;
