@@ -94,7 +94,7 @@ if( WIN32 )
   endif()
   list(APPEND MYSQL_SEARCH_BASES "C:/MySQL")
   
-  # release. Newest version is searched first.
+  # Newest version is searched first.
   set(MYSQL_VERSIONED_ROOTS "")
   foreach( MYSQL_SEARCH_BASE ${MYSQL_SEARCH_BASES} )
     if( IS_DIRECTORY "${MYSQL_SEARCH_BASE}" )
