@@ -157,6 +157,7 @@ void WorldSession::HandleCageBattlePet(WorldPackets::BattlePet::BattlePetGuidRea
     SendBattlePetDeleted(packet.BattlePetGUID);
     battlePet->Remove(nullptr);
     _player->_battlePets.erase(packet.BattlePetGUID);
+    _player->UpdateCriteria(CRITERIA_TYPE_COLLECT_BATTLEPET);
 }
 
 void WorldSession::HandleBattlePetSetSlot(WorldPackets::BattlePet::SetBattleSlot& packet)
@@ -230,6 +231,13 @@ void WorldSession::HandlePetBattleRequestWild(WorldPackets::BattlePet::RequestWi
 
     Creature* wildBattlePet = ObjectAccessor::GetCreature(*_player, battleRequest->OpponentGuid);
     if (!wildBattlePet)
+    {
+        SendPetBattleRequestFailed(BATTLE_PET_REQUEST_TARGET_NOT_CAPTURABLE);
+        sPetBattleSystem->RemoveRequest(battleRequest->RequesterGuid);
+        return;
+    }
+
+    if (wildBattlePet->IsSummon() || !wildBattlePet->GetBattlePetCompanionGUID().IsEmpty() || wildBattlePet->GetOwnerGUID().IsPlayer())
     {
         SendPetBattleRequestFailed(BATTLE_PET_REQUEST_TARGET_NOT_CAPTURABLE);
         sPetBattleSystem->RemoveRequest(battleRequest->RequesterGuid);
@@ -630,6 +638,7 @@ void WorldSession::HandleBattlePetDelete(WorldPackets::BattlePet::BattlePetGuidR
     SendBattlePetDeleted(packet.BattlePetGUID);
     battlePet->Remove(nullptr);
     _player->_battlePets.erase(packet.BattlePetGUID);
+    _player->UpdateCriteria(CRITERIA_TYPE_COLLECT_BATTLEPET);
 }
 
 void WorldSession::HandleBattlePetRequestJournal(WorldPackets::BattlePet::NullCmsg& /*packet*/)
@@ -888,7 +897,7 @@ void WorldSession::SendPetBattleInitialUpdate(PetBattle* petBattle)
         WorldPackets::BattlePet::PetBattlePlayerUpdate playerUpdate;
         playerUpdate.CharacterID = ownerGuid;
         playerUpdate.TrapAbilityID = petBattle->Teams[i]->GetCatchAbilityID();
-        playerUpdate.TrapStatus = i == PET_BATTLE_TEAM_1 ? 5 : 2;
+        playerUpdate.TrapStatus = petBattle->Teams[i]->GetTeamTrapStatus();
         playerUpdate.RoundTimeSecs = isPVP ? pvpMaxRoundTime : 0;
         playerUpdate.InputFlags = PETBATTLE_TEAM_INPUT_FLAG_LOCK_PET_SWAP | PETBATTLE_TEAM_INPUT_FLAG_LOCK_ABILITIES_2;
 

@@ -16,6 +16,7 @@
  */
 
 #include "WorldSession.h"
+#include "BattlePet.h"
 #include "Battleground.h"
 #include "BattlegroundMgr.h"
 #include "Common.h"
@@ -165,6 +166,9 @@ void WorldSession::SendTrainerListLegacy(ObjectGuid guid, uint32 index)
             continue;
 
         TrainerSpellState state = _player->GetTrainerSpellState(tSpell);
+        if (BattlePetSpeciesEntry const* species = sDB2Manager.GetSpeciesBySpell(tSpell->SpellID))
+            if (_player->GetBattlePetCountForSpecies(species->ID) >= MAX_BATTLE_PET_PER_SPECIES)
+                state = TRAINER_SPELL_RED;
 
         WorldPackets::NPC::TrainerListSpell spell;
         spell.SpellID = tSpell->SpellID;
@@ -284,6 +288,10 @@ void WorldSession::HandleTrainerBuySpellOpcodeLegacy(WorldPackets::NPC::TrainerB
         //SendTrainerBuyFailed(packet.TrainerGUID, packet.SpellID, 0);
         return;
     }
+
+    if (BattlePetSpeciesEntry const* species = sDB2Manager.GetSpeciesBySpell(trainerSpell->SpellID))
+        if (_player->GetBattlePetCountForSpecies(species->ID) >= MAX_BATTLE_PET_PER_SPECIES)
+            return;
 
     // can't be learn, cheat? Or double learn with lags...
     if (_player->GetTrainerSpellState(trainerSpell) != TRAINER_SPELL_GREEN)

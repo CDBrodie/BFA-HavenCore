@@ -25,6 +25,11 @@
 #include "ScriptMgr.h"
 #include "WildBattlePet.h"
 
+namespace
+{
+    constexpr uint8 PET_BATTLE_TRAP_STATUS_TOO_MANY_PETS = 5;
+}
+
 PetBattleEventUpdate::PetBattleEventUpdate()
 {
     UpdateType = 0;
@@ -459,7 +464,7 @@ uint8 PetBattleTeam::CanCatchOpponentTeamFrontPet()
     /// Max 3 same pet for player
     if (CapturedSpeciesCount.find(targetPet->Species) != CapturedSpeciesCount.end())
         if (CapturedSpeciesCount[targetPet->Species] > 2)
-            return 0;
+            return PET_BATTLE_TRAP_STATUS_TOO_MANY_PETS;
 
     /// todo more check
 
@@ -939,6 +944,7 @@ void PetBattle::Finish(uint32 winnerTeamID, bool aborted, bool ignoreAbandonPena
                 Pets[Teams[currentTeamID]->CapturedPet]->Slot = PET_BATTLE_NULL_SLOT;
                 Pets[Teams[currentTeamID]->CapturedPet]->AddToPlayer(player);
                 player->_battlePets.emplace(Pets[Teams[currentTeamID]->CapturedPet]->JournalID, Pets[Teams[currentTeamID]->CapturedPet]);
+                player->UpdateCriteria(CRITERIA_TYPE_COLLECT_BATTLEPET);
                 player->GetSession()->SendBattlePetUpdates(Pets[Teams[currentTeamID]->CapturedPet].get(), true);
 
                 if (auto speciesInfo = sBattlePetSpeciesStore.LookupEntry(Pets[Teams[currentTeamID]->CapturedPet]->Species))

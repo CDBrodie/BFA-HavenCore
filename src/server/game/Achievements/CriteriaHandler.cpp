@@ -519,11 +519,15 @@ void CriteriaHandler::UpdateCriteria(CriteriaTypes type, uint64 miscValue1 /*= 0
                 SetCriteriaProgress(criteria, 1, referencePlayer, PROGRESS_ACCUMULATE);
                 break;
             case CRITERIA_TYPE_COLLECT_BATTLEPET:
-                if (miscValue1)
-                    SetCriteriaProgress(criteria, miscValue1, referencePlayer, PROGRESS_ACCUMULATE);
-                else
-                    SetCriteriaProgress(criteria, referencePlayer->GetBattlePets()->size(), referencePlayer, PROGRESS_SET);
+            {
+                std::set<uint32> collectedSpecies;
+                for (auto const& battlePet : *referencePlayer->GetBattlePets())
+                    if (battlePet.second)
+                        collectedSpecies.insert(battlePet.second->Species);
+
+                SetCriteriaProgress(criteria, collectedSpecies.size(), referencePlayer, PROGRESS_SET);
                 break;
+            }
             // std case: increment at miscValue1
             case CRITERIA_TYPE_MONEY_FROM_VENDORS:
             case CRITERIA_TYPE_GOLD_SPENT_FOR_TALENTS:

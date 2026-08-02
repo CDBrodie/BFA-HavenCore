@@ -4681,6 +4681,9 @@ bool Map::IsLFR() const
 
 void Map::AddBattlePet(Creature* creature)
 {
+    if (creature->IsSummon())
+        return;
+
     if (sWildBattlePetMgr->IsBattlePet(creature->GetEntry()))
         m_wildBattlePetPool[creature->GetZoneId()][creature->GetEntry()].ToBeReplaced.insert(creature);
     else if (creature->IsWildBattlePet())

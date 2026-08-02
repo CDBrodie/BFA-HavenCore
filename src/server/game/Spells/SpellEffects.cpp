@@ -2054,6 +2054,14 @@ void Spell::EffectSummonType(SpellEffIndex effIndex)
         return;
 
     uint32 entry = effectInfo->MiscValue;
+    std::shared_ptr<BattlePet> summonedBattlePet;
+    if (m_spellInfo->Id == 118301)
+        if (Player* player = m_originalCaster ? m_originalCaster->ToPlayer() : nullptr)
+            if ((summonedBattlePet = player->GetBattlePet(player->GetSummonedBattlePetGUID())))
+                if (BattlePetSpeciesEntry const* species = sBattlePetSpeciesStore.LookupEntry(summonedBattlePet->Species))
+                    if (species->CreatureID)
+                        entry = species->CreatureID;
+
     if (!entry)
         return;
 
@@ -2143,13 +2151,31 @@ void Spell::EffectSummonType(SpellEffIndex effIndex)
                 }
             case SummonTitle::Companion:
                 {
-                    summon = m_caster->GetMap()->SummonCreature(entry, *destTarget, properties, duration, m_originalCaster, m_spellInfo->Id, 0, personalSpawn, this);
+                    Position summonPosition = *destTarget;
+                    std::list<Creature*> nearbyCreatures;
+                    m_originalCaster->GetCreatureListInGrid(nearbyCreatures, 3.0f);
+                    bool spawnPositionOccupied = std::any_of(nearbyCreatures.begin(), nearbyCreatures.end(), [&summonPosition](Creature const* creature)
+                    {
+                        return !creature->GetBattlePetCompanionGUID().IsEmpty() && creature->GetExactDist2d(summonPosition) < 0.75f;
+                    });
+
+                    if (spawnPositionOccupied)
+                    {
+                        float distance = std::max(m_originalCaster->GetExactDist2d(summonPosition), 1.5f);
+                        summonPosition = m_originalCaster->GetNearPosition(distance, float(M_PI * 0.75));
+                    }
+
+                    m_originalCaster->UpdateGroundPositionZ(summonPosition.m_positionX, summonPosition.m_positionY, summonPosition.m_positionZ);
+                    summon = m_caster->GetMap()->SummonCreature(entry, summonPosition, properties, duration, m_originalCaster, m_spellInfo->Id, 0, personalSpawn, this);
                     if (!summon || !summon->HasUnitTypeMask(UNIT_MASK_MINION))
                         return;
 
-                    summon->SelectLevel();       // some summoned creaters have different from 1 DB data for level/hp
+                    if (!summonedBattlePet)
+                        summon->SelectLevel();       // some summoned creaters have different from 1 DB data for level/hp
                     summon->SetNpcFlags(NPCFlags(summon->GetCreatureTemplate()->npcflag & 0xFFFFFFFF));
                     summon->SetNpcFlags2(NPCFlags2(summon->GetCreatureTemplate()->npcflag >> 32));
+                    if (summonedBattlePet)
+                        summon->RemoveNpcFlag(UNIT_NPC_FLAG_WILD_BATTLE_PET);
 
                     summon->AddUnitFlag(UnitFlags(UNIT_FLAG_IMMUNE_TO_PC | UNIT_FLAG_IMMUNE_TO_NPC));
 
@@ -6177,6 +6203,7 @@ void Spell::EffectUncageBattlePet(SpellEffIndex /*effIndex*/)
 
     plr->_battlePets.emplace(BattlePetPtr->JournalID, BattlePetPtr);
     plr->GetSession()->SendBattlePetUpdates();
+    plr->UpdateCriteria(CRITERIA_TYPE_COLLECT_BATTLEPET);
 
     plr->DestroyItem(m_CastItem->GetBagSlot(), m_CastItem->GetSlot(), true);
     m_CastItem = nullptr;
