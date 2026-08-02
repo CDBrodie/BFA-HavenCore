@@ -67,8 +67,6 @@ if( WIN32 )
   # read environment variables and change \ to /
   # NOTE: test the variable, do not dereference it - "if (${VAR})" expands to
   # if ("C:/Program Files") which CMake evaluates as false, so the normalization
-  # below never ran. The replace pattern was also wrong: in CMake "\\" is a
-  # single literal backslash, "\\\\" is two.
   set(PROGRAM_FILES_32 "$ENV{ProgramFiles}")
   if( PROGRAM_FILES_32 )
     string(REPLACE "\\" "/" PROGRAM_FILES_32 "${PROGRAM_FILES_32}")
@@ -84,9 +82,6 @@ if( WIN32 )
     string(REPLACE "\\" "/" SYSTEM_DRIVE "${SYSTEM_DRIVE}")
   endif()
 
-  # Build the search bases one at a time: an unset environment variable would
-  # otherwise leave the bare string "/MySQL", which is truthy and gets probed
-  # against the filesystem root.
   set(MYSQL_SEARCH_BASES "")
   if( PROGRAM_FILES_64 )
     list(APPEND MYSQL_SEARCH_BASES "${PROGRAM_FILES_64}/MySQL")
@@ -98,9 +93,7 @@ if( WIN32 )
     list(APPEND MYSQL_SEARCH_BASES "${SYSTEM_DRIVE}/MySQL")
   endif()
   list(APPEND MYSQL_SEARCH_BASES "C:/MySQL")
-
-  # Discover every installed "MySQL Server <version>" directory rather than
-  # relying on a hardcoded version list, which silently broke on each new MySQL
+  
   # release. Newest version is searched first.
   set(MYSQL_VERSIONED_ROOTS "")
   foreach( MYSQL_SEARCH_BASE ${MYSQL_SEARCH_BASES} )
@@ -116,9 +109,7 @@ if( WIN32 )
 
   if( MYSQL_VERSIONED_ROOTS )
     list(REMOVE_DUPLICATES MYSQL_VERSIONED_ROOTS)
-
-    # Sorting the full paths lets the directory prefix outweigh the version, so
-    # "C:/Program Files/MySQL/MySQL Server 5.7" would beat "C:/MySQL/MySQL Server 9.7".
+    
     # Sort on the version alone by prefixing it, then strip the prefix back off.
     set(MYSQL_SORTABLE_ROOTS "")
     foreach( MYSQL_ROOT_DIR ${MYSQL_VERSIONED_ROOTS} )
