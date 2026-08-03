@@ -6152,10 +6152,12 @@ void Spell::EffectUncageBattlePet(SpellEffIndex /*effIndex*/)
         return;
 
     uint32 speciesId = m_CastItem->GetModifier(ITEM_MODIFIER_BATTLE_PET_SPECIES_ID);
-    uint16 breed = m_CastItem->GetModifier(ITEM_MODIFIER_BATTLE_PET_BREED_DATA) & 0xFFFFFF;
-    uint8 quality = (m_CastItem->GetModifier(ITEM_MODIFIER_BATTLE_PET_BREED_DATA) >> 24) & 0xFF;
-    uint16 level = m_CastItem->GetModifier(ITEM_MODIFIER_BATTLE_PET_LEVEL);
-    uint32 creatureId = m_CastItem->GetModifier(ITEM_MODIFIER_BATTLE_PET_DISPLAY_ID);
+    if (plr->GetBattlePetCountForSpecies(speciesId) >= MAX_BATTLE_PET_PER_SPECIES)
+    {
+        plr->SendDirectMessage(WorldPackets::Misc::DisplayGameError(
+            GameError::ERR_CANT_HAVE_MORE_PETS_OF_THAT_TYPE).Write());
+        return;
+    }
 
     uint32 tempData = m_CastItem->GetModifier(ITEM_MODIFIER_BATTLE_PET_BREED_DATA);
 
