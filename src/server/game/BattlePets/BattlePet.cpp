@@ -183,8 +183,6 @@ void BattlePet::AddToPlayer(Player* player, CharacterDatabaseTransaction& trans)
     statement->setUInt64(21, JournalID.GetCounter());
     trans->Append(statement);
 
-    player->UpdateCriteria(CRITERIA_TYPE_COLLECT_BATTLEPET, 1);
-
     needSave = false;
 }
 
@@ -228,7 +226,6 @@ ObjectGuid::LowType BattlePet::AddToPlayer(Player* player)
     statement->setUInt64(21, JournalID.GetCounter());
     CharacterDatabase.Execute(statement);
 
-    player->UpdateCriteria(CRITERIA_TYPE_COLLECT_BATTLEPET, 1);
     needSave = false;
     return guidlow;
 }

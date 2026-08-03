@@ -3491,6 +3491,12 @@ void Player::LearnSpell(uint32 spell_id, bool dependent, int32 fromSkill /*= 0*/
         packet.SpellID.push_back(spell_id);
         packet.SuppressMessaging = suppressMessaging;
         GetSession()->SendPacket(packet.Write());
+
+        if (spell_id == 119467) // Battle Pet Training
+        {
+            GetSession()->SendBattlePetJournal();
+            GetSession()->SendPetBattleSlotUpdates(true);
+        }
     }
 
     // learn all disabled higher ranks and required spells (recursive)
@@ -31231,6 +31237,7 @@ bool Player::AddBattlePetWithSpeciesId(BattlePetSpeciesEntry const* entry, uint1
     pet->Health = pet->InfoMaxHealth;
     auto guidlow = pet->AddToPlayer(this);
     _battlePets.emplace(pet->JournalID, pet);
+    UpdateCriteria(CRITERIA_TYPE_COLLECT_BATTLEPET);
 
     if (sendUpdate)
     {

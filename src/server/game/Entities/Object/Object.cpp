@@ -20,6 +20,7 @@
 #include "AreaTriggerTemplate.h"
 #include "AreaTriggerPackets.h"
 #include "BattlefieldMgr.h"
+#include "BattlePet.h"
 #include "CellImpl.h"
 #include "CinematicMgr.h"
 #include "CreatureGroups.h"
@@ -1852,6 +1853,20 @@ TempSummon* Map::SummonCreature(uint32 entry, Position const& pos, SummonPropert
     summon->SetHomePosition(pos);
 
     summon->InitStats(duration);
+
+    if (properties && SummonTitle(properties->Title) == SummonTitle::Companion)
+        if (Player* player = summoner ? summoner->ToPlayer() : nullptr)
+            if (std::shared_ptr<BattlePet> battlePet = player->GetBattlePet(player->GetSummonedBattlePetGUID()))
+                if (BattlePetSpeciesEntry const* species = sBattlePetSpeciesStore.LookupEntry(battlePet->Species))
+                    if (spellId == 118301 || spellId == species->SummonSpellID)
+                    {
+                        summon->m_battlePetInstance.reset();
+                        summon->RemoveNpcFlag(UNIT_NPC_FLAG_WILD_BATTLE_PET);
+                        summon->SetBattlePetCompanionGUID(battlePet->JournalID);
+                        summon->SetWildBattlePetLevel(battlePet->Level);
+                        summon->SetFaction(player->getFaction());
+                        summon->SetFullHealth();
+                    }
 
     summon->SetVisibleBySummonerOnly(visibleBySummonerOnly);
 
