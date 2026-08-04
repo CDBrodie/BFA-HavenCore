@@ -893,9 +893,6 @@ bool Item::LoadFromDB(ObjectGuid::LowType guid, ObjectGuid ownerGuid, Field* fie
         bonusListIDs.push_back(atoi(token));
     SetBonuses(std::move(bonusListIDs));
 
-    // Must run after SetBonuses: before it only the template effects are known. An item
-    // stored before its bonus list changed legitimately has fewer tokens than effects,
-    // so read what is there rather than discarding every charge on a count mismatch.
     Tokenizer tokens(fields[6].GetString(), ' ', _bonusData.EffectCount);
     uint8 const chargeSlots = uint8(std::min({ uint32(tokens.size()), _bonusData.EffectCount, uint32(MAX_ITEM_SPELLS) }));
     for (uint8 i = 0; i < chargeSlots; ++i)
@@ -2451,10 +2448,6 @@ void Item::ClearBonuses()
     SetUpdateFieldValue(m_values.ModifyValue(&Item::m_itemData).ModifyValue(&UF::ItemData::ItemAppearanceModID), _bonusData.AppearanceModID);
 }
 
-// Create seeds charges from the template effects alone and every caller applies bonus
-// lists afterwards, so an effect arriving through ITEM_BONUS_ITEM_EFFECT_ID would keep a
-// charge slot of 0 and Spell::CheckItems would reject every cast. Slots below firstEffect
-// are left alone - a live item's charges are spent over time and must not reset.
 void Item::SeedSpellCharges(uint32 firstEffect)
 {
     uint8 const chargeSlots = uint8(std::min<uint32>(_bonusData.EffectCount, MAX_ITEM_SPELLS));
@@ -2868,7 +2861,6 @@ void BonusData::AddBonus(uint32 type, int32 const (&values)[3])
             CanScrap = values[0] != 0;
             break;
         case ITEM_BONUS_ITEM_EFFECT_ID:
-            // Skip unknown ids silently: bad hotfix data must not crash, and logging
             // here would fire once per item instance.
             if (ItemEffectEntry const* itemEffect = sItemEffectStore.LookupEntry(uint32(values[0])))
                 if (EffectCount < MAX_BONUS_ITEM_EFFECTS)
