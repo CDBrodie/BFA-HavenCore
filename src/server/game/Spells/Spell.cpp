@@ -4693,8 +4693,7 @@ void Spell::TakeCastItem()
     }
 
     bool expendable = false;
-    // Starts set so the verdict of every charged effect can be folded in below; an item
-    // with no charged effect at all is never expendable and so is never destroyed here.
+
     bool withoutCharges = true;
 
     uint8 i = 0;
@@ -4719,11 +4718,6 @@ void Spell::TakeCastItem()
                     m_CastItem->SetSpellCharges(i, charges);
                 m_CastItem->SetState(ITEM_CHANGED, player);
             }
-
-            // A stack shares one charge array, so the write above was skipped and this
-            // reads back the seeded value - only a persisted count says the item is spent.
-            // Fold rather than assign, so one spent effect cannot condemn an item whose
-            // other effects still have charges.
             if (proto->GetMaxStackSize() == 1)
                 withoutCharges = withoutCharges && (charges == 0);
         }
@@ -4909,8 +4903,7 @@ void Spell::TakeReagents()
         uint32 itemid = m_spellInfo->Reagent[x];
         uint32 itemcount = m_spellInfo->ReagentCount[x];
 
-        // if CastItem is also spell reagent - the template outlives m_CastItem, which this
-        // block clears, so a second reagent slot naming the same item must not re-enter it
+        // if CastItem is also spell reagent
         if (m_CastItem && castItemTemplate && castItemTemplate->GetId() == itemid)
         {
             uint8 s = 0;
