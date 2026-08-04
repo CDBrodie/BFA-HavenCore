@@ -67,9 +67,6 @@ enum ItemUpdateState
 
 #define MAX_ITEM_SPELLS 5
 
-// Caps the template effects plus bonus-granted ones (ITEM_BONUS_ITEM_EFFECT_ID). Far
-// above anything a live item reaches; it exists only so malformed hotfix data cannot
-// grow the set without limit.
 #define MAX_BONUS_ITEM_EFFECTS 16
 
 bool ItemCanGoIntoBag(ItemTemplate const* proto, ItemTemplate const* pBagProto);
@@ -193,9 +190,6 @@ public:
     ItemTemplate const* GetTemplate() const;
     BonusData const* GetBonus() const { return &_bonusData; }
 
-    // Template effects plus bonus-granted ones, in that order. Prefer this over
-    // GetTemplate()->Effects wherever an Item instance is in hand - the template
-    // alone does not know about bonus-granted effects.
     Trinity::IteratorPair<ItemEffectEntry const* const*> GetEffects() const
     {
         return { { _bonusData.Effects, _bonusData.Effects + _bonusData.EffectCount } };
