@@ -17,11 +17,18 @@
 
 #include "Conversation.h"
 #include "Creature.h"
+#include "GameObject.h"
+#include "ObjectMgr.h"
 #include "Player.h"
 #include "ScriptedCreature.h"
+#include "ScriptedGossip.h"
+
+#include <algorithm>
+#include <vector>
 
 enum StormwindQuests
 {
+    QUEST_THE_DARK_PORTAL                       = 34398,
     QUEST_TIDES_OF_WAR                          = 46727,
 
     SPELL_KILL_CREDIT_REPORT_ANDUIN             = 269581,
@@ -32,6 +39,95 @@ enum StormwindQuests
     NPC_TIDES_OF_WAR_JAINA                      = 120590,
     NPC_VISION_OF_SAILOR_MEMORY                 = 139645,
     QUEST_THE_MISSION = 29548,
+};
+
+enum StormwindWodIntro
+{
+    NPC_BLASTED_LANDS_TELEPORT_CREDIT          = 149625,
+    GOSSIP_ACTION_TELEPORT_TO_BLASTED_LANDS    = GOSSIP_ACTION_INFO_DEF,
+};
+
+char const* GOSSIP_VANGUARD_BATTLEMAGE = "I must help Khadgar. Send me to the Blasted Lands!";
+
+class npc_vanguard_battlemage_wod : public CreatureScript
+{
+public:
+    npc_vanguard_battlemage_wod() : CreatureScript("npc_vanguard_battlemage_wod") { }
+
+    bool OnGossipHello(Player* player, Creature* creature) override
+    {
+        if (player->GetQuestStatus(QUEST_THE_DARK_PORTAL) == QUEST_STATUS_INCOMPLETE)
+            AddGossipItemFor(player, GOSSIP_ICON_CHAT, GOSSIP_VANGUARD_BATTLEMAGE,
+                GOSSIP_SENDER_MAIN, GOSSIP_ACTION_TELEPORT_TO_BLASTED_LANDS);
+
+        SendGossipMenuFor(player, player->GetGossipTextId(creature), creature->GetGUID());
+        return true;
+    }
+
+    bool OnGossipSelect(Player* player, Creature* /*creature*/, uint32 sender, uint32 action) override
+    {
+        if (sender != GOSSIP_SENDER_MAIN || action != GOSSIP_ACTION_TELEPORT_TO_BLASTED_LANDS)
+            return false;
+
+        CloseGossipMenuFor(player);
+
+        if (player->GetQuestStatus(QUEST_THE_DARK_PORTAL) != QUEST_STATUS_INCOMPLETE)
+            return true;
+
+        player->KilledMonsterCredit(NPC_BLASTED_LANDS_TELEPORT_CREDIT);
+
+        if (player->GetTeamId() == TEAM_ALLIANCE)
+            player->TeleportTo(1190, -11254.0f, -3666.57f, 6.55275f, 0.0f);
+        else
+            player->TeleportTo(1190, -11771.2f, -3867.32f, 58.4909f, 0.0f);
+
+        return true;
+    }
+};
+
+class go_stormwind_heros_call_board : public GameObjectScript
+{
+public:
+    go_stormwind_heros_call_board() : GameObjectScript("go_stormwind_heros_call_board") { }
+
+    bool OnGossipHello(Player* player, GameObject* go) override
+    {
+        struct Candidate
+        {
+            Quest const* QuestTemplate;
+            bool InScalingRange;
+        };
+
+        std::vector<Candidate> candidates;
+        QuestRelationBounds relations = sObjectMgr->GetGOQuestRelationBounds(go->GetEntry());
+
+        for (QuestRelations::const_iterator itr = relations.first; itr != relations.second; ++itr)
+        {
+            Quest const* quest = sObjectMgr->GetQuestTemplate(itr->second);
+            if (!quest || !player->CanTakeQuest(quest, false) || player->GetQuestStatus(quest->GetQuestId()) != QUEST_STATUS_NONE)
+                continue;
+
+            int32 maxLevel = quest->GetQuestMaxScalingLevel();
+            candidates.push_back({ quest, maxLevel <= 0 || maxLevel == 255 || player->getLevel() <= maxLevel });
+        }
+
+        std::sort(candidates.begin(), candidates.end(), [](Candidate const& left, Candidate const& right)
+        {
+            if (left.InScalingRange != right.InScalingRange)
+                return left.InScalingRange > right.InScalingRange;
+            if (left.QuestTemplate->GetMinLevel() != right.QuestTemplate->GetMinLevel())
+                return left.QuestTemplate->GetMinLevel() > right.QuestTemplate->GetMinLevel();
+            return left.QuestTemplate->GetQuestId() > right.QuestTemplate->GetQuestId();
+        });
+
+        QuestMenu& questMenu = player->PlayerTalkClass->GetQuestMenu();
+        questMenu.ClearMenu();
+        for (std::size_t index = 0; index < std::min<std::size_t>(3, candidates.size()); ++index)
+            questMenu.AddMenuItem(candidates[index].QuestTemplate->GetQuestId(), 2);
+
+        player->SendPreparedQuest(go);
+        return true;
+    }
 };
 
 // 120756
@@ -174,6 +270,8 @@ public:
 
 void AddSC_stormwind_city()
 {
+    new npc_vanguard_battlemage_wod();
+    new go_stormwind_heros_call_board();
     RegisterCreatureAI(npc_anduin_tides_of_war);
     RegisterConversationScript(conversation_tides_of_war);
     RegisterCreatureAI(npc_jaina_tides_of_war);

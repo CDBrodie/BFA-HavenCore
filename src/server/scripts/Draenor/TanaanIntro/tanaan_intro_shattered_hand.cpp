@@ -186,6 +186,13 @@ public:
 
                 break;
             }
+            case TanaanQuests::QuestAPotentialAlly:
+            case TanaanQuests::QuestAPotentialAllyHorde:
+            {
+                player->GetSceneMgr().CancelSceneByPackageId(TanaanSceneObjects::SceneRingOfFire);
+                player->GetSceneMgr().PlaySceneByPackageId(TanaanSceneObjects::SceneRingOfFire);
+                break;
+            }
             case TanaanQuests::QuestKillYourHundred:
             {
                 player->GetSceneMgr().PlaySceneByPackageId(TanaanSceneObjects::SceneEnterKarGathArena, SCENEFLAG_NOT_CANCELABLE | SCENEFLAG_UNK16);

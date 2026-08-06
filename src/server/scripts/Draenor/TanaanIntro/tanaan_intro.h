@@ -230,6 +230,7 @@ namespace TanaanQuestObjectives
     enum
     {
         ObjBloodRitualOrbDestroyed      = 273678,
+        ObjAriokEscort                  = 273677,
         ObjFollowKhadgar                = 273737,
         ObjBurningBladeDestroyed        = 273438,
         ObjShatteredHandDestroyed       = 273556,
@@ -289,6 +290,9 @@ namespace TanaanGameObjects
 {
     enum
     {
+        GobDarkPortalFxWrap     = 233906,
+        GobDarkPortalDoorLeft   = 234622,
+        GobDarkPortalDoorRight  = 234623,
         GobWholeBridge          = 231137,
         GobDestroyedBridge      = 231136,
         GobEasternCage          = 229350,
