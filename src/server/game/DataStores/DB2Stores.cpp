@@ -27,6 +27,7 @@
 #include "Regex.h"
 #include "Timer.h"
 #include "Util.h"
+#include <boost/filesystem/directory.hpp>
 #include <boost/filesystem/operations.hpp>
 #include <array>
 #include <bitset>
