@@ -28,8 +28,9 @@
 #include "adt.h"
 #include "wdt.h"
 #include <CascLib.h>
-#include <boost/filesystem/path.hpp>
+#include <boost/filesystem/directory.hpp>
 #include <boost/filesystem/operations.hpp>
+#include <boost/filesystem/path.hpp>
 #include <bitset>
 #include <cstdio>
 #include <deque>
@@ -1446,7 +1447,7 @@ bool OpenCascStorage(int locale)
 
         return true;
     }
-    catch (boost::filesystem::filesystem_error const& error)
+    catch (std::exception const& error)
     {
         printf("Error opening CASC storage: %s\n", error.what());
         return false;
@@ -1464,7 +1465,7 @@ uint32 GetInstalledLocalesMask()
 
         return storage->GetInstalledLocalesMask();
     }
-    catch (boost::filesystem::filesystem_error const& error)
+    catch (std::exception const& error)
     {
         printf("Unable to determine installed locales mask: %s\n", error.what());
     }
