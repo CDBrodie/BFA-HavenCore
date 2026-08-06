@@ -75,6 +75,31 @@ enum eCreatures
     NPC_VANGUARD_JOHNNY         = 82264
 };
 
+// Keep the physical Dark Portal WMO and hide only its animated door/FX layer
+// for the player once Gul'dan's release scene has completed.
+class playerScript_tanaan_portal_shutdown : public PlayerScript
+{
+public:
+    playerScript_tanaan_portal_shutdown() : PlayerScript("playerScript_tanaan_portal_shutdown") { }
+
+    void OnSceneComplete(Player* player, uint32 sceneInstanceId) override
+    {
+        if (!player->GetSceneMgr().HasScene(sceneInstanceId, TanaanSceneObjects::SceneGulDanFreedom))
+            return;
+
+        uint32 const portalFxEntries[] =
+        {
+            TanaanGameObjects::GobDarkPortalFxWrap,
+            TanaanGameObjects::GobDarkPortalDoorLeft,
+            TanaanGameObjects::GobDarkPortalDoorRight
+        };
+
+        for (uint32 entry : portalFxEntries)
+            if (GameObject* portalFx = GetClosestGameObjectWithEntry(player, entry, 300.0f))
+                portalFx->DestroyForPlayer(player);
+    }
+};
+
 enum eEvents
 {
     EVENT_AGGRO     = 1
@@ -318,6 +343,7 @@ public:
 
                 player->KilledMonsterCredit(TanaanKillCredits::CreditNorthernSpireDisabled);
                 player->GetSceneMgr().PlaySceneByPackageId(TanaanSceneObjects::SceneChoGallsFreedom);
+                gameObject->DestroyForPlayer(player);
             }
             /// Bleeding Hollow Gob (Teron'Gor)
             else if (gameObject->GetEntry() == TanaanGameObjects::GobMarkOfBleedingHollow)
@@ -329,6 +355,7 @@ public:
 
                 player->KilledMonsterCredit(TanaanKillCredits::CreditSouthernSpireDisabled);
                 player->GetSceneMgr().PlaySceneByPackageId(TanaanSceneObjects::SceneTeronGorsFreedom);
+                gameObject->DestroyForPlayer(player);
             }
         }
         return true;
@@ -356,7 +383,7 @@ class gob_static_rune : public GameObjectScript
 public:
     gob_static_rune() : GameObjectScript("gob_static_rune") { }
 
-    bool OnGossipHello(Player* player, GameObject* /*gameObject*/) override
+    bool OnGossipHello(Player* player, GameObject* gameObject) override
     {
         if (player->GetQuestStatus(TanaanQuests::QuestThePortalPower) == QUEST_STATUS_INCOMPLETE && player->GetQuestObjectiveCounter(273936) < 1)
         {
@@ -367,6 +394,7 @@ public:
 
             player->KilledMonsterCredit(TanaanKillCredits::CreditStatisRuneDestroyed);
             player->GetSceneMgr().PlaySceneByPackageId(TanaanSceneObjects::SceneGulDanFreedom);
+            gameObject->DestroyForPlayer(player);
         }
         return true;
     }
@@ -374,6 +402,7 @@ public:
 
 void AddSC_tanaan_intro_portal()
 {
+    new playerScript_tanaan_portal_shutdown();
     new npc_generic_tanaan_guardian();
     new npc_iron_gronnling();
 

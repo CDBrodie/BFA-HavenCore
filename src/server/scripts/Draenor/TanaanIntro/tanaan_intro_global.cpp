@@ -109,7 +109,6 @@ public:
             {
                 player->GetSceneMgr().PlaySceneByPackageId(TanaanSceneObjects::SceneCostOfWarEscort);
                 player->PlayerTalkClass->SendCloseGossip();
-                player->TeleportTo(1265, 4064.0f, -2460.0f, 95.0f, 3.852f);
                 break;
             }
             case TanaanQuests::QuestBlazeOfGlory:

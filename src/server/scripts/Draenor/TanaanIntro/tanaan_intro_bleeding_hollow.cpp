@@ -186,6 +186,11 @@ public:
 
     bool OnGossipSelect(Player* player, Creature* creature, uint32 /*sender*/, uint32 /*action*/) override
     {
+        // Three permanent Ariok spawns represent different story positions.
+        // Only the pre-altar refuge spawn starts the player-specific escort.
+        if (creature->GetSpawnId() != 10123141)
+            return true;
+
         if (player->GetQuestStatus(TanaanQuests::QuestAltarAltercation) == QUEST_STATUS_INCOMPLETE ||
             player->GetQuestStatus(TanaanQuests::QuestAltarAltercation) == QUEST_STATUS_FAILED)
         {
@@ -256,7 +261,7 @@ public:
                 {
                     if (GetClosestCreatureWithEntry(me, TanaanCreatures::NpcBleedingHollowBloodchosen, 55.0f))
                         if (Player* player = ObjectAccessor::GetPlayer(*me, m_PlayerGuid))
-                            if (!player->GetQuestObjectiveCounter(TanaanQuestObjectives::ObjBloodRitualOrbDestroyed))
+                            if (!player->GetQuestObjectiveCounter(TanaanQuestObjectives::ObjAriokEscort))
                             {
                                 player->KilledMonsterCredit(TanaanKillCredits::CreditAriokEscort);
                                 m_playerNeedObjective = false;
@@ -297,6 +302,9 @@ public:
     {
         if (player->GetQuestStatus(TanaanQuests::QuestAltarAltercation) == QUEST_STATUS_INCOMPLETE)
         {
+            if (!player->GetQuestObjectiveCounter(TanaanQuestObjectives::ObjAriokEscort))
+                return true;
+
             if (player->GetQuestObjectiveCounter(TanaanQuestObjectives::ObjBloodRitualOrbDestroyed) <= 2)
             {
                 player->KilledMonsterCredit(TanaanKillCredits::CreditBloodOrb);
