@@ -77,7 +77,8 @@ namespace WorldPackets
         class CriteriaUpdate final : public ServerPacket
         {
         public:
-            CriteriaUpdate() : ServerPacket(SMSG_CRITERIA_UPDATE, 4 + 8 + 16 + 4 + 4 + 4 + 4) { }
+            explicit CriteriaUpdate(OpcodeServer opcode = SMSG_CRITERIA_UPDATE)
+                : ServerPacket(opcode, 4 + 8 + 16 + 4 + 4 + 4 + 4) { }
 
             WorldPacket const* Write() override;
 

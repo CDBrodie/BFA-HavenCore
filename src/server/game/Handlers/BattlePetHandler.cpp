@@ -33,6 +33,12 @@ void WorldSession::HandleBattlePetSummon(WorldPackets::BattlePet::BattlePetGuidR
     if (_player->IsOnVehicle() || _player->IsSitState())
         return;
 
+    if (_player->GetSummonedBattlePetGUID() == packet.BattlePetGUID)
+    {
+        _player->UnsummonCurrentBattlePetIfAny(false);
+        return;
+    }
+
     _player->UnsummonCurrentBattlePetIfAny(false);
     if (!_player->GetSummonedBattlePet())
         _player->SummonBattlePet(packet.BattlePetGUID);
@@ -123,16 +129,23 @@ void WorldSession::HandleCageBattlePet(WorldPackets::BattlePet::BattlePetGuidRea
     if (!battlePet)
         return;
 
-    if (!sDB2Manager.HasBattlePetSpeciesFlag(battlePet->Species, BATTLE_PET_SPECIES_FLAG_CAGEABLE))
+    if (sDB2Manager.HasBattlePetSpeciesFlag(battlePet->Species, BATTLE_PET_SPECIES_FLAG_NOT_CAGEABLE))
         return;
 
     ItemPosCountVec dest;
-    if (_player->CanStoreNewItem(NULL_BAG, NULL_SLOT, dest, BATTLE_PET_CAGE_ITEM_ID, 1) != EQUIP_ERR_OK)
+    InventoryResult inventoryResult = _player->CanStoreNewItem(NULL_BAG, NULL_SLOT, dest, BATTLE_PET_CAGE_ITEM_ID, 1);
+    if (inventoryResult != EQUIP_ERR_OK)
+    {
+        _player->SendEquipError(inventoryResult);
         return;
+    }
 
     Item* item = _player->StoreNewItem(dest, BATTLE_PET_CAGE_ITEM_ID, true);
     if (!item)
         return;
+
+    if (_player->GetSummonedBattlePetGUID() == packet.BattlePetGUID)
+        _player->UnsummonCurrentBattlePetIfAny(false);
 
     item->SetModifier(ITEM_MODIFIER_BATTLE_PET_SPECIES_ID, battlePet->Species);
     item->SetModifier(ITEM_MODIFIER_BATTLE_PET_BREED_DATA, battlePet->Breed | battlePet->Quality << 24);
@@ -144,6 +157,7 @@ void WorldSession::HandleCageBattlePet(WorldPackets::BattlePet::BattlePetGuidRea
     SendBattlePetDeleted(packet.BattlePetGUID);
     battlePet->Remove(nullptr);
     _player->_battlePets.erase(packet.BattlePetGUID);
+    _player->UpdateCriteria(CRITERIA_TYPE_COLLECT_BATTLEPET);
 }
 
 void WorldSession::HandleBattlePetSetSlot(WorldPackets::BattlePet::SetBattleSlot& packet)
@@ -217,6 +231,13 @@ void WorldSession::HandlePetBattleRequestWild(WorldPackets::BattlePet::RequestWi
 
     Creature* wildBattlePet = ObjectAccessor::GetCreature(*_player, battleRequest->OpponentGuid);
     if (!wildBattlePet)
+    {
+        SendPetBattleRequestFailed(BATTLE_PET_REQUEST_TARGET_NOT_CAPTURABLE);
+        sPetBattleSystem->RemoveRequest(battleRequest->RequesterGuid);
+        return;
+    }
+
+    if (wildBattlePet->IsSummon() || !wildBattlePet->GetBattlePetCompanionGUID().IsEmpty() || wildBattlePet->GetOwnerGUID().IsPlayer())
     {
         SendPetBattleRequestFailed(BATTLE_PET_REQUEST_TARGET_NOT_CAPTURABLE);
         sPetBattleSystem->RemoveRequest(battleRequest->RequesterGuid);
@@ -604,17 +625,20 @@ void WorldSession::HandleBattlePetDelete(WorldPackets::BattlePet::BattlePetGuidR
             _player->GetGUID().ToString().c_str(), packet.BattlePetGUID.ToString().c_str());
         return;
     }
-    //@TODO
-    /*if (sDB2Manager.HasBattlePetSpeciesFlag(battlePet->Species, BATTLE_PET_SPECIES_FLAG_RELEASABLE))
+    if (sDB2Manager.HasBattlePetSpeciesFlag(battlePet->Species, BATTLE_PET_SPECIES_FLAG_NOT_RELEASABLE))
     {
         TC_LOG_ERROR("network", "CMSG_BATTLE_PET_DELETE - Player %s tryed to release Battle Pet %s which isn't releasable!",
             _player->GetGUID().ToString().c_str(), packet.BattlePetGUID.ToString().c_str());
         return;
-    }*/
+    }
+
+    if (_player->GetBattlePetCountForSpecies(battlePet->Species) <= 1)
+        return;
 
     SendBattlePetDeleted(packet.BattlePetGUID);
     battlePet->Remove(nullptr);
     _player->_battlePets.erase(packet.BattlePetGUID);
+    _player->UpdateCriteria(CRITERIA_TYPE_COLLECT_BATTLEPET);
 }
 
 void WorldSession::HandleBattlePetRequestJournal(WorldPackets::BattlePet::NullCmsg& /*packet*/)
@@ -873,7 +897,7 @@ void WorldSession::SendPetBattleInitialUpdate(PetBattle* petBattle)
         WorldPackets::BattlePet::PetBattlePlayerUpdate playerUpdate;
         playerUpdate.CharacterID = ownerGuid;
         playerUpdate.TrapAbilityID = petBattle->Teams[i]->GetCatchAbilityID();
-        playerUpdate.TrapStatus = i == PET_BATTLE_TEAM_1 ? 5 : 2;
+        playerUpdate.TrapStatus = petBattle->Teams[i]->GetTeamTrapStatus();
         playerUpdate.RoundTimeSecs = isPVP ? pvpMaxRoundTime : 0;
         playerUpdate.InputFlags = PETBATTLE_TEAM_INPUT_FLAG_LOCK_PET_SWAP | PETBATTLE_TEAM_INPUT_FLAG_LOCK_ABILITIES_2;
 

@@ -26,6 +26,8 @@ Quest support: 3628.
 #include "SpellScript.h"
 #include "Player.h"
 #include "Group.h"
+#include "Log.h"
+#include "ObjectMgr.h"
 #include "PhasingHandler.h"
 
 enum DeathlyUsher
@@ -85,6 +87,27 @@ enum eSpells
     SPELL_TIME_TRAVELLING = 176111
 };
 
+void SeamlessTeleportToOldBlastedLands(Player* player)
+{
+    player->SeamlessTeleportToMap(MAP_EASTERN_KINGDOMS);
+
+    // Refresh the child terrain cached by the client after the seamless move.
+    player->GetScheduler().Schedule(Milliseconds(500), [player](TaskContext /*context*/)
+    {
+        if (player->GetMapId() != MAP_EASTERN_KINGDOMS)
+            return;
+
+        PhasingHandler::AddVisibleMapId(player, MAP_WOD_BLASTED_LANDS_PHASE);
+        player->GetScheduler().Schedule(Milliseconds(250), [player](TaskContext /*context*/)
+        {
+            if (player->GetMapId() != MAP_EASTERN_KINGDOMS)
+                return;
+
+            PhasingHandler::RemoveVisibleMapId(player, MAP_WOD_BLASTED_LANDS_PHASE);
+        });
+    });
+}
+
 // Blasted lands : Zone 4
 class zone_blasted_lands : public ZoneScript
 {
@@ -93,15 +116,13 @@ public:
 
     void OnPlayerEnter(Player* player) override
     {
-        if (player->getLevel() <= 90)
-            player->SeamlessTeleportToMap(1945);
-    }
-
-    void OnPlayerExit(Player* player) override
-    {
-        if (player->GetMapId() == 1945)
-            player->SeamlessTeleportToMap(0);
-            player->RemoveAurasDueToSpell(SPELL_TIME_TRAVELLING);
+        if (player->getLevel() < 90 || player->HasAura(SPELL_TIME_TRAVELLING))
+        {
+            if (player->GetMapId() != MAP_EASTERN_KINGDOMS)
+                SeamlessTeleportToOldBlastedLands(player);
+        }
+        else if (player->GetMapId() != MAP_WOD_BLASTED_LANDS_PHASE)
+            player->SeamlessTeleportToMap(MAP_WOD_BLASTED_LANDS_PHASE);
     }
 };
 
@@ -116,11 +137,12 @@ public:
         if (player->getLevel() < 90)
             return true;
 
-        if (player->GetMapId() == 0)
+        if (player->GetMapId() == MAP_WOD_BLASTED_LANDS_PHASE)
         {
             AddGossipItemFor(player, GOSSIP_ICON_CHAT, "I would like to visit the past", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 0);
         }
-        else if (player->GetMapId() == 1945)
+        else if (player->GetMapId() == MAP_EASTERN_KINGDOMS &&
+                 player->HasAura(SPELL_TIME_TRAVELLING))
         {
             AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Return to the present", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 1);
         }
@@ -136,12 +158,12 @@ public:
         if (action == GOSSIP_ACTION_INFO_DEF + 0)
         {
             player->CastSpell(player, SPELL_TIME_TRAVELLING, true);
-            player->SeamlessTeleportToMap(1945);
+            SeamlessTeleportToOldBlastedLands(player);
         }
         else if (action == GOSSIP_ACTION_INFO_DEF + 1)
         {
             player->RemoveAurasDueToSpell(SPELL_TIME_TRAVELLING);
-            player->SeamlessTeleportToMap(0);
+            player->SeamlessTeleportToMap(MAP_WOD_BLASTED_LANDS_PHASE);
         }
 
         CloseGossipMenuFor(player);
@@ -192,7 +214,7 @@ class npc_archmage_khadgar_gossip : public CreatureScript
 
         bool OnGossipSelect(Player* player, Creature* /*creature*/, uint32 /*sender*/, uint32 /*action*/) override
         {
-            if (player->GetQuestStatus(QuestStartDraenor) == QUEST_STATUS_NONE || player->GetQuestStatus(QuestStartDraenorII) == QUEST_STATUS_NONE)
+            if (player->GetQuestStatus(QuestStartDraenor) == QUEST_STATUS_NONE && player->GetQuestStatus(QuestStartDraenorII) == QUEST_STATUS_NONE)
             {
                 return true;
             }
@@ -213,6 +235,10 @@ class npc_archmage_khadgar_gossip : public CreatureScript
                 player->AddMovieDelayedAction(199, [player]
                 {
                     player->TeleportTo(1265, 4066.7370f, -2381.9917f, 94.858f, 2.90f);
+
+                    if (Quest const* quest = sObjectMgr->GetQuestTemplate(QuestAzerothsLastStand))
+                        if (player->GetQuestStatus(QuestAzerothsLastStand) == QUEST_STATUS_NONE && player->CanTakeQuest(quest, false))
+                            player->AddQuest(quest, nullptr);
                 });
                 player->SendMovieStart(199);
                 if (player->HasQuest(QuestStartDraenor))

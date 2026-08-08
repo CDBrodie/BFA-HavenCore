@@ -28,7 +28,7 @@ endif()
 
 include (CheckCXXSourceCompiles)
 
-set(BOOST_REQUIRED_VERSION 1.72)
+set(BOOST_REQUIRED_VERSION 1.74)
 
 cmake_policy(SET CMP0167 OLD)
 

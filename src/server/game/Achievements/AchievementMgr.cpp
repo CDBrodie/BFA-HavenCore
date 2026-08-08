@@ -606,7 +606,10 @@ bool PlayerAchievementMgr::ModifierTreeSatisfied(uint32 modifierTreeId) const
 
 void PlayerAchievementMgr::SendCriteriaUpdate(Criteria const* criteria, CriteriaProgress const* progress, uint32 timeElapsed, bool timedCompleted) const
 {
-    WorldPackets::Achievement::CriteriaUpdate criteriaUpdate;
+    OpcodeServer opcode = criteria->Entry->Type == CRITERIA_TYPE_COLLECT_BATTLEPET && (criteria->FlagsCu & CRITERIA_FLAG_CU_ACCOUNT)
+        ? SMSG_ACCOUNT_CRITERIA_UPDATE
+        : SMSG_CRITERIA_UPDATE;
+    WorldPackets::Achievement::CriteriaUpdate criteriaUpdate(opcode);
 
     criteriaUpdate.CriteriaID = criteria->ID;
     criteriaUpdate.Quantity = progress->Counter;

@@ -28,8 +28,9 @@
 #include "adt.h"
 #include "wdt.h"
 #include <CascLib.h>
-#include <boost/filesystem/path.hpp>
+#include <boost/filesystem/directory.hpp>
 #include <boost/filesystem/operations.hpp>
+#include <boost/filesystem/path.hpp>
 #include <bitset>
 #include <cstdio>
 #include <deque>
@@ -237,7 +238,7 @@ void TryLoadDB2(char const* name, DB2CascFileSource* source, DB2FileLoader* db2,
     }
     catch (std::exception const& e)
     {
-        printf("Fatal error: Invalid %s file format! %s\n%s\n", name, CASC::HumanReadableCASCError(GetLastError()), e.what());
+        printf("Fatal error: Invalid %s file format! %s\n%s\n", name, CASC::HumanReadableCASCError(GetCascError()), e.what());
         exit(1);
     }
 }
@@ -1217,7 +1218,7 @@ bool ExtractDB2File(uint32 fileDataId, char const* cascFileName, int locale, boo
     DB2CascFileSource source(CascStorage, fileDataId, false);
     if (!source.IsOpen())
     {
-        printf("Unable to open file %s in the archive for locale %s: %s\n", cascFileName, localeNames[locale], CASC::HumanReadableCASCError(GetLastError()));
+        printf("Unable to open file %s in the archive for locale %s: %s\n", cascFileName, localeNames[locale], CASC::HumanReadableCASCError(GetCascError()));
         return false;
     }
 
@@ -1353,7 +1354,7 @@ void ExtractCameraFiles()
                     ++count;
         }
         else
-            printf("Unable to open file %u in the archive: %s\n", cameraFileDataId, CASC::HumanReadableCASCError(GetLastError()));
+            printf("Unable to open file %u in the archive: %s\n", cameraFileDataId, CASC::HumanReadableCASCError(GetCascError()));
     }
 
     printf("Extracted %u camera files\n", count);
@@ -1426,7 +1427,7 @@ void ExtractGameTables()
                     ++count;
         }
         else
-            printf("Unable to open file %s in the archive: %s\n", gt.Name, CASC::HumanReadableCASCError(GetLastError()));
+            printf("Unable to open file %s in the archive: %s\n", gt.Name, CASC::HumanReadableCASCError(GetCascError()));
     }
 
     printf("Extracted %u files\n\n", count);
@@ -1446,7 +1447,7 @@ bool OpenCascStorage(int locale)
 
         return true;
     }
-    catch (boost::filesystem::filesystem_error const& error)
+    catch (std::exception const& error)
     {
         printf("Error opening CASC storage: %s\n", error.what());
         return false;
@@ -1464,7 +1465,7 @@ uint32 GetInstalledLocalesMask()
 
         return storage->GetInstalledLocalesMask();
     }
-    catch (boost::filesystem::filesystem_error const& error)
+    catch (std::exception const& error)
     {
         printf("Unable to determine installed locales mask: %s\n", error.what());
     }
