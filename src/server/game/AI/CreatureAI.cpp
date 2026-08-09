@@ -31,7 +31,7 @@
 #include "Vehicle.h"
 #include "World.h"
 
-//Disable CreatureAI when charmed
+ //Disable CreatureAI when charmed
 void CreatureAI::OnCharmed(bool apply)
 {
     if (apply)
@@ -45,12 +45,12 @@ AISpellInfoType* UnitAI::AISpellInfo;
 AISpellInfoType* GetAISpellInfo(uint32 i) { return &UnitAI::AISpellInfo[i]; }
 
 CreatureAI::CreatureAI(Creature* creature) : UnitAI(creature), me(creature),
-    _boundary(nullptr),
-    summons(creature),
-    damageEvents(creature),
-    instance(creature->GetInstanceScript()),
-    m_MoveInLineOfSight_locked(false),
-    m_canSeeEvenInPassiveMode(false)
+_boundary(nullptr),
+summons(creature),
+damageEvents(creature),
+instance(creature->GetInstanceScript()),
+m_MoveInLineOfSight_locked(false),
+m_canSeeEvenInPassiveMode(false)
 {
 }
 
@@ -62,7 +62,7 @@ void CreatureAI::Talk(uint8 id, WorldObject const* whisperTarget /*= nullptr*/)
 {
     if (!this)
         return;
-        
+
     sCreatureTextMgr->SendChat(me, id, whisperTarget);
 }
 
@@ -268,8 +268,12 @@ bool CreatureAI::UpdateVictim()
     if (!me->HasReactState(REACT_PASSIVE))
     {
         if (Unit* victim = me->SelectVictim())
+        {
             if (!me->IsFocusing(nullptr, true))
                 AttackStart(victim);
+        }
+        else if (me->IsInCombat())                          // <-- NEW  
+            EnterEvadeMode(EVADE_REASON_NO_HOSTILES);        // <-- NEW  
 
         return me->GetVictim() != nullptr;
     }
@@ -342,7 +346,7 @@ int32 CreatureAI::VisualizeBoundary(uint32 duration, Unit* owner, bool fill) con
     {
         coordinate front = Q.front();
         bool hasOutOfBoundsNeighbor = false;
-        for (coordinate off : std::initializer_list<coordinate>{{1,0}, {0,1}, {-1,0}, {0,-1}})
+        for (coordinate off : std::initializer_list<coordinate>{ {1,0}, {0,1}, {-1,0}, {0,-1} })
         {
             coordinate next(front.first + off.first, front.second + off.second);
             if (next.first > BOUNDARY_VISUALIZE_FAILSAFE_LIMIT || next.first < -BOUNDARY_VISUALIZE_FAILSAFE_LIMIT || next.second > BOUNDARY_VISUALIZE_FAILSAFE_LIMIT || next.second < -BOUNDARY_VISUALIZE_FAILSAFE_LIMIT)
@@ -352,7 +356,7 @@ int32 CreatureAI::VisualizeBoundary(uint32 duration, Unit* owner, bool fill) con
             }
             if (alreadyChecked.find(next) == alreadyChecked.end()) // never check a coordinate twice
             {
-                Position nextPos(startPosition.GetPositionX() + next.first*BOUNDARY_VISUALIZE_STEP_SIZE, startPosition.GetPositionY() + next.second*BOUNDARY_VISUALIZE_STEP_SIZE, startPosition.GetPositionZ());
+                Position nextPos(startPosition.GetPositionX() + next.first * BOUNDARY_VISUALIZE_STEP_SIZE, startPosition.GetPositionY() + next.second * BOUNDARY_VISUALIZE_STEP_SIZE, startPosition.GetPositionZ());
                 if (CheckBoundary(&nextPos))
                     Q.push(next);
                 else
@@ -367,7 +371,7 @@ int32 CreatureAI::VisualizeBoundary(uint32 duration, Unit* owner, bool fill) con
                     hasOutOfBoundsNeighbor = true;
         }
         if (fill || hasOutOfBoundsNeighbor)
-            if (TempSummon* point = owner->SummonCreature(BOUNDARY_VISUALIZE_CREATURE, Position(startPosition.GetPositionX() + front.first*BOUNDARY_VISUALIZE_STEP_SIZE, startPosition.GetPositionY() + front.second*BOUNDARY_VISUALIZE_STEP_SIZE, spawnZ), TEMPSUMMON_TIMED_DESPAWN, duration * IN_MILLISECONDS))
+            if (TempSummon* point = owner->SummonCreature(BOUNDARY_VISUALIZE_CREATURE, Position(startPosition.GetPositionX() + front.first * BOUNDARY_VISUALIZE_STEP_SIZE, startPosition.GetPositionY() + front.second * BOUNDARY_VISUALIZE_STEP_SIZE, spawnZ), TEMPSUMMON_TIMED_DESPAWN, duration * IN_MILLISECONDS))
             {
                 point->SetObjectScale(BOUNDARY_VISUALIZE_CREATURE_SCALE);
                 point->AddUnitFlag(UnitFlags(UNIT_FLAG_IMMUNE_TO_PC | UNIT_FLAG_STUNNED | UNIT_FLAG_IMMUNE_TO_NPC));
