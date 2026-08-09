@@ -172,41 +172,43 @@ enum FrightenedCitizen
 
 class npc_frightened_citizen : public CreatureScript
 {
-    public:
-        npc_frightened_citizen() : CreatureScript("npc_frightened_citizen") { }
+public:
+    npc_frightened_citizen() : CreatureScript("npc_frightened_citizen") {}
 
-        struct npc_frightened_citizenAI : public PassiveAI
-        {
-            npc_frightened_citizenAI(Creature* creature) : PassiveAI(creature) { }
+    struct npc_frightened_citizenAI : public ScriptedAI
+    {
+        npc_frightened_citizenAI(Creature* creature) : ScriptedAI(creature) {}
 
-            void IsSummonedBy(Unit* /*summoner*/) override
+        void IsSummonedBy(Unit* /*summoner*/) override
         {
+            me->SetReactState(REACT_PASSIVE);
+
             if (Creature* stalkerNear = me->FindNearestCreature(NPC_EVACUATION_STALKER_FIRST, 20.0f))
                 me->GetMotionMaster()->MovePoint(POINT_STALKER_FIRST, stalkerNear->GetPosition(), true);
         }
 
-            void MovementInform(uint32 type, uint32 id) override
+        void MovementInform(uint32 type, uint32 id) override
         {
             if (type != POINT_MOTION_TYPE)
                 return;
 
             switch (id)
             {
-                case POINT_STALKER_FIRST:
-                    _events.ScheduleEvent(EVENT_TALK_FRIGHTENED, Seconds(1));
-                    break;
-                case POINT_STALKER_NEAR:
-                    _events.ScheduleEvent(EVENT_MOVE_TO_FAR_STALKER, Milliseconds(1));
-                    break;
-                case POINT_STALKER_FAR:
-                    _events.ScheduleEvent(EVENT_DESPAWN, Milliseconds(1));
-                    break;
-                default:
-                    break;
+            case POINT_STALKER_FIRST:
+                _events.ScheduleEvent(EVENT_TALK_FRIGHTENED, Seconds(1));
+                break;
+            case POINT_STALKER_NEAR:
+                _events.ScheduleEvent(EVENT_MOVE_TO_FAR_STALKER, Milliseconds(1));
+                break;
+            case POINT_STALKER_FAR:
+                _events.ScheduleEvent(EVENT_DESPAWN, Milliseconds(1));
+                break;
+            default:
+                break;
             }
         }
 
-            void UpdateAI(uint32 diff) override
+        void UpdateAI(uint32 diff) override
         {
             _events.Update(diff);
 
@@ -214,244 +216,96 @@ class npc_frightened_citizen : public CreatureScript
             {
                 switch (eventId)
                 {
-                    case EVENT_TALK_FRIGHTENED:
-                        if (Unit* summoner = me->ToTempSummon()->GetSummoner())
+                case EVENT_TALK_FRIGHTENED:
+                    if (!_creditGiven)
+                    {
+                        if (TempSummon* summon = me->ToTempSummon())
                         {
-                            if (Player* player = summoner->ToPlayer())
+                            if (Unit* summoner = summon->GetSummoner())
                             {
-                                player->KilledMonsterCredit(CREDIT_35830);
-                                Talk(SAY_FRIGHTENED_CITIZEN_RESCUE, summoner);
+                                if (Player* player = summoner->ToPlayer())
+                                {
+                                    player->KilledMonsterCredit(CREDIT_35830);
+                                    Talk(SAY_FRIGHTENED_CITIZEN_RESCUE, summoner);
+                                }
                             }
                         }
-                        _events.ScheduleEvent(EVENT_MOVE_TO_NEAR_STALKER, Seconds(2));
-                        break;
-                    case EVENT_MOVE_TO_NEAR_STALKER:
-                        if (Creature* stalker = me->FindNearestCreature(NPC_EVACUATION_STALKER_FAR, 50.0f))
-                            me->GetMotionMaster()->MovePoint(POINT_STALKER_FAR, stalker->GetPosition(), true);
-                        else if (Creature* stalker = me->FindNearestCreature(NPC_EVACUATION_STALKER_NEAR, 100.0f))
-                            me->GetMotionMaster()->MovePoint(POINT_STALKER_NEAR, stalker->GetPosition(), true);
-                        break;
-                    case EVENT_MOVE_TO_FAR_STALKER:
-                        if (Creature* stalker = me->FindNearestCreature(NPC_EVACUATION_STALKER_FAR, 500.0f))
-                            me->GetMotionMaster()->MovePoint(POINT_STALKER_FAR, stalker->GetPosition(), true);
-                        break;
-                    case EVENT_DESPAWN:
-                        me->DespawnOrUnsummon();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-        private:
-            EventMap _events;
-        };
-
-        CreatureAI* GetAI(Creature* creature) const override
-        {
-            return new npc_frightened_citizenAI(creature);
-        }
-};
-
-/*######
-## Quest 14154 - By the Skin of his Teeth
-######*/
-
-enum WorgenRunt
-{
-    EVENT_JUMP_TO_PRISON            = 1,
-    EVENT_AGGRO_PLAYER              = 2,
-    EVENT_FORCE_DESPAWN             = 3,
-
-    PHASE_ROOF                      = 0,
-    PHASE_COMBAT                    = 1,
-
-    WORGEN_ID_ROOF_1                = 0,
-    WORGEN_ID_ROOF_2                = 1,
-    WORGEN_ID_ROOF_3                = 2,
-    WORGEN_ID_ROOF_4                = 3,
-    WORGEN_ID_ROOF_5                = 4,
-    WORGEN_ID_ROOF_6                = 5,
-    WORGEN_ID_ROOF_7                = 6,
-
-    WORGEN_ID_CATHEDRAL_1           = 7,
-    WORGEN_ID_CATHEDRAL_2           = 8,
-    WORGEN_ID_CATHEDRAL_3           = 9,
-    WORGEN_ID_CATHEDRAL_4           = 10,
-    WORGEN_ID_CATHEDRAL_5           = 11,
-    WORGEN_ID_CATHEDRAL_6           = 12,
-    WORGEN_ID_CATHEDRAL_7           = 13,
-    WORGEN_ID_CATHEDRAL_8           = 14,
-    WORGEN_ID_CATHEDRAL_9           = 15,
-
-    NPC_WORGEN_RUNT_SPELL           = 35188,
-};
-
-Position const runtSpellSummonJumpPos = { -1671.915f, 1446.734f, 52.28712f };
-
-class npc_worgen_runt : public CreatureScript
-{
-    public:
-        npc_worgen_runt() :  CreatureScript("npc_worgen_runt") { }
-
-        struct npc_worgen_runtAI : public ScriptedAI
-        {
-            npc_worgen_runtAI(Creature* creature) : ScriptedAI(creature)
-            {
-                Initialize();
-            }
-
-            void Initialize()
-            {
-                _worgenID = 0;
-                _wayPointCounter = 0;
-                _jumped = false;
-                _playerGuid = ObjectGuid::Empty;
-            }
-
-            void EnterCombat(Unit* /*who*/) override
-            {
-                _events.SetPhase(PHASE_COMBAT);
-            }
-
-            void IsSummonedBy(Unit* summoner) override
-            {
-                me->setActive(true); // we are in a phased and cut off map so we're fine to use that here
-                _events.SetPhase(PHASE_ROOF);
-                _events.ScheduleEvent(EVENT_FORCE_DESPAWN, Seconds(70), 0, PHASE_ROOF);
-                _playerGuid = summoner->GetGUID();
-                if (me->GetEntry() == NPC_WORGEN_RUNT_SPELL)
-                    me->GetMotionMaster()->MoveJump(runtSpellSummonJumpPos, 16.0f, 4.371286f);
-            }
-
-            void DoAction(int32 action) override
-            {
-                _worgenID = action;
-                switch (_worgenID) // ugly as fuck but needed for individual controls
-                {
-                    // House roof cases
-                    case WORGEN_ID_ROOF_1:
-                        _wayPointCounter = runtHousePathSize1;
-                        me->GetMotionMaster()->MoveSmoothPath(runtHousePathSize1, worgenRuntHousePath1, runtHousePathSize1);
-                        break;
-                    case WORGEN_ID_ROOF_2:
-                        _wayPointCounter = runtHousePathSize2;
-                        me->GetMotionMaster()->MoveSmoothPath(runtHousePathSize2, worgenRuntHousePath2, runtHousePathSize2);
-                        break;
-                    case WORGEN_ID_ROOF_3:
-                        _wayPointCounter = runtHousePathSize3;
-                        me->GetMotionMaster()->MoveSmoothPath(runtHousePathSize3, worgenRuntHousePath3, runtHousePathSize3);
-                        break;
-                    case WORGEN_ID_ROOF_4:
-                        _wayPointCounter = runtHousePathSize4;
-                        me->GetMotionMaster()->MoveSmoothPath(runtHousePathSize4, worgenRuntHousePath4, runtHousePathSize4);
-                        break;
-                    case WORGEN_ID_ROOF_5:
-                        _wayPointCounter = runtHousePathSize5;
-                        me->GetMotionMaster()->MoveSmoothPath(runtHousePathSize5, worgenRuntHousePath5, runtHousePathSize5);
-                        break;
-                    case WORGEN_ID_ROOF_6:
-                        _wayPointCounter = runtHousePathSize6;
-                        me->GetMotionMaster()->MoveSmoothPath(runtHousePathSize6, worgenRuntHousePath6, runtHousePathSize6);
-                        break;
-                    case WORGEN_ID_ROOF_7:
-                        _wayPointCounter = runtHousePathSize7;
-                        me->GetMotionMaster()->MoveSmoothPath(runtHousePathSize7, worgenRuntHousePath7, runtHousePathSize7);
-                        break;
-                    // Cathedral cases
-                    case WORGEN_ID_CATHEDRAL_1:
-                        _wayPointCounter = runtCathedralPathSize1;
-                        me->GetMotionMaster()->MoveSmoothPath(runtCathedralPathSize1, worgenRuntCathedralPath1, runtCathedralPathSize1);
-                        break;
-                    case WORGEN_ID_CATHEDRAL_2:
-                        _wayPointCounter = runtCathedralPathSize2;
-                        me->GetMotionMaster()->MoveSmoothPath(runtCathedralPathSize2, worgenRuntCathedralPath1, runtCathedralPathSize2);
-                        break;
-                    case WORGEN_ID_CATHEDRAL_3:
-                        _wayPointCounter = runtCathedralPathSize3;
-                        me->GetMotionMaster()->MoveSmoothPath(runtCathedralPathSize3, worgenRuntCathedralPath1, runtCathedralPathSize3);
-                        break;
-                    case WORGEN_ID_CATHEDRAL_4:
-                        _wayPointCounter = runtCathedralPathSize4;
-                        me->GetMotionMaster()->MoveSmoothPath(runtCathedralPathSize4, worgenRuntCathedralPath1, runtCathedralPathSize4);
-                        break;
-                    case WORGEN_ID_CATHEDRAL_5:
-                        _wayPointCounter = runtCathedralPathSize5;
-                        me->GetMotionMaster()->MoveSmoothPath(runtCathedralPathSize5, worgenRuntCathedralPath1, runtCathedralPathSize5);
-                        break;
-                    case WORGEN_ID_CATHEDRAL_6:
-                        _wayPointCounter = runtCathedralPathSize6;
-                        me->GetMotionMaster()->MoveSmoothPath(runtCathedralPathSize6, worgenRuntCathedralPath1, runtCathedralPathSize6);
-                        break;
-                    case WORGEN_ID_CATHEDRAL_7:
-                        _wayPointCounter = runtCathedralPathSize7;
-                        me->GetMotionMaster()->MoveSmoothPath(runtCathedralPathSize7, worgenRuntCathedralPath1, runtCathedralPathSize7);
-                        break;
-                    case WORGEN_ID_CATHEDRAL_8:
-                        _wayPointCounter = runtCathedralPathSize8;
-                        me->GetMotionMaster()->MoveSmoothPath(runtCathedralPathSize8, worgenRuntCathedralPath1, runtCathedralPathSize8);
-                        break;
-                }
-            }
-
-            void JustDied(Unit* /*killer*/) override
-            {
-                me->DespawnOrUnsummon(Seconds(5));
-            }
-
-            void MovementInform(uint32 type, uint32 pointId) override
-            {
-                if (type == EFFECT_MOTION_TYPE && pointId == _wayPointCounter && !_jumped)
-                {
-                    _jumped = true;
-                    _events.ScheduleEvent(EVENT_JUMP_TO_PRISON, Milliseconds(1));
-                }
-            }
-
-            void UpdateAI(uint32 diff) override
-            {
-                if (!UpdateVictim() && !_events.IsInPhase(PHASE_ROOF))
-                    return;
-
-                _events.Update(diff);
-
-                while (uint32 eventId = _events.ExecuteEvent())
-                {
-                    switch(eventId)
-                    {
-                        case EVENT_FORCE_DESPAWN:
-                            me->DespawnOrUnsummon();
-                            break;
-                        case EVENT_JUMP_TO_PRISON:
-                            me->GetMotionMaster()->MoveJump(worgenRuntJumpPos[_worgenID], 16.0f, _worgenID < WORGEN_ID_CATHEDRAL_1 ? 19.2911f : frand(3.945607f, 4.852813f));
-                            me->SetHomePosition(worgenRuntJumpPos[_worgenID]);
-                            _events.ScheduleEvent(EVENT_AGGRO_PLAYER, Seconds(2));
-                            break;
-                        case EVENT_AGGRO_PLAYER:
-                            if (Unit* player = ObjectAccessor::GetPlayer(*me, _playerGuid))
-                                if (me->IsAIEnabled && me->GetHomePosition().IsInDist(player, 100.0f))
-                                    me->AI()->AttackStart(player);
-                            break;
-                        default:
-                            break;
+                        _creditGiven = true; // mark credit as already given
                     }
+                    _events.ScheduleEvent(EVENT_MOVE_TO_NEAR_STALKER, Seconds(2));
+                    break;
+                case EVENT_MOVE_TO_NEAR_STALKER:
+                    if (Creature* stalker = me->FindNearestCreature(NPC_EVACUATION_STALKER_FAR, 50.0f))
+                        me->GetMotionMaster()->MovePoint(POINT_STALKER_FAR, stalker->GetPosition(), true);
+                    else if (Creature* stalker = me->FindNearestCreature(NPC_EVACUATION_STALKER_NEAR, 100.0f))
+                        me->GetMotionMaster()->MovePoint(POINT_STALKER_NEAR, stalker->GetPosition(), true);
+                    break;
+                case EVENT_MOVE_TO_FAR_STALKER:
+                    if (Creature* stalker = me->FindNearestCreature(NPC_EVACUATION_STALKER_FAR, 500.0f))
+                        me->GetMotionMaster()->MovePoint(POINT_STALKER_FAR, stalker->GetPosition(), true);
+                    break;
+                case EVENT_DESPAWN:
+                    me->DespawnOrUnsummon();
+                    break;
+                default:
+                    break;
                 }
-
-                DoMeleeAttackIfReady();
             }
-        private:
-            uint32 _worgenID;
-            uint32 _wayPointCounter;
-            bool _jumped;
-            ObjectGuid _playerGuid;
-            EventMap _events;
-        };
-
-        CreatureAI* GetAI(Creature* creature) const
-        {
-            return new npc_worgen_runtAI(creature);
         }
+
+    private:
+        EventMap _events;
+        bool _creditGiven = false; // tracks whether KilledMonsterCredit was already awarded
+    };
+
+    CreatureAI* GetAI(Creature* creature) const override
+    {
+        return new npc_frightened_citizenAI(creature);
+    }
 };
+
+// 67869 - Knocking
+class spell_gilneas_knocking : public SpellScriptLoader
+{
+public:
+    spell_gilneas_knocking() : SpellScriptLoader("spell_gilneas_knocking") {}
+
+    class spell_gilneas_knocking_SpellScript : public SpellScript
+    {
+        PrepareSpellScript(spell_gilneas_knocking_SpellScript);
+
+        bool Validate(SpellInfo const* spellInfo) override
+        {
+            return ValidateSpellInfo(
+                {
+                    uint32(spellInfo->GetEffect(EFFECT_1)->CalcValue()),
+                    uint32(spellInfo->GetEffect(EFFECT_2)->CalcValue())
+                });
+        }
+
+        void HandleEffect()
+        {
+            if (SpellInfo const* spellInfo = GetSpellInfo())
+                GetCaster()->CastSpell(GetCaster(), spellInfo->GetEffect(RAND(EFFECT_1, EFFECT_2))->CalcValue(), true);
+        }
+
+        void Register() override
+        {
+            OnCast += SpellCastFn(spell_gilneas_knocking_SpellScript::HandleEffect);
+        }
+    };
+
+    SpellScript* GetSpellScript() const override
+    {
+        return new spell_gilneas_knocking_SpellScript();
+    }
+};
+
+void AddSC_gilneas_chapter_1()
+{
+    new npc_frightened_citizen();
+    new spell_gilneas_knocking();
+}
 
 /*######
 ## Quest 14159 - The Rebel Lord's Arsenal
@@ -762,7 +616,7 @@ const uint32 WorgenOrCitizen[] =
 class go_merchant_square_door : public GameObjectScript
 {
 public:
-    go_merchant_square_door() : GameObjectScript("go_merchant_square_door") { }
+    go_merchant_square_door() : GameObjectScript("go_merchant_square_door") {}
 
     bool OnGossipHello(Player* player, GameObject* go) override
     {
@@ -776,7 +630,7 @@ public:
                 player->SummonCreature(WorgenOrCitizen[Random], go->GetPositionX(), go->GetPositionY(), go->GetPositionZ(), go->GetAngle(player), TEMPSUMMON_TIMED_DESPAWN, 30000);
             }
         }
-		
+
         return true;
     }
 };
@@ -3988,7 +3842,7 @@ struct npc_dark_ranger_thyala_36312 : public ScriptedAI
 void AddSC_gilneas_c1()
 {
     new npc_frightened_citizen();
-    new npc_worgen_runt();
+    // new npc_worgen_runt(); --- Some type of issue
     new npc_josiah_avery();
     new npc_dark_scout_37953();
     new npc_greymanes_horse();

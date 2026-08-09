@@ -2245,22 +2245,16 @@ private:
 class spell_dru_shred : public SpellScript
 {
     PrepareSpellScript(spell_dru_shred);
-
     bool Load() override
     {
         Unit* caster = GetCaster();
-
         if (caster->HasAuraType(SPELL_AURA_MOD_STEALTH))
             m_stealthed = true;
-
         if (caster->HasAura(SPELL_DRUID_INCARNATION_KING_OF_JUNGLE))
             m_incarnation = true;
-
         m_casterLevel = caster->GetLevelForTarget(caster);
-
         return true;
     }
-
     void HandleCritChance(Unit* /*victim*/, float& chance)
     {
         // If caster is level >= 56, While stealthed or have Incarnation: King of the Jungle aura,
@@ -2268,7 +2262,6 @@ class spell_dru_shred : public SpellScript
         if ((m_casterLevel >= 56) && (m_stealthed || m_incarnation))
             chance *= 2.0f;
     }
-
     void HandleOnHit()
     {
         Unit* caster = GetCaster();
@@ -2276,28 +2269,24 @@ class spell_dru_shred : public SpellScript
         if (!caster || !target)
             return;
 
-        int32 damage = GetHitDamage();
-        
-        caster->ModifyPower(POWER_COMBO_POINTS, 1);
+        float apPct = GetSpellInfo()->GetEffect(EFFECT_0)->BasePoints / 100.0f;
+        int32 damage = CalculatePct(caster->GetTotalAttackPowerValue(BASE_ATTACK), apPct);
 
+        caster->ModifyPower(POWER_COMBO_POINTS, 1);
         // If caster is level >= 56, While stealthed or have Incarnation: King of the Jungle aura,
         // deals 50% increased damage (get value from the spell data)
         if ((caster->HasAura(231057)) && (m_stealthed || m_incarnation))
             AddPct(damage, sSpellMgr->GetSpellInfo(SPELL_DRUID_SHRED)->GetEffect(EFFECT_2)->BasePoints);
-
         // If caster is level >= 44 and the target is bleeding, deals 20% increased damage (get value from the spell data)
         if (caster->HasAura(231063) && target->HasAuraState(AURA_STATE_BLEEDING))
             AddPct(damage, sSpellMgr->GetSpellInfo(SPELL_DRUID_SHRED)->GetEffect(EFFECT_3)->BasePoints);
-
         SetHitDamage(damage);
     }
-
     void Register() override
     {
         OnCalcCritChance += SpellOnCalcCritChanceFn(spell_dru_shred::HandleCritChance);
         OnHit += SpellHitFn(spell_dru_shred::HandleOnHit);
     }
-
 private:
     bool m_stealthed = false;
     bool m_incarnation = false;

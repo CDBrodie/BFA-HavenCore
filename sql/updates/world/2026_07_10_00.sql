@@ -14,4 +14,7 @@
 -- autocomplete y recompense en silencio sin aparecer nunca en el log del cliente
 -- — igual que las demás "Tracking Quest" que ya existen en esta base de datos.
 
-UPDATE `quest_template` SET `Flags` = `Flags` | 0x400 WHERE `ID` = 40254;
+UPDATE quest_template 
+SET Flags = COALESCE(Flags, 0) | 0x400 
+WHERE ID = 40254 
+ AND (COALESCE(Flags, 0) & 0x400) = 0;
