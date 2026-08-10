@@ -1,3 +1,8 @@
+-- BFA-HavenCore
+
+-- Clean up existing entries to prevent duplicate key errors
+DELETE FROM `quest_objectives` WHERE `ID` IN (268800, 268808, 268804, 268799, 268810, 268812, 268809, 268803, 268811, 268805, 268806);
+
 -- GoldShire
 INSERT INTO `quest_objectives` (`ID`, `QuestID`, `Type`, `Order`, `StorageIndex`, `ObjectID`, `Amount`, `Flags`, `Flags2`, `ProgressBarWeight`, `Description`, `VerifiedBuild`) VALUES
 (268800, 31308, 0, 0, 0, 65355, 1, 0, 0, 0, 'Win a Pet Battle', 35662);

@@ -1,3 +1,7 @@
+-- BFA-HavenCore
+
+DELETE FROM `quest_objectives` WHERE `ID` IN (267046, 254896);
+
 -- See the Survivors
 INSERT INTO `quest_objectives` (`ID`, `QuestID`, `Type`, `Order`, `StorageIndex`, `ObjectID`, `Amount`, `Flags`, `Flags2`, `ProgressBarWeight`, `Description`, `VerifiedBuild`) VALUES
 (267046, 27671, 0, 0, 0, 46268, 6, 0, 0, 0, 'Survivors Rescued', 35662);
