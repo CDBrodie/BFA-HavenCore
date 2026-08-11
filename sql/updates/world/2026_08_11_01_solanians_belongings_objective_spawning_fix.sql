@@ -1,12 +1,14 @@
 -- Journal
 UPDATE gameobject 
 SET spawntimesecs = 60 
-WHERE guid = 20007
+WHERE guid = 20007;
+
 -- Scroll
 UPDATE gameobject 
 SET spawntimesecs = 60 
-WHERE guid = 20008
+WHERE guid = 20008;
+
 -- Orb
 UPDATE gameobject 
 SET spawntimesecs = 60 
-WHERE guid = 19565
+WHERE guid = 19565;
