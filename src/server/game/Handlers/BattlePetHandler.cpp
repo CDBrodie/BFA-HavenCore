@@ -545,7 +545,7 @@ void WorldSession::HandlePetBattleInput(WorldPackets::BattlePet::PetBattleInput&
         return;
     }
 
-    if (packet.Round + 1 != petBattle->Turn)
+    if (packet.Round < 0 || uint32(packet.Round + 1) != petBattle->Turn)
     {
         sPetBattleSystem->ForfeitBattle(petBattle->ID, _player->GetGUID(), packet.IgnoreAbandonPenalty);
         return;

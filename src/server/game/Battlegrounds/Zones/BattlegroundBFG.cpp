@@ -614,14 +614,15 @@ WorldSafeLocsEntry const* BattlegroundBFG::GetClosestGraveYard(Player* player)
         if (m_Nodes[i] == teamIndex + 3)
             nodes.push_back(i);
 
-    WorldSafeLocsEntry const* good_entry = NULL;
+    WorldSafeLocsEntry const* good_entry = nullptr;
+    //TODO: Check why this code was commented out, because the function look useless otherwise.
     // If so, select the closest node to place ghost on
     if (!nodes.empty())
     {
-        float player_x = player->GetPositionX();
-        float player_y = player->GetPositionY();
+        //float player_x = player->GetPositionX();
+        //float player_y = player->GetPositionY();
 
-        float mindist = 999999.0f;
+        //float mindist = 999999.0f;
         for (uint8 i = 0; i < nodes.size(); ++i)
         {
             //WorldSafeLocsEntry const*entry = GetWorldSafeLoc.LookupEntry(BG_BFG_GraveyardIds[nodes[i]]);

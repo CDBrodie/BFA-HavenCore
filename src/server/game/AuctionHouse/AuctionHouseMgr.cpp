@@ -1943,7 +1943,7 @@ void AuctionHouseObject::SendAuctionExpired(AuctionPosting const* auction, Chara
             for (std::size_t i = 0; i < MAX_MAIL_ITEMS && itemItr != auction->Items.end(); ++i, ++itemItr)
                 mail.AddItem(*itemItr);
 
-                mail.SendMailTo(trans, MailReceiver(owner, auction->Owner), this, MAIL_CHECK_MASK_COPIED, 0);
+            mail.SendMailTo(trans, MailReceiver(owner, auction->Owner), this, MAIL_CHECK_MASK_COPIED, 0);
         }
     }
     else

@@ -409,7 +409,7 @@ void VehicleAI::CheckConditions(uint32 diff)
         m_ConditionsTimer -= diff;
 }
 
-int BattlePetAI::Permissible(const Creature* creature)
+int BattlePetAI::Permissible(const Creature* /*creature*/)
 {
     return PERMIT_BASE_NO;
 }

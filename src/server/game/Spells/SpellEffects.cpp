@@ -4686,17 +4686,6 @@ void Spell::EffectLeapBack(SpellEffIndex /*effIndex*/)
     float speedxy = effectInfo->MiscValue / 10.f;
     float speedz = damage / 10.f;
 
-    bool forward = false;
-    switch (GetSpellInfo()->Id)
-    {
-        case 67175:
-        case 69070:
-        case 102417:
-        case 192063:
-            forward = true;
-            break;
-    }
-
     // Disengage
     unitTarget->JumpTo(speedxy, speedz, m_spellInfo->IconFileDataId != 132572);
 

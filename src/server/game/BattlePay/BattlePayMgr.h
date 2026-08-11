@@ -409,10 +409,7 @@ namespace Battlepay
 
     struct Purchase
     {
-        Purchase()
-        {
-            memset(this, 0, sizeof(Purchase));
-        }
+        Purchase() : DistributionId(0), PurchaseID(0), CurrentPrice(0), ClientToken(0), ServerToken(0), ProductID(0), Status(0), Lock(false) { }
 
         ObjectGuid TargetCharacter;
         uint64 DistributionId;

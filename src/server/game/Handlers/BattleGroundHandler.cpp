@@ -824,7 +824,7 @@ void WorldSession::HandleRequestConquestFormulaConstants(WorldPackets::Battlegro
     SendPacket(packet.Write());
 }
 
-void WorldSession::HandleAcceptWargameInvite(WorldPackets::Battleground::AcceptWargameInvite& packet)
+void WorldSession::HandleAcceptWargameInvite(WorldPackets::Battleground::AcceptWargameInvite& /*packet*/)
 {
 }
 

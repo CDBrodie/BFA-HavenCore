@@ -383,7 +383,7 @@ void PetBattleTeam::DoCasts(uint32 turn0ProcCond)
             PetBattleInstance->Cast(ActivePetID, ActiveAbilityId, 0, turn0ProcCond, PET_BATTLE_CAST_TRIGGER_ALL);
 
         for (auto& aura : PetBattleInstance->PetAuras)
-            if (!aura->Expired && aura->CasterPetID == ActivePetID)
+            if (!aura->Expired && aura->CasterPetID == int32(ActivePetID))
                 PetBattleInstance->Cast(aura->CasterPetID, aura->AbilityID, 0, PET_BATTLE_ABILITY_TURN_PROC_ON_ABILITY, PET_BATTLE_CAST_TRIGGER_ALL);
     }
 }

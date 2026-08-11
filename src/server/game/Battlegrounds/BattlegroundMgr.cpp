@@ -812,7 +812,7 @@ void BattlegroundMgr::ToggleTesting()
     sWorld->SendWorldText(m_Testing ? LANG_DEBUG_BG_ON : LANG_DEBUG_BG_OFF);
 }
 
-void BattlegroundMgr::InitWargame(Player* player, ObjectGuid opposingPartyMember, uint64 queueID, bool accept)
+void BattlegroundMgr::InitWargame(Player* /*player*/, ObjectGuid /*opposingPartyMember*/, uint64 /*queueID*/, bool /*accept*/)
 {
 }
 

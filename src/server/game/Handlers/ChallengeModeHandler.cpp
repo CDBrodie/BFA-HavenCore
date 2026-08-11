@@ -160,7 +160,7 @@ void WorldSession::HandleChallengeModeStart(WorldPackets::ChallengeMode::StartRe
     _player->DestroyItem(start.Bag, start.Slot, true);
 }
 
-void WorldSession::HandleChallengeModeRequestMapStatsOpcode(WorldPackets::ChallengeMode::RequestMapStats& request)
+void WorldSession::HandleChallengeModeRequestMapStatsOpcode(WorldPackets::ChallengeMode::RequestMapStats& /*request*/)
 {
     uint32 ChallengeModeMapCount = _player->m_CompletedChallenges.size();
     WorldPacket packet(SMSG_MYTHIC_PLUS_ALL_MAP_STATS);

@@ -1443,7 +1443,7 @@ void Aura::HandleAuraSpecificMods(AuraApplication const* aurApp, Unit* caster, b
                     if (removeMode != AURA_REMOVE_BY_EXPIRE)
                         break;
 
-                    if (Player* player = caster->ToPlayer())
+                    if (caster->ToPlayer())
                     {
                         caster->GetSpellHistory()->ResetCooldown(1784, false);
                         caster->CastSpell(caster, 1784, true);

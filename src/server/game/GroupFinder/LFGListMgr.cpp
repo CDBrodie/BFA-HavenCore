@@ -196,12 +196,12 @@ bool LFGListMgr::Remove(ObjectGuid::LowType Guid, Player* requester /* = nullptr
     return true;
 }
 
-void LFGListMgr::PlayerAddedToGroup(Player* player, Group* group)
+void LFGListMgr::PlayerAddedToGroup(Player* /*player*/, Group* group)
 {
     SendLFGListStatusUpdate(GetEntrybyGuid(group->GetGUID().GetCounter()), nullptr, true);
 }
 
-void LFGListMgr::PlayerRemoveFromGroup(Player* player, Group* group)
+void LFGListMgr::PlayerRemoveFromGroup(Player* /*player*/, Group* group)
 {
     SendLFGListStatusUpdate(GetEntrybyGuid(group->GetGUID().GetCounter()), nullptr, false);
 }

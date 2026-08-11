@@ -8204,7 +8204,7 @@ bool WorldObjectSpellTargetCheck::operator()(WorldObject* target)
             case TARGET_CHECK_RAID_CLASS:
                 if (_referer->getClass() != unitTarget->getClass())
                     return false;
-                // nobreak;
+                /* fallthrough */
             case TARGET_CHECK_RAID_DEATH:
             case TARGET_CHECK_RAID:
                 if (_targetSelectionType == TARGET_CHECK_RAID_DEATH)

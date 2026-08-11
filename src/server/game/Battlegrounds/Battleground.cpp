@@ -421,7 +421,7 @@ inline void Battleground::_ProcessJoin(uint32 diff)
 
         for (BattlegroundPlayerMap::const_iterator itr = GetPlayers().begin(); itr != GetPlayers().end(); ++itr)
             if (Player* player = ObjectAccessor::FindPlayer(itr->first))
-                player->SendDirectMessage(startTimer.Write());
+                player->SendDirectMessage(startTimerPacket);
 
         m_CountdownTimer = 0;
     }
