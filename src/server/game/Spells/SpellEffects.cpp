@@ -1875,10 +1875,6 @@ void Spell::EffectOpenLock(SpellEffIndex effIndex)
         SendCastResult(res);
         return;
     }
-
-    if (reqSkillValue == 0)
-        reqSkillValue = skillValue;
-
     if (gameObjTarget)
         SendLoot(guid, LOOT_SKINNING);
     else if (itemTarget)
@@ -1886,15 +1882,32 @@ void Spell::EffectOpenLock(SpellEffIndex effIndex)
         itemTarget->AddItemFlag(ITEM_FIELD_FLAG_UNLOCKED);
         itemTarget->SetState(ITEM_CHANGED, itemTarget->GetOwner());
     }
-
+	
     GameObjectTemplate const* goInfo = gameObjTarget->GetGOInfo();
     if (goInfo->type == GAMEOBJECT_TYPE_GATHERING_NODE || goInfo->type == GAMEOBJECT_TYPE_CHEST)
     {
-        // CanOpenLock() already resolves the profession skill from the lock type.
+        // CanOpenLock() resolves which profession is used, but BFA gathering-node
+        // locks can have no explicit required skill value. For type 50 gathering
+        // nodes, use the template's trivial-skill data to derive the base skill
+        // used by UpdateGatherSkill(). SkillGainChance() treats this base as:
+        // yellow = base + 25, green = base + 50, grey = base + 100.
+        uint32 gatherBaseSkill = reqSkillValue > 0 ? uint32(reqSkillValue) : 0;
+
+        if (goInfo->type == GAMEOBJECT_TYPE_GATHERING_NODE)
+        {
+            uint32 const trivialLow = goInfo->gatheringNode.trivialSkillLow;
+            if (trivialLow >= 50)
+                gatherBaseSkill = trivialLow - 50;
+        }
+
+        // Use the resolved skill directly instead of relying on IconName strings
+        // such as "Mining" or "Herb", which are not consistently populated in
+        // BFA DB data.
         if (skillId != SKILL_NONE)
         {
             if (uint32 pureSkillValue = player->GetPureSkillValue(skillId))
-                if (!gameObjTarget->IsInSkillupList(player->GetGUID()) && player->UpdateGatherSkill(skillId, pureSkillValue, reqSkillValue))
+                if (!gameObjTarget->IsInSkillupList(player->GetGUID()) &&
+                    player->UpdateGatherSkill(skillId, pureSkillValue, gatherBaseSkill))
                     gameObjTarget->AddToSkillupList(player->GetGUID());
         }
     }
