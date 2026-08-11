@@ -223,18 +223,6 @@ void BrawlersGuild::UpdateBrawl(uint32 diff)
     case BRAWL_STATE_PREPARE_COMBAT:
         if (_prepareCombatTimer.Passed())
         {
-            if (auto player = ObjectAccessor::FindPlayer(_current))
-            {
-                if (SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(SPELL_ARENA_FORCE_REACTION))
-
-                if (auto entry = GetBossForPlayer(player))
-                {
-                    uint8 select_points = (player->GetTeamId() == TEAM_ALLIANCE ? 4 : 5);
-
-                    if (entry == NPC_NIBBLEH)
-                        select_points += 2;
-                }
-            }
             _prepareCombatTimer.SetCurrent(0);
 
             EndCombat(false);

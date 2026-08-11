@@ -278,7 +278,7 @@ int32 PetBattleAbilityEffect::GetPetType()
 {
     if (BattlePetAbilityTurnEntry const* abilityTurn = sBattlePetAbilityTurnStore.LookupEntry(EffectInfo->BattlePetAbilityTurnID))
         if (BattlePetAbilityEntry const* ability = sBattlePetAbilityStore.LookupEntry(abilityTurn->BattlePetAbilityID))
-            return ability->PetTypeEnum == BATTLE_PET_TYPE_ALL ? BATTLE_PET_TYPE_HUMANOID : ability->PetTypeEnum;
+            return ability->PetTypeEnum == BATTLE_PET_TYPE_ALL ? int32(BATTLE_PET_TYPE_HUMANOID) : int32(ability->PetTypeEnum);
 
     return BATTLE_PET_TYPE_HUMANOID;
 }

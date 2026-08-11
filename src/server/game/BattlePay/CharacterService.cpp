@@ -47,7 +47,7 @@ void CharacterService::Customize(Player* player)
     CharacterDatabase.Execute(stmt);
 }
 
-void CharacterService::Boost(Player* player)
+void CharacterService::Boost(Player* /*player*/)
 {
 }
 

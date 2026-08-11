@@ -95,7 +95,7 @@ public:
     void AI_Destroy();
     GarrisonAI* AI() { return _ai.get(); }
 
-    virtual bool IsAllowedArea(uint32 areaID) const { return false; }
+    virtual bool IsAllowedArea(uint32 /*areaID*/) const { return false; }
 
     GarrisonFactionIndex GetFaction() const;
     GarrisonType GetType() const { return _garrisonType; }

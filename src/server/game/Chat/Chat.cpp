@@ -1296,7 +1296,7 @@ void CommandArgs::Initialize(std::initializer_list<CommandArgsType> argsType)
         _validArgs = true;
     }
     // Catch potential boost exception
-    catch (std::exception e)
+    catch (std::exception const&)
     {
         _validArgs = false;
     }

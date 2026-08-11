@@ -43,6 +43,8 @@ enum SmartEscortVars
 class TC_GAME_API SmartAI : public CreatureAI
 {
     public:
+        using UnitAI::DamageDealt;
+
         ~SmartAI(){ }
         explicit SmartAI(Creature* c);
 

@@ -275,12 +275,14 @@ uint32 Quest::XPValue(Player const* player) const
         if(curlevel >= 120)
             curlevel = 120;
 
+        int32 questLevelInt = int32(questLevel);
+
         float multiplier = 1.0f;
 
-        if (questLevel != curlevel)
-            multiplier = sXpGameTable.GetRow(std::min<int32>(curlevel, questLevel))->Divisor / sXpGameTable.GetRow(curlevel)->Divisor;
+        if (questLevelInt != curlevel)
+            multiplier = sXpGameTable.GetRow(std::min(curlevel, questLevelInt))->Divisor / sXpGameTable.GetRow(curlevel)->Divisor;
 
-        int32 diffFactor = 2 * (questLevel + (Level == -1 ? 0 : 5) - curlevel) + 10;
+        int32 diffFactor = 2 * (questLevelInt + (Level == -1 ? 0 : 5) - curlevel) + 10;
         if (diffFactor < 1)
             diffFactor = 1;
         else if (diffFactor > 10)

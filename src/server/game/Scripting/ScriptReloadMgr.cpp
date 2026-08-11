@@ -54,10 +54,12 @@ ScriptReloadMgr* ScriptReloadMgr::instance()
 #include <boost/system/system_error.hpp>
 #include <efsw/efsw.hpp>
 #include <algorithm>
+#include <chrono>
 #include <fstream>
 #include <future>
 #include <memory>
 #include <sstream>
+#include <thread>
 #include <type_traits>
 #include <unordered_map>
 #include <unordered_set>

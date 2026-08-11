@@ -161,6 +161,8 @@ class TC_GAME_API UnitAI
         // Called when unit is charmed
         virtual void OnCharmed(bool apply) = 0;
 
+        virtual void IsSummonedBy(Unit* /*summoner*/) { }
+
         // Pass parameters between AI
         virtual void DoAction(int32 /*param*/) { }
         virtual uint32 GetData(uint32 /*id = 0*/) const { return 0; }
