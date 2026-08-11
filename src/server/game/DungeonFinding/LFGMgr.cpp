@@ -252,21 +252,19 @@ void LFGMgr::LoadLFGDungeons(bool reload /* = false */)
     {
         LFGDungeonData& dungeon = itr->second;
 
-        // No teleport coords in database, load from areatriggers
+        // No teleport coords in database, try to load them from areatriggers.
+        // A missing entrance must not exclude the dungeon from the LFG cache;
+        // otherwise its lock status (level, expansion, etc.) is never sent to the client.
         if (dungeon.type != LFG_TYPE_RANDOM && dungeon.x == 0.0f && dungeon.y == 0.0f && dungeon.z == 0.0f)
         {
-            AreaTriggerTeleportStruct const* at = sObjectMgr->GetMapEntranceTrigger(dungeon.map);
-            if (!at)
+            if (AreaTriggerTeleportStruct const* at = sObjectMgr->GetMapEntranceTrigger(dungeon.map))
             {
-                //TC_LOG_ERROR("sql.sql", "Failed to load dungeon %s (Id: %u), cant find areatrigger for map %u", dungeon.name.c_str(), dungeon.id, dungeon.map);
-                continue;
+                dungeon.map = at->target_mapId;
+                dungeon.x = at->target_X;
+                dungeon.y = at->target_Y;
+                dungeon.z = at->target_Z;
+                dungeon.o = at->target_Orientation;
             }
-
-            dungeon.map = at->target_mapId;
-            dungeon.x = at->target_X;
-            dungeon.y = at->target_Y;
-            dungeon.z = at->target_Z;
-            dungeon.o = at->target_Orientation;
         }
 
         if (dungeon.type != LFG_TYPE_RANDOM)
