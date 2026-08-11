@@ -7337,6 +7337,7 @@ float Unit::GetUnitSpellCriticalChance(Unit* victim, Spell* spell, AuraEffect co
                     return 0.0f;
             }
         // Do not add a break here, case fallthrough is intentional! Adding a break will make above spells unable to crit.
+            /* fallthrough */
         case SPELL_DAMAGE_CLASS_MAGIC:
         {
             if (schoolMask & SPELL_SCHOOL_MASK_NORMAL)
@@ -14109,7 +14110,7 @@ void Unit::SendClearTarget()
 
 int32 Unit::GetResistance(SpellSchoolMask mask) const
 {
-    Optional<int32> resist;
+    Optional<int32> resist = boost::make_optional(false, 0);
     for (int i = SPELL_SCHOOL_NORMAL; i < MAX_SPELL_SCHOOL; ++i)
     {
         int32 schoolResistance = GetResistance(SpellSchools(i)) + GetBonusResistanceMod(SpellSchools(i));

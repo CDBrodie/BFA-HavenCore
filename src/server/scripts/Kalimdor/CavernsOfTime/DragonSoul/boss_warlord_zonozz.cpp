@@ -287,7 +287,7 @@ class boss_warlord_zonozz: public CreatureScript
                     case NPC_EYE_OF_GORATH:
                         if (!IsHeroic())
                             summon->AddUnitFlag(UnitFlags(UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE));
-                        // no break
+                        /* fallthrough */
                     case NPC_CLAW_OF_GORATH:
                     case NPC_FLAIL_OF_GORATH:
                         if (IsHeroic())

@@ -240,7 +240,7 @@ class npc_add_generator : public CreatureScript
                     case NOT_STARTED:
                     case FAIL:
                         summons.DespawnAll();
-                        // no break
+                        /* fallthrough */
                     case DONE:
                         me->RemoveAurasDueToSpell(SPELL_PERIODIC_SPAWN_SWARMER);
                         me->RemoveAurasDueToSpell(SPELL_PERIODIC_SPAWN_SABOTEUR);

@@ -443,6 +443,7 @@ void LFGMgr::JoinLfg(Player* player, uint8 roles, LfgDungeonSet& dungeons)
                     queueId = dungeon->id;
                 }
                 // No break on purpose
+                /* fallthrough */
             case LFG_TYPE_DUNGEON:
             case LFG_TYPE_RAID:
             {
