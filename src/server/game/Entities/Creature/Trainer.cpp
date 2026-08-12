@@ -53,7 +53,7 @@ namespace Trainer
             WorldPackets::NPC::TrainerListSpell& trainerListSpell = trainerList.Spells.back();
             trainerListSpell.SpellID = trainerSpell.SpellId;
             trainerListSpell.MoneyCost = int32(trainerSpell.MoneyCost * reputationDiscount);
-            trainerListSpell.ReqSkillLine = trainerSpell.ReqSkillLine;
+            trainerListSpell.ReqSkillLine = trainerSpell.ReqSkillLine == SKILL_JEWELCRAFTING ? SKILL_JEWELCRAFTING_2 : trainerSpell.ReqSkillLine;
             trainerListSpell.ReqSkillRank = trainerSpell.ReqSkillRank;
             std::copy(trainerSpell.ReqAbility.begin(), trainerSpell.ReqAbility.end(), trainerListSpell.ReqAbility.begin());
             trainerListSpell.Usable = AsUnderlyingType(GetSpellState(player, &trainerSpell));
@@ -127,8 +127,12 @@ namespace Trainer
         if (!player->IsSpellFitByClassAndRace(trainerSpell->SpellId))
             return SpellState::Unavailable;
 
+        uint32 const reqSkillLine = trainerSpell->ReqSkillLine == SKILL_JEWELCRAFTING
+            ? SKILL_JEWELCRAFTING_2
+            : trainerSpell->ReqSkillLine;
+
         // check skill requirement
-        if (trainerSpell->ReqSkillLine && player->GetBaseSkillValue(trainerSpell->ReqSkillLine) < trainerSpell->ReqSkillRank)
+        if (reqSkillLine && player->GetBaseSkillValue(reqSkillLine) < trainerSpell->ReqSkillRank)
             return SpellState::Unavailable;
 
         for (int32 reqAbility : trainerSpell->ReqAbility)
