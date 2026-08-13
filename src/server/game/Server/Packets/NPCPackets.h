@@ -255,7 +255,7 @@ namespace WorldPackets
             ObjectGuid StableMaster;
         };
 
-        class OpenAlliedRaceDetails final : public ServerPacket
+        class TC_GAME_API OpenAlliedRaceDetails final : public ServerPacket
         {
         public:
             OpenAlliedRaceDetails() : ServerPacket(SMSG_ALLIED_RACE_DETAILS, 12) { }
