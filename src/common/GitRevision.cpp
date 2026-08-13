@@ -16,7 +16,7 @@
  */
 
 #include "GitRevision.h"
-#include "src/genrev/CMakeFiles/revision_data.h"
+#include "revision_data.h"
 
 char const* GitRevision::GetHash()
 {
