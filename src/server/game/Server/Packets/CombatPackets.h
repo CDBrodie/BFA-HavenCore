@@ -154,7 +154,7 @@ namespace WorldPackets
             uint8 PowerType = 0;
         };
 
-        class PowerUpdate final : public ServerPacket
+        class TC_GAME_API PowerUpdate final : public ServerPacket
         {
         public:
             PowerUpdate() : ServerPacket(SMSG_POWER_UPDATE, 16 + 4 + 1) { }
