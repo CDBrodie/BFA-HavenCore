@@ -5641,19 +5641,27 @@ bool Player::UpdateCraftSkill(uint32 spellid)
     {
         if (_spell_idx->second->SkillupSkillLineID)
         {
-            uint32 SkillValue = GetPureSkillValue(_spell_idx->second->SkillupSkillLineID);
+            uint32 skillId = _spell_idx->second->SkillupSkillLineID;
+
+            // Classic Inscription recipes reference the expansion-specific
+            // child skill line in DB2, while the player stores/progresses
+            // Inscription on the parent skill line.
+            if (skillId == SKILL_INSCRIPTION_2)
+                skillId = SKILL_INSCRIPTION;
+
+            uint32 SkillValue = GetPureSkillValue(skillId);
 
             // Alchemy Discoveries here
             SpellInfo const* spellEntry = sSpellMgr->GetSpellInfo(spellid);
             if (spellEntry && spellEntry->Mechanic == MECHANIC_DISCOVERY)
             {
-                if (uint32 discoveredSpell = GetSkillDiscoverySpell(_spell_idx->second->SkillupSkillLineID, spellid, this))
+                if (uint32 discoveredSpell = GetSkillDiscoverySpell(skillId, spellid, this))
                     LearnSpell(discoveredSpell, false);
             }
 
             uint32 craft_skill_gain = _spell_idx->second->NumSkillUps * sWorld->getIntConfig(CONFIG_SKILL_GAIN_CRAFTING);
 
-            return UpdateSkillPro(_spell_idx->second->SkillupSkillLineID, SkillGainChance(SkillValue,
+            return UpdateSkillPro(skillId, SkillGainChance(SkillValue,
                 _spell_idx->second->TrivialSkillLineRankHigh,
                 (_spell_idx->second->TrivialSkillLineRankHigh + _spell_idx->second->TrivialSkillLineRankLow)/2,
                 _spell_idx->second->TrivialSkillLineRankLow),
@@ -5794,6 +5802,20 @@ bool Player::UpdateSkillPro(uint16 skillId, int32 chance, uint32 step)
         new_value = max;
 
     SetSkillRank(itr->second.pos, new_value);
+
+    if (SkillLineEntry const* skillLine = sSkillLineStore.LookupEntry(skillId))
+    {
+        LocaleConstant locale = GetSession()->GetSessionDbcLocale();
+
+        std::ostringstream skillMessage;
+        skillMessage << "Your skill in " << skillLine->DisplayName->Str[locale]
+                     << " has increased to " << new_value << ".";
+
+        WorldPackets::Chat::Chat packet;
+        packet.Initialize(CHAT_MSG_SKILL, LANG_UNIVERSAL, this, this, skillMessage.str());
+        SendDirectMessage(packet.Write());
+    }
+
     if (itr->second.uState != SKILL_NEW)
         itr->second.uState = SKILL_CHANGED;
 
