@@ -5803,17 +5803,24 @@ bool Player::UpdateSkillPro(uint16 skillId, int32 chance, uint32 step)
 
     SetSkillRank(itr->second.pos, new_value);
 
-    if (SkillLineEntry const* skillLine = sSkillLineStore.LookupEntry(skillId))
+    // Classic Inscription progression is resolved from the expansion-specific
+    // recipe skill line to the parent skill, so explicitly send the skill-up
+    // chat notification for that parent skill. Other professions already
+    // receive their native client notification and must not be duplicated.
+    if (skillId == SKILL_INSCRIPTION)
     {
-        LocaleConstant locale = GetSession()->GetSessionDbcLocale();
+        if (SkillLineEntry const* skillLine = sSkillLineStore.LookupEntry(skillId))
+        {
+            LocaleConstant locale = GetSession()->GetSessionDbcLocale();
 
-        std::ostringstream skillMessage;
-        skillMessage << "Your skill in " << skillLine->DisplayName->Str[locale]
-                     << " has increased to " << new_value << ".";
+            std::ostringstream skillMessage;
+            skillMessage << "Your skill in " << skillLine->DisplayName->Str[locale]
+                         << " has increased to " << new_value << ".";
 
-        WorldPackets::Chat::Chat packet;
-        packet.Initialize(CHAT_MSG_SKILL, LANG_UNIVERSAL, this, this, skillMessage.str());
-        SendDirectMessage(packet.Write());
+            WorldPackets::Chat::Chat packet;
+            packet.Initialize(CHAT_MSG_SKILL, LANG_UNIVERSAL, this, this, skillMessage.str());
+            SendDirectMessage(packet.Write());
+        }
     }
 
     if (itr->second.uState != SKILL_NEW)
