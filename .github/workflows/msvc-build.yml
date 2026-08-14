@@ -1,0 +1,34 @@
+name: MSVC
+
+on:
+  workflow_call:
+    inputs:
+      run_build:
+        description: Whether the changed paths warrant a native build.
+        required: true
+        type: boolean
+
+jobs:
+  build:
+    if: inputs.run_build
+    runs-on: windows-2022
+    steps:
+    - uses: actions/checkout@v6
+    - name: Install Boost
+      id: install-boost
+      uses: MarkusJx/install-boost@v2.6.0
+      with:
+        boost_version: 1.81.0
+        toolset: msvc
+        platform_version: 2022
+    - name: Install MySQL
+      run: choco install mysql -y --no-progress
+      shell: pwsh
+    - name: Setup
+      env:
+        BOOST_ROOT: ${{ steps.install-boost.outputs.BOOST_ROOT }}
+      run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64 -DTOOLS=1 -DSCRIPTS=dynamic -DSERVERS=1 -DOPENSSL_ROOT_DIR="C:\Program Files\OpenSSL" -DCMAKE_INSTALL_PREFIX=check_install
+      shell: pwsh
+    - name: Build
+      run: cmake --build build --config RelWithDebInfo --target install -- /m
+      shell: pwsh

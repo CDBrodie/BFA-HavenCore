@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # The build checks are required, so the C++ filter cannot live in `on.<event>.paths`: a workflow
+  # skipped by a path filter never reports, leaving the check Pending and blocking the merge. The
+  # result is passed to each build workflow, which skips its own job - a skipped job reports Success.
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      code: ${{ steps.filter.outputs.code }}
+    steps:
+    # paths-filter reads a pull request's file list from the REST API, but a push event has to be
+    # diffed locally against the base branch, which needs a working tree.
+    - uses: actions/checkout@v6
+      if: github.event_name != 'pull_request'
+      with:
+        fetch-depth: 20
+    - name: Filter changed paths
+      id: filter
+      uses: dorny/paths-filter@v4
+      with:
+        filters: |
+          code:
+            - '**/*.cpp'
+            - '**/*.cc'
+            - '**/*.c'
+            - '**/*.h'
+            - '**/*.hpp'
+            - '**/*.inl'
+            - '**/*.proto'
+            - '**/*.cmake'
+            - '**/CMakeLists.txt'
+            - '.github/workflows/*.yml'
+
+  msvc:
+    needs: changes
+    uses: ./.github/workflows/msvc-build.yml
+    with:
+      run_build: ${{ needs.changes.outputs.code == 'true' && !github.event.pull_request.draft }}
