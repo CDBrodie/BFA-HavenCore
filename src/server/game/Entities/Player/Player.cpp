@@ -5648,6 +5648,8 @@ bool Player::UpdateCraftSkill(uint32 spellid)
             // Inscription on the parent skill line.
             if (skillId == SKILL_INSCRIPTION_2)
                 skillId = SKILL_INSCRIPTION;
+            else if (skillId == SKILL_ENGINEERING_2)
+                skillId = SKILL_ENGINEERING;
 
             uint32 SkillValue = GetPureSkillValue(skillId);
 
@@ -5807,7 +5809,7 @@ bool Player::UpdateSkillPro(uint16 skillId, int32 chance, uint32 step)
     // recipe skill line to the parent skill, so explicitly send the skill-up
     // chat notification for that parent skill. Other professions already
     // receive their native client notification and must not be duplicated.
-    if (skillId == SKILL_INSCRIPTION)
+    if (skillId == SKILL_INSCRIPTION || skillId == SKILL_ENGINEERING)
     {
         if (SkillLineEntry const* skillLine = sSkillLineStore.LookupEntry(skillId))
         {
