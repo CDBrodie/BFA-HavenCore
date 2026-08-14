@@ -2366,6 +2366,7 @@ class spell_dru_regrowth : public SpellScript
             GetCaster()->AddAura(SPELL_DRU_BLOODTALONS_TRIGGERED, GetCaster());
 
         if (Aura* clearcasting = GetCaster()->GetAura(SPELL_DRU_CLEARCASTING))
+        {
             if (GetCaster()->HasAura(SPELL_DRU_MOMENT_OF_CLARITY))
             {
                 int32 amount = clearcasting->GetEffect(EFFECT_0)->GetAmount();
@@ -2375,6 +2376,7 @@ class spell_dru_regrowth : public SpellScript
             }
             else
                 GetCaster()->RemoveAurasDueToSpell(SPELL_DRU_CLEARCASTING);
+        }
     }
 
     void Register() override

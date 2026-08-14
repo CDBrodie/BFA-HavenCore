@@ -319,6 +319,8 @@ inline uint8 GetPurifyingLightsCount(Difficulty p_Difficulty)
     case DIFFICULTY_25_HC:
         return MAX_PURIFYING_LIGHT_POINTS;
         break;
+    default:
+        break;
     }
 
     return SPAWN_PURIFYING_LIGHT_10N;
@@ -554,6 +556,8 @@ private:
         case TEST_CONFIDENCE:
             player->CastSpell(manifestationPos.GetPositionX(), manifestationPos.GetPositionY(), manifestationPos.GetPositionZ(), SPELL_TITANIC_CORRUPTION_SUMMON, true);
             return 1;
+        default:
+            break;
         }
 
         return 0;
@@ -636,7 +640,7 @@ struct BlindHatredPosition
 
     bool IsValid()
     {
-        return m_NextPosition.IsPositionValid() && m_NextPointId >= 0 && m_NextPointId < MAX_BLIND_HATRED_POINTS;
+        return m_NextPosition.IsPositionValid() && m_NextPointId < MAX_BLIND_HATRED_POINTS;
     }
 };
 
@@ -662,7 +666,8 @@ public:
             me->SetBoundingRadius(11.0f);
             me->SetCombatReach(11.0f);
 
-            memset(purifyingLights, 0, sizeof(purifyingLights));
+            for (ObjectGuid& guid : purifyingLights)
+                guid = ObjectGuid::Empty;
             frayedCount = 0;
             isDespawned = false;
 
@@ -675,7 +680,8 @@ public:
 
             me->SetReactState(REACT_DEFENSIVE);
 
-            memset(purifyingLights, 0, sizeof(purifyingLights));
+            for (ObjectGuid& guid : purifyingLights)
+                guid = ObjectGuid::Empty;
             frayedCount = 0;
             isDespawned = false;
             m_IsFirstBlindHarted = true;
@@ -694,7 +700,7 @@ public:
                 DoStartNoMovement(who);
         }
 
-        void EnterCombat(Unit* who)
+        void EnterCombat(Unit* /*unit*/)
         {
             events.ScheduleEvent(EVENT_BERSERK, 7 * MINUTE * IN_MILLISECONDS);
             events.ScheduleEvent(EVENT_UNCHECKED_CORRUPTION, 5000);
@@ -796,7 +802,7 @@ public:
             BossAI::SummonedCreatureDespawn(summon);
         }
 
-        void JustDied(Unit* who)
+        void JustDied(Unit* /*killer*/)
         {
             ClearCreatures();
 
@@ -1553,7 +1559,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* who) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             events.ScheduleEvent(EVENT_MOVE, 3000);
         }
@@ -1671,7 +1677,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* who) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             events.ScheduleEvent(EVENT_MOVE, 3000);
         }
@@ -1789,7 +1795,7 @@ public:
             DoCast(me, SPELL_UNLEASHED_1, true);
         }
 
-        void EnterCombat(Unit* who) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             events.ScheduleEvent(EVENT_MOVE, 3000);
         }
@@ -1804,7 +1810,7 @@ public:
             }
         }*/
 
-        void JustDied(Unit* who) override
+        void JustDied(Unit* /*killer*/) override
         {
             if (Creature* pAmalgam = GetAmalgam())
             {
@@ -1892,7 +1898,7 @@ public:
             return ObjectGuid::Empty;
         }
 
-        void EnterCombat(Unit* who) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             events.ScheduleEvent(EVENT_MOVE, 3000);
         }
@@ -1907,7 +1913,7 @@ public:
             }
         }*/
 
-        void JustDied(Unit* who) override
+        void JustDied(Unit* /*killer*/) override
         {
             me->DespawnOrUnsummon(2000);
         }
@@ -1997,7 +2003,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* who)
+        void EnterCombat(Unit* /*unit*/)
         {
             events.ScheduleEvent(EVENT_MOVE, 3000);
         }
@@ -2106,7 +2112,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* who)
+        void EnterCombat(Unit* /*unit*/)
         {
             events.ScheduleEvent(EVENT_MOVE, 3000);
         }

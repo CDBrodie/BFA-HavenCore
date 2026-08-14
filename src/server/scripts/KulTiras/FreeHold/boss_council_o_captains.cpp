@@ -168,7 +168,7 @@ struct npc_captains_controller : public ScriptedAI
         }
     }
 
-    void UpdateAI(uint32 diff) override
+    void UpdateAI(uint32 /*diff*/) override
     {
         if (instance)
         {
@@ -295,7 +295,7 @@ struct boss_council_captain : public BossAI
         Reset();
     }
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         if (instance)
         {
@@ -375,7 +375,7 @@ struct boss_council_captain : public BossAI
         return me->FindNearestCreature(NpcCaptainsController, 500.0f);
     }
 
-    void JustDied(Unit* killer) override
+    void JustDied(Unit* /*killer*/) override
     {
         switch (me->GetEntry())
         {
@@ -750,7 +750,7 @@ struct npc_blackout_barrel : public ScriptedAI
 {
     npc_blackout_barrel(Creature* creature) : ScriptedAI(creature) { }
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         me->SetReactState(REACT_PASSIVE);
         AddTimedDelayedOperation(1 * TimeConstants::IN_MILLISECONDS, [this]() -> void

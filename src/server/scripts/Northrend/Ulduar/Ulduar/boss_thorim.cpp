@@ -611,7 +611,7 @@ public:
             SetBoundary(&ArenaBoundaries);
         }
 
-        void JustEngagedWith(Unit* who) 
+        void JustEngagedWith(Unit* /*who*/) 
         {
            // BossAI::JustEngagedWith(who);
             Talk(SAY_AGGRO_1);

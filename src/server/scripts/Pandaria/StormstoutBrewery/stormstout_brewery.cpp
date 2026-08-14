@@ -227,7 +227,7 @@ public:
                 DoCast(beerBunny, SPELL_GUSHING_BREW_BVIS);
         }
 
-        void UpdateAI(const uint32 diff) { }
+        void UpdateAI(const uint32 /*diff*/) { }
     };
 
     CreatureAI* GetAI(Creature* creature) const

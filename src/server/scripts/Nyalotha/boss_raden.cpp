@@ -141,7 +141,7 @@ private:
 
 	void DamageTaken(Unit* attacker, uint32& damage) override
 	{
-		if (this->phase = 1 && me->HealthBelowPct(40))
+		if (this->phase == 1 && me->HealthBelowPct(40))
 		{
 			Talk(SAY_PHASE_2);
 			events.Reset();
@@ -398,7 +398,7 @@ struct npc_essence_raden : public ScriptedAI
 		}
 	}
 
-	void JustDied(Unit* unit) override
+	void JustDied(Unit* /*killer*/) override
 	{
 		switch (me->GetEntry())
 		{
@@ -520,7 +520,7 @@ struct npc_void_hunter_crackling_stalker : public ScriptedAI
 			me->AI()->DoZoneInCombat(nullptr);
 	}
 
-	void EnterCombat(Unit* who) override
+	void EnterCombat(Unit* /*unit*/) override
 	{
 		switch (me->GetEntry())
 		{
@@ -551,7 +551,7 @@ struct npc_void_hunter_crackling_stalker : public ScriptedAI
 		}
 	}
 
-	void JustDied(Unit* unit) override
+	void JustDied(Unit* /*killer*/) override
 	{
 		switch (me->GetEntry())
 		{

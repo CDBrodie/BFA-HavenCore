@@ -59,10 +59,10 @@ class instance_dragon_soul : public InstanceMapScript
             {
                 SetBossNumber(MAX_ENCOUNTER);
 
-                memset(uiLesserCacheofTheAspects, 0, sizeof(uiLesserCacheofTheAspects));
-                memset(uiBackPlates, 0, sizeof(uiBackPlates));
-                memset(uiGreaterCacheofTheAspects, 0, sizeof(uiGreaterCacheofTheAspects));
-                memset(uiElementiumFragment, 0, sizeof(uiElementiumFragment));
+                std::fill(std::begin(uiLesserCacheofTheAspects), std::end(uiLesserCacheofTheAspects), ObjectGuid::Empty);
+                std::fill(std::begin(uiBackPlates), std::end(uiBackPlates), ObjectGuid::Empty);
+                std::fill(std::begin(uiGreaterCacheofTheAspects), std::end(uiGreaterCacheofTheAspects), ObjectGuid::Empty);
+                std::fill(std::begin(uiElementiumFragment), std::end(uiElementiumFragment), ObjectGuid::Empty);
 
                 bHagaraEvent = 0;
                 isHeroicFailed = 0;

@@ -527,8 +527,8 @@ class boss_shekzeer : public CreatureScript
                     {
                         // We cancel the scheduled event as we enter in phase 1 immediately
                         events.CancelEvent(EVENT_CHANGE_PHASE);
-                        /* fallthrough */
                     }
+                    /* fallthrough */
                     // Entering in phase 1
                     case ACTION_COMBAT:
                     case ACTION_SHEKZEER_COMBAT:
@@ -1513,6 +1513,7 @@ class mob_sha_of_fear : public CreatureScript
                         me->RemoveAura(SPELL_SHA_OF_FEAR);
                         events.ScheduleEvent(EVENT_CLOSE_CHAMBER, 2000);
                     }
+                    /* fallthrough */
                     // Entering in phase 3 : cast Ultimate Corruption on Shek'zeer
                     case ACTION_LAST_PHASE:
                     {

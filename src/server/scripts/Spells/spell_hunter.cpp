@@ -3694,7 +3694,9 @@ class spell_hun_aimed_shot : public SpellScript
                                     continue;
 
                                  if (target->HasAura(187131))
+                                 {
                                     canApplyDamage = false;
+                                 }
 
                                     victimList.push_back(target);
                             }
@@ -3778,6 +3780,7 @@ public:
             if (aurTarget)
             {
                 if (aurTarget->GetTypeId() == TYPEID_UNIT)
+                {
                     if (aurTarget->GetEntry() != 70)
                     {
                         if (aurTarget->HasAura(GetId()))
@@ -3785,6 +3788,7 @@ public:
                     }
                     else
                         return;
+                }
             }
 
             if (Unit* caster = GetCaster())

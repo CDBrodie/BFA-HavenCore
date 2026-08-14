@@ -135,14 +135,18 @@ class boss_lord_walden : public CreatureScript
                         break;
                     case EVENT_CONJURE_MYSTERY_TOXIN:
                     if (IsHeroic())
+                    {
                         DoCast(SPELL_CONJURE_MYSTERY_TOXIN);
-                        events.ScheduleEvent(EVENT_CONJURE_MYSTERY_TOXIN, 45000);
-                        events.ScheduleEvent(EVENT_ICE_SHARDS, 10000);
-                        break;
+                    }
+                    events.ScheduleEvent(EVENT_CONJURE_MYSTERY_TOXIN, 45000);
+                    events.ScheduleEvent(EVENT_ICE_SHARDS, 10000);
+                    break;
                     case EVENT_CONJURE_FROST_MIXTURE:
                     if (IsHeroic())
+                    {
                         DoCastRandom(SPELL_CONJURE_FROST_MIXTURE, 50);
-                        events.ScheduleEvent(EVENT_CONJURE_FROST_MIXTURE, urand(10000, 20000));
+                    }
+                    events.ScheduleEvent(EVENT_CONJURE_FROST_MIXTURE, urand(10000, 20000));
                         break;
                     case EVENT_CONJURE_POISONOUS_MIXTURE:
                         DoCastRandom(SPELL_CONJURE_POISONOUS_MIXTURE, 50.0f);

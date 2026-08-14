@@ -1058,6 +1058,8 @@ uint32 GetMobEntryForCrateType(SpoilsOfPandariaCrates crate)
             return massiveMantidMobs[urand(0, MASSIVE_MANTID_MOBS_COUNT - 1)];
         case SpoilsOfPandariaCrates::CRATE_PANDAREN:
             return pandarenMobs[urand(0, PANDAREN_MOBS_COUNT - 1)];
+        default:
+            break;
     }
 
     return 0;
@@ -1173,6 +1175,8 @@ GameObject* GetLeverForRoom(WorldObject* pSearcher, SpoilsOfPandariaRooms room)
                 return pInstance->instance->GetGameObject(pInstance->GetObjectGuid(DATA_SPOILS_OF_PANDARIA_LEVER_SOUTH));
             case SpoilsOfPandariaRooms::ROOM_EAST:
                 return pInstance->instance->GetGameObject(pInstance->GetObjectGuid(DATA_SPOILS_OF_PANDARIA_LEVER_EAST));
+            default:
+                break;
         }
     }
 
@@ -1187,6 +1191,7 @@ SpoilsOfPandariaRooms GetOtherRoom(SpoilsOfPandariaRooms room)
         case SpoilsOfPandariaRooms::ROOM_SOUTH: return SpoilsOfPandariaRooms::ROOM_NORTH;
         case SpoilsOfPandariaRooms::ROOM_WEST: return SpoilsOfPandariaRooms::ROOM_EAST;
         case SpoilsOfPandariaRooms::ROOM_EAST: return SpoilsOfPandariaRooms::ROOM_WEST;
+        default: break;
     }
 
     return SpoilsOfPandariaRooms::ROOM_NONE;
@@ -1358,6 +1363,7 @@ class RoomsController
                     case SpoilsOfPandariaRooms::ROOM_WEST: cratesGUIDs[1].insert(pCrate->GetGUID()); break;
                     case SpoilsOfPandariaRooms::ROOM_SOUTH: cratesGUIDs[2].insert(pCrate->GetGUID()); break;
                     case SpoilsOfPandariaRooms::ROOM_EAST: cratesGUIDs[3].insert(pCrate->GetGUID()); break;
+                    default: break;
                 }
             }
         }
@@ -1465,6 +1471,7 @@ class RoomsController
                 case SpoilsOfPandariaRooms::ROOM_WEST: return &cratesGUIDs[1]; break;
                 case SpoilsOfPandariaRooms::ROOM_SOUTH: return &cratesGUIDs[2]; break;
                 case SpoilsOfPandariaRooms::ROOM_EAST: return &cratesGUIDs[3]; break;
+                default: break;
             }
 
             return nullptr;
@@ -1513,9 +1520,11 @@ class FramesController
 
         void Reset()
         {
-            memset(m_SpoilsFrameGuids, 0, sizeof(m_SpoilsFrameGuids));
+            for (ObjectGuid& guid : m_SpoilsFrameGuids)
+                guid = ObjectGuid::Empty;
             memset(m_SpoilsEnergy, 0, sizeof(m_SpoilsEnergy));
-            memset(m_SpoilsDummyGuids, 0, sizeof(m_SpoilsDummyGuids));
+            for (ObjectGuid& guid : m_SpoilsDummyGuids)
+                guid = ObjectGuid::Empty;
             memset(m_UsedLevers, 0, sizeof(m_UsedLevers));
             m_IsSpoilsSpawned = false;
         }
@@ -1866,7 +1875,7 @@ class PlayerInRoomTargetCheck
     public:
 
         explicit PlayerInRoomTargetCheck(Unit* attacker, float distance, SpoilsOfPandariaRooms room, Unit* p_SkipTarget = nullptr) :
-            m_Attacker(attacker), m_Distance(distance), m_Room(room), m_SkipTarget(p_SkipTarget) { }
+            m_Attacker(attacker), m_Room(room), m_Distance(distance), m_SkipTarget(p_SkipTarget) { }
 
         bool operator()(Unit const* target) const
         {
@@ -2198,6 +2207,8 @@ class npc_secured_stockpile_of_pandaren_spoils : public CreatureScript
                     case DIFFICULTY_25_HC:
                         pInstance->DoRespawnGameObject(pInstance->GetObjectGuid(DATA_UNLOCKED_STOCKPILE_25H), DAY);
                         break;
+                    default:
+                        break;
                 }
 
                 // Bonus loot roll there
@@ -2400,7 +2411,7 @@ class npc_spoils_of_pandaria_unstable_spark : public CreatureScript
                 DoCast(me, SPELL_SUPERNOVA);
             }
 
-            void JustDied(Unit* who) override
+            void JustDied(Unit* /*killer*/) override
             {
                 me->DespawnOrUnsummon(2000);
             }
@@ -2498,7 +2509,7 @@ struct npc_spoils_of_pandaria_mobAI : public ScriptedAI
             return 0;
         }
 
-        void JustDied(Unit* who) override
+        void JustDied(Unit* /*killer*/) override
         {
             events.Reset();
             summons.DespawnAll();
@@ -2592,6 +2603,8 @@ struct npc_spoils_of_pandaria_mobAI : public ScriptedAI
                     case SpoilsOfPandariaCrates::CRATE_MASSIVE_MOGU:
                     case SpoilsOfPandariaCrates::CRATE_MASSIVE_MANTID:
                         pSpoils->AI()->SetData(DATA_MASSIVE_DIED, (int)room);
+                        break;
+                    default:
                         break;
                 }
             }
@@ -2787,7 +2800,7 @@ class npc_spoils_of_pandaria_spark_of_life : public CreatureScript
                 me->AddAura(Spells::SPELL_PULSATION, me);
             }
 
-            void JustDied(Unit* p_Who) override
+            void JustDied(Unit* /*killer*/) override
             {
                 DoCast(me, Spells::SPELL_NOVA, true);
 
@@ -3751,12 +3764,12 @@ class npc_spoils_of_pandaria_stone_statue : public CreatureScript
                 events.Reset();
             }
 
-            void EnterCombat(Unit* p_Attacker) override
+            void EnterCombat(Unit* /*unit*/) override
             {
                 events.ScheduleEvent(eEvents::EVENT_ANIMATED_STRIKE, urand(eTimers::TIMER_ANIMATED_STRIKE_FIRST_MIN, eTimers::TIMER_ANIMATED_STRIKE_FIRST_MAX));
             }
 
-            void JustDied(Unit* p_Killer) override
+            void JustDied(Unit* /*killer*/) override
             {
                 events.Reset();
 
@@ -5199,6 +5212,7 @@ class spell_spoils_of_pandaria_massive_mogu_aoe : public SpellScriptLoader
                     case Difficulty::DIFFICULTY_25_N: l_Damage = 165000; break;
                     case Difficulty::DIFFICULTY_10_HC: l_Damage = 300000; break;
                     case Difficulty::DIFFICULTY_25_HC: l_Damage = 301000; break;
+                    default: break;
                 }
 
                 for (auto l_Player : players)
@@ -5993,7 +6007,7 @@ class spell_spoils_of_pandaria_strength_of_the_stone : public SpellScriptLoader
                     uint32 l_Count = l_Creature->AI()->GetData(Datas::DATA_STONE_STATUE_COUNT);
                     if (l_Count > 0)
                     {
-                        uint32 l_Amount = l_Count * 10;
+                        int32 l_Amount = static_cast<int32>(l_Count * 10);
                         if (AuraEffect* l_AurEff = GetAura()->GetEffect(SpellEffIndex::EFFECT_0))
                         {
                             if (l_AurEff->GetAmount() != l_Amount)

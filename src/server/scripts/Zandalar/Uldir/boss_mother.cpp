@@ -128,7 +128,7 @@ struct boss_mother : public BossAI
         DoCastSelf(SPELL_PERIODIC_ENERGY_GAIN);
     }
 
-    void DamageTaken(Unit* done_by, uint32& /*damage*/) override
+    void DamageTaken(Unit* /*done_by*/, uint32& /*damage*/) override
     {
         if (me->HealthBelowPct(2) && !defeated)
         {
@@ -146,7 +146,7 @@ struct boss_mother : public BossAI
             me->DeleteThreatList();
             me->ClearInCombat();
             instance->SendBossKillCredit(MOTHER_ENCOUNTER);
-            me->GetScheduler().Schedule(4s, [this](TaskContext context)
+            me->GetScheduler().Schedule(4s, [this](TaskContext /*context*/)
             {
                 me->GetMotionMaster()->MovePoint(1, final_pos, true);
             });
@@ -162,7 +162,7 @@ struct boss_mother : public BossAI
         {
             me->SetFacingTo(0.04f, true);
             Talk(21);
-            me->GetScheduler().Schedule(7s, [this] (TaskContext context)
+            me->GetScheduler().Schedule(7s, [this] (TaskContext /*context*/)
             {
                 me->DespawnOrUnsummon();
             });
@@ -309,7 +309,7 @@ struct npc_corners_purifying_flame : public ScriptedAI
     }
 
 
-    void IsSummonedBy(Unit* unit) override
+    void IsSummonedBy(Unit* /*unit*/) override
     {
         me->CastSpell(nullptr, SPELL_PURIFYING_FLAME_DAMAGE);
     }
@@ -322,7 +322,7 @@ struct npc_corners_purifying_flame : public ScriptedAI
         }
     }
 
-    void DoAction(int32 action) override
+    void DoAction(int32 /*action*/) override
     {
 
     }
@@ -519,12 +519,12 @@ struct npc_surgical_grid : public ScriptedAI
         me->SetReactState(REACT_PASSIVE);
     }
 
-    void IsSummonedBy(Unit* unit) override
+    void IsSummonedBy(Unit* /*unit*/) override
     {
         //me->AddUnitFlag(UNIT_FLAG_NOT_SELECTABLE);
         me->SetDisplayId(16925);
         instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);        
-        me->GetScheduler().Schedule(1s, [this] (TaskContext context)
+        me->GetScheduler().Schedule(1s, [this] (TaskContext /*context*/)
         {
             me->CastSpell(me, SPELL_ULDIR_DEFENSE_BEAM_H_AT_M);
             me->SetWalk(true);

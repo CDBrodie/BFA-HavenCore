@@ -261,7 +261,7 @@ private:
     uint64 uiGuid;
 
 public:
-    HeadPair(Position pos, uint64 guid) : uiGuid(guid), position(pos) {}
+    HeadPair(Position pos, uint64 guid) : position(pos), uiGuid(guid) {}
 
     Position GetPosition() const
     {
@@ -462,8 +462,6 @@ public:
             {
                 if (concealing)
                 {
-                    bool use_offset = false;
-
                     std::vector<std::pair<HeadPair*, bool>>::iterator itr = pairv.begin();
                     std::advance(itr, offset);
 
@@ -471,7 +469,6 @@ public:
                     {
                         headPos = itr->first->GetPosition();
                         itr->second = true;
-                        use_offset = true;
                     }
                     else
                     {
@@ -488,7 +485,6 @@ public:
                     }
 
                     pHead->NearTeleportTo(headPos.GetPositionX(), headPos.GetPositionY(), headPos.GetPositionZ(), headPos.GetOrientation());
-                    //pHead->SetFacingTo(use_offset ? concealingOrientations[offset] : headPos.GetOrientation());
                     me->AddAura(SPELL_CONCEALING_FOG, pHead);
                 }
                 else
@@ -780,6 +776,7 @@ public:
             Trinity::Containers::RandomResize(summonsList, (summonsList.size() - num) < 1 ? 1 : (summonsList.size() - num));
             for (std::list<Creature*>::iterator summs = summonsList.begin(); summs != summonsList.end(); summs++)
                 if ((*summs)->IsAlive())
+                {
                     if (randomTarget)
                     {
                         if (Unit* target = (*summs)->AI()->SelectTarget(SELECT_TARGET_RANDOM, 0, 200.0f, true))
@@ -787,6 +784,7 @@ public:
                     }
                     else
                         (*summs)->CastSpell(*summs, spellId, triggered);
+                }
         }
 
         // Used to despawn all summons having a specific entry.
@@ -828,7 +826,7 @@ public:
             RPevents.ScheduleEvent(EVENT_START_HEADS, 10000);
         }
 
-        void EnterCombat(Unit* who)
+        void EnterCombat(Unit* /*unit*/)
         {
             // Just Berserk scheduled here, the other events are handled by the specific heads / through happenings (ex. a head dies -> Rampage, etc).
             events.ScheduleEvent(EVENT_BERSERK, (me->GetMap()->IsHeroic() ? TIMER_BERSERK_H : TIMER_BERSERK));
@@ -998,7 +996,7 @@ public:
 
             // Just a sanity check. If headKills = 6 -> gets increased to 7 -> Megaera dead.
             if (headKills < 6 && (summon->GetEntry() == NPC_FLAMING_HEAD || summon->GetEntry() == NPC_FROZEN_HEAD ||
-                summon->GetEntry() == NPC_VENOMOUS_HEAD || me->GetMap()->IsHeroic() && summon->GetEntry() == NPC_ARCANE_HEAD))
+                summon->GetEntry() == NPC_VENOMOUS_HEAD || (me->GetMap()->IsHeroic() && summon->GetEntry() == NPC_ARCANE_HEAD)))
             {
                 summon->SetWaterWalking(true);
 
@@ -1052,7 +1050,7 @@ public:
             }
         }
 
-        void JustDied(Unit* killer)
+        void JustDied(Unit* /*killer*/)
         {
             if (isDead)
                 return;
@@ -2689,7 +2687,7 @@ public:
 
             /*if (Unit* pCaster = GetCaster())
             {
-                /*uint32 max_targets = pCaster->GetMap()->IsHeroic() ? 3 : 1;
+                uint32 max_targets = pCaster->GetMap()->IsHeroic() ? 3 : 1;
 
                 if (targets.size() > max_targets)
                     Trinity::Containers::RandomResizeList(targets, max_targets);
@@ -2837,6 +2835,8 @@ public:
                     case DIFFICULTY_25_HC:
                         mindmg = 400000;
                         maxdmg = 500000;
+                        break;
+                    default:
                         break;
                     }
 
@@ -3037,6 +3037,8 @@ public:
             case DIFFICULTY_25_HC:
             case DIFFICULTY_25_N:
                 events.ScheduleEvent(EVENT_SUMMON_WRYMS25, 1000, 0, 0);
+                break;
+            default:
                 break;
             }
             me->DespawnOrUnsummon(7000);

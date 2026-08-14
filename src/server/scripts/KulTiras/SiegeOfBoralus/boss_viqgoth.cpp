@@ -68,11 +68,11 @@ struct boss_viqgoth : public BossAI
 
 	void EnterEvadeMode(EvadeReason why) override
 	{
-		if (me->getThreatManager().isThreatListEmpty() && this->encountered == 1 && me->HealthAbovePct(1) && instance->GetBossState(DATA_VIQGOTH == IN_PROGRESS))
+		if (me->getThreatManager().isThreatListEmpty() && this->encountered == 1 && me->HealthAbovePct(1) && instance->GetBossState(DATA_VIQGOTH) == IN_PROGRESS)
 		{
 			if (Creature* viqgoth = me->FindNearestCreature(NPC_VIQGOTH, 100.0f, true))
 			{
-				viqgoth->GetScheduler().Schedule(1s, [viqgoth] (TaskContext context)
+				viqgoth->GetScheduler().Schedule(1s, [viqgoth] (TaskContext /*context*/)
 				{
 					viqgoth->AI()->JustReachedHome();
 					viqgoth->ForcedDespawn(1, 5s);
@@ -94,7 +94,7 @@ struct boss_viqgoth : public BossAI
 		}		
 	}
 
-	void EnterCombat(Unit* u) override
+	void EnterCombat(Unit* /*unit*/) override
 	{
 		_EnterCombat();
 		//events.ScheduleEvent(EVENT_ERADICATION, 3s);
@@ -132,7 +132,7 @@ struct boss_viqgoth : public BossAI
 		}
 	}
 
-	void JustDied(Unit* u) override
+	void JustDied(Unit* /*killer*/) override
 	{	
 		_JustDied();
 	};
@@ -164,7 +164,7 @@ struct npc_demolishing_terror : public ScriptedAI
 		events.ScheduleEvent(EVENT_HULLCRACKER, 1s);
 	}
 
-	void EnterCombat(Unit* u) override
+	void EnterCombat(Unit* /*unit*/) override
 	{
 		instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
 		events.ScheduleEvent(EVENT_SLAM, 1s);
@@ -194,7 +194,7 @@ struct npc_demolishing_terror : public ScriptedAI
 		switch (eventid)
 		{
 		case EVENT_SLAM:
-			if (Unit* tar = SelectTarget(SELECT_TARGET_RANDOM, 0, 35.0f, true))
+			if (SelectTarget(SELECT_TARGET_RANDOM, 0, 35.0f, true))
 			{
 				DoCastAOE(SLAM, false);
 			}
@@ -214,7 +214,7 @@ struct npc_demolishing_terror : public ScriptedAI
 		}
 	}
 
-	void JustDied(Unit* u) override
+	void JustDied(Unit* /*killer*/) override
 	{		
 		instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
 	}
@@ -284,17 +284,17 @@ struct npc_cannon_viq : public ScriptedAI
 							jaina->SetVisible(true);
 							if (jaina->IsAlive())
 							{
-								jaina->GetScheduler().Schedule(3s, [jaina] (TaskContext context)
+								jaina->GetScheduler().Schedule(3s, [jaina] (TaskContext /*context*/)
 								{
 									jaina->AI()->Talk(SAY_OUTRO_1);
 								});
 								
-								jaina->GetScheduler().Schedule(9s, [jaina] (TaskContext context)
+								jaina->GetScheduler().Schedule(9s, [jaina] (TaskContext /*context*/)
 								{
 									jaina->AI()->Talk(SAY_OUTRO_2);
 								});
 
-								jaina->GetScheduler().Schedule(10s, [jaina] (TaskContext context)
+								jaina->GetScheduler().Schedule(10s, [jaina] (TaskContext /*context*/)
 								{								
 									jaina->SummonGameObject(GO_TREASURE_RICH_FLOTSAM, 226.745f, -180.668f, 0.607619f, 0.0166253f, QuaternionData(), false);
 								});

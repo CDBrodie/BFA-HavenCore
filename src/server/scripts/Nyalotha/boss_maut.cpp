@@ -130,7 +130,7 @@ private:
         me->AddAura(AURA_OVERRIDE_POWER_COLOR_ENTROPIC);
 	}
 
-	void EnterCombat(Unit* u) override
+	void EnterCombat(Unit* /*unit*/) override
 	{
         me->RemoveAura(OBSIDIAN_SKIN_VISUAL);
 		_EnterCombat();
@@ -259,7 +259,7 @@ private:
 		}
 	}
 
-    void DamageTaken(Unit* done_by, uint32& damage) override
+    void DamageTaken(Unit* /*done_by*/, uint32& damage) override
     {
         if (me->HasAura(OBSIDIAN_SKIN_LOSE_MANA_INSTEAD_OF_HP))
         {

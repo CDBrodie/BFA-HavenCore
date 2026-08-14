@@ -24,11 +24,11 @@
 
 DoorData const doorData[] =
 {
-    { GO_KRIKTHIR_DOOR,     DATA_KRIKTHIR_THE_GATEWATCHER,  DOOR_TYPE_PASSAGE },
-    { GO_ANUBARAK_DOOR_1,   DATA_ANUBARAK,                  DOOR_TYPE_ROOM },
-    { GO_ANUBARAK_DOOR_2,   DATA_ANUBARAK,                  DOOR_TYPE_ROOM },
-    { GO_ANUBARAK_DOOR_3,   DATA_ANUBARAK,                  DOOR_TYPE_ROOM },
-    { 0,                    0,                              DOOR_TYPE_ROOM } // END
+    { GO_KRIKTHIR_DOOR,     DATA_KRIKTHIR_THE_GATEWATCHER,  DOOR_TYPE_PASSAGE , BOUNDARY_NONE },
+    { GO_ANUBARAK_DOOR_1,   DATA_ANUBARAK,                  DOOR_TYPE_ROOM , BOUNDARY_NONE },
+    { GO_ANUBARAK_DOOR_2,   DATA_ANUBARAK,                  DOOR_TYPE_ROOM , BOUNDARY_NONE },
+    { GO_ANUBARAK_DOOR_3,   DATA_ANUBARAK,                  DOOR_TYPE_ROOM , BOUNDARY_NONE },
+    { 0,                    0,                              DOOR_TYPE_ROOM , BOUNDARY_NONE } // END
 };
 
 ObjectData const creatureData[] =

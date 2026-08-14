@@ -821,11 +821,11 @@ public:
         SPELL_BLOODMYST_WATER_SAMPLE = 31549,
     };
 
-    bool OnUse(Player* plr, Item* /*item*/, SpellCastTargets const& targets, ObjectGuid /*castId*/) override
+    bool OnUse(Player* plr, Item* /*item*/, SpellCastTargets const& /*targets*/, ObjectGuid /*castId*/) override
     {
         if (plr->GetQuestStatus(QUEST_DONT_DRINK_THE_WATER) == QUEST_STATUS_INCOMPLETE && plr->GetAreaId() == 3906)
         {
-            plr->GetScheduler().Schedule(6s, [this, plr] (TaskContext context)
+            plr->GetScheduler().Schedule(6s, [this, plr] (TaskContext /*context*/)
             {
                 plr->ForceCompleteQuest(QUEST_DONT_DRINK_THE_WATER);
             });

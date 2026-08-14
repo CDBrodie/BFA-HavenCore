@@ -100,7 +100,7 @@ struct instance_free_hold : public InstanceScript
         }
     }
 
-    void OnPlayerEnter(Player* player) override
+    void OnPlayerEnter(Player* /*player*/) override
     {
         if (GetData(FreeholdData::DataCounciloCaptains) != DONE)
         {
@@ -213,7 +213,7 @@ public:
             instance = me->GetInstanceScript();
         }
 
-        void UpdateAI(uint32 diff) override
+        void UpdateAI(uint32 /*diff*/) override
         {
             std::list<Player*> targetList;
             GetPlayerListInGrid(targetList, me, 8.0f);

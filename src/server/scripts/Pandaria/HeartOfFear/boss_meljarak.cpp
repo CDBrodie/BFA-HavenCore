@@ -1239,6 +1239,7 @@ public:
                                 me->CastSpell(add, SPELL_MENDING, true);
 
                         events.ScheduleEvent(EVENT_MENDING, urand(30000, 40000));
+                        break;
                     }
                     case EVENT_QUICKENING:
                     {

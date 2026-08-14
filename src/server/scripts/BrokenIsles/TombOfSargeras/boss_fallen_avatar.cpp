@@ -415,7 +415,7 @@ struct boss_fallen_avatar : BossAI
         });
   //  }
 
-   /* void SetGUID(const ObjectGuid& guid, int32 id) override
+    void SetGUID(const ObjectGuid& guid, int32 id) override
     {
         if (Creature* add = instance->instance->GetCreature(guid))
         {
@@ -878,7 +878,7 @@ struct npc_avatara_maiden : public ScriptedAI
         me->SetReactState(REACT_PASSIVE);
     }
 
-   void OnApplyOrRemoveAura(uint32 spellId, AuraRemoveMode //*mode*///, bool apply) override
+   void OnApplyOrRemoveAura(uint32 spellId, AuraRemoveMode // *mode*///, bool apply) override
  /*{
         if (spellId == SPELL_CLEANING_PROTOCOL_ABSORB && !apply)
         {
@@ -1233,7 +1233,7 @@ class spell_tos_avatara_energy : public AuraScript
 
     bool isFirstTick = true;
 
-   // void OnTick(AuraEffect const* /*aurEff*///)
+   // void OnTick(AuraEffect const* / *aurEff*///)
 /*    {
         Unit* target = GetTarget();
         if (!target)
@@ -1255,7 +1255,7 @@ class spell_tos_shadow_blades : public SpellScript
 {
     PrepareSpellScript(spell_tos_shadow_blades);
 
-    //void HandleDummy(SpellEffIndex //*effectIndex*///)
+    //void HandleDummy(SpellEffIndex // *effectIndex*///)
     /*{
         auto* caster = GetCaster();
         auto* target = GetHitUnit();
@@ -1277,7 +1277,7 @@ class spell_tos_shadow_blades : public SpellScript
 {
     PrepareAuraScript(spell_tos_black_winds);
 
-    void OnTick(AuraEffect const* //*aurEff*///)
+    void OnTick(AuraEffect const* // *aurEff*///)
   /*{
         Unit* caster = GetCaster();
         if (!caster)
@@ -1319,7 +1319,7 @@ class spell_tos_shadow_blades : public SpellScript
 {
     PrepareAuraScript(spell_tos_fel_infusion);
 
-    void OnTick(AuraEffect const* //*aurEff*///)
+    void OnTick(AuraEffect const* // *aurEff*///)
   /*{
         Unit* caster = GetCaster();
         if (!caster)
@@ -1340,7 +1340,7 @@ class spell_tos_shadow_blades : public SpellScript
 {
     PrepareAuraScript(spell_tos_black_mark_aura);
 
-    void OnApply(AuraEffect const* aurEff, AuraEffectHandleModes //*mode*///)
+    void OnApply(AuraEffect const* aurEff, AuraEffectHandleModes // *mode*///)
  /* {
         if (!GetCaster() || !GetTarget())
             return;

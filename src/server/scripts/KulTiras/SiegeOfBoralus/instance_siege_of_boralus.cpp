@@ -35,7 +35,7 @@ struct instance_siege_of_boralus : public InstanceScript
         SetBossNumber(EncounterCount);
     }
 
-	void OnPlayerEnter(Player* player)
+	void OnPlayerEnter(Player* /*player*/)
 	{
 	}
 };
@@ -59,7 +59,7 @@ public:
 				player->CastSpell(player, BLOOD_IN_THE_WATER_SCREEN_EFFECT);
 				if (player->HasAura(BLOOD_IN_THE_WATER_SCREEN_EFFECT) && player->IsAlive() && player->IsInWater())
 				{
-					player->GetScheduler().Schedule(2s, [player](TaskContext context)
+					player->GetScheduler().Schedule(2s, [player](TaskContext /*context*/)
 					{
 						player->CastSpell(player, BLOOD_IN_THE_WATER_INSTAKILL);
 					});

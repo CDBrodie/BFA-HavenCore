@@ -44,42 +44,42 @@ Position afterParagonsPos = { 1494.18f, -5744.90f, -306.73f, 3.72f };
 
 DoorData const doorData[] =
 {
-    {GO_IMMERSEUS_DOOR,          DATA_IMMERSEUS,          DOOR_TYPE_PASSAGE},
-    {GO_SHA_ENERGY_WALL,         DATA_FALLEN_PROTECTORS,  DOOR_TYPE_PASSAGE},
-    {GO_NORUSHEN_EXIT,           DATA_NORUSHEN,           DOOR_TYPE_PASSAGE},
-    {GO_PRIDE_ENTRANCE,          DATA_SHA_OF_PRIDE,       DOOR_TYPE_ROOM},
-    {GO_WIND_DOOR,               DATA_IRON_JUGGERNAUT,    DOOR_TYPE_ROOM},
+    {GO_IMMERSEUS_DOOR,          DATA_IMMERSEUS,          DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    {GO_SHA_ENERGY_WALL,         DATA_FALLEN_PROTECTORS,  DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    {GO_NORUSHEN_EXIT,           DATA_NORUSHEN,           DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    {GO_PRIDE_ENTRANCE,          DATA_SHA_OF_PRIDE,       DOOR_TYPE_ROOM, BOUNDARY_NONE },
+    {GO_WIND_DOOR,               DATA_IRON_JUGGERNAUT,    DOOR_TYPE_ROOM, BOUNDARY_NONE },
     // temporary hack untill we scripts the event
-    {GO_ORGRIMMAR_FRONT_GATE,    DATA_IRON_JUGGERNAUT,    DOOR_TYPE_PASSAGE},
-    {GO_GATES_OF_ORGRIMMAR,      DATA_IRON_JUGGERNAUT,    DOOR_TYPE_PASSAGE},
-    {GO_OGRAID_FRONT_GATE_BACK,  DATA_KORKRON_DARK_SHAMANS, DOOR_TYPE_ROOM},
-    {GO_RUSTED_IRON_PORTCULLIS,  DATA_KORKRON_DARK_SHAMANS, DOOR_TYPE_PASSAGE},
-    {GO_NAZGRIM_ENTRY_DOOR,      DATA_GENERAL_NAZGRIM,    DOOR_TYPE_ROOM},
-    {GO_MASSIVE_IRONBOUND_DOOR_1,DATA_GENERAL_NAZGRIM,    DOOR_TYPE_PASSAGE},
-    {GO_MASSIVE_IRONBOUND_DOOR_4,DATA_MALKOROK,           DOOR_TYPE_PASSAGE},
-    {GO_MASSIVE_IRONBOUND_DOOR_5,DATA_MALKOROK,           DOOR_TYPE_PASSAGE},
-    {GO_MASSIVE_IRONBOUND_DOOR_2,DATA_MALKOROK,           DOOR_TYPE_PASSAGE},
-    {GO_MASSIVE_IRONBOUND_DOOR_2,DATA_SPOILS_OF_PANDARIA, DOOR_TYPE_ROOM},
-    {GO_MASSIVE_IRONBOUND_DOOR_6,DATA_MALKOROK,           DOOR_TYPE_PASSAGE},
-    {GO_MASSIVE_IRONBOUND_DOOR_6,DATA_SIEGECRAFTER_BLACKFUSE,DOOR_TYPE_ROOM},
-    {GO_IRON_GATE_OUT_1,         DATA_SPOILS_OF_PANDARIA, DOOR_TYPE_PASSAGE},
-    {GO_IRON_GATE_OUT_2,         DATA_SPOILS_OF_PANDARIA, DOOR_TYPE_PASSAGE},
-    {GO_IRON_GATE_OUT_3,         DATA_SPOILS_OF_PANDARIA, DOOR_TYPE_PASSAGE},
-    {GO_IRON_GATE_OUT_4,         DATA_SPOILS_OF_PANDARIA, DOOR_TYPE_PASSAGE},
-    {GO_MASSIVE_IRONBOUND_DOOR_3,DATA_SPOILS_OF_PANDARIA, DOOR_TYPE_PASSAGE},
-    {GO_OGRAID_LARGE_DOOR,       DATA_THOK_THE_BLOODTHIRSTY,DOOR_TYPE_ROOM},
+    {GO_ORGRIMMAR_FRONT_GATE,    DATA_IRON_JUGGERNAUT,    DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    {GO_GATES_OF_ORGRIMMAR,      DATA_IRON_JUGGERNAUT,    DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    {GO_OGRAID_FRONT_GATE_BACK,  DATA_KORKRON_DARK_SHAMANS, DOOR_TYPE_ROOM, BOUNDARY_NONE },
+    {GO_RUSTED_IRON_PORTCULLIS,  DATA_KORKRON_DARK_SHAMANS, DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    {GO_NAZGRIM_ENTRY_DOOR,      DATA_GENERAL_NAZGRIM,    DOOR_TYPE_ROOM, BOUNDARY_NONE },
+    {GO_MASSIVE_IRONBOUND_DOOR_1,DATA_GENERAL_NAZGRIM,    DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    {GO_MASSIVE_IRONBOUND_DOOR_4,DATA_MALKOROK,           DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    {GO_MASSIVE_IRONBOUND_DOOR_5,DATA_MALKOROK,           DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    {GO_MASSIVE_IRONBOUND_DOOR_2,DATA_MALKOROK,           DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    {GO_MASSIVE_IRONBOUND_DOOR_2,DATA_SPOILS_OF_PANDARIA, DOOR_TYPE_ROOM, BOUNDARY_NONE },
+    {GO_MASSIVE_IRONBOUND_DOOR_6,DATA_MALKOROK,           DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    {GO_MASSIVE_IRONBOUND_DOOR_6,DATA_SIEGECRAFTER_BLACKFUSE,DOOR_TYPE_ROOM, BOUNDARY_NONE },
+    {GO_IRON_GATE_OUT_1,         DATA_SPOILS_OF_PANDARIA, DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    {GO_IRON_GATE_OUT_2,         DATA_SPOILS_OF_PANDARIA, DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    {GO_IRON_GATE_OUT_3,         DATA_SPOILS_OF_PANDARIA, DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    {GO_IRON_GATE_OUT_4,         DATA_SPOILS_OF_PANDARIA, DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    {GO_MASSIVE_IRONBOUND_DOOR_3,DATA_SPOILS_OF_PANDARIA, DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    {GO_OGRAID_LARGE_DOOR,       DATA_THOK_THE_BLOODTHIRSTY,DOOR_TYPE_ROOM, BOUNDARY_NONE },
     ///< To open this door both data required
-    {GO_MASSIVE_IRONBOUND_DOOR_7,DATA_SIEGECRAFTER_BLACKFUSE,DOOR_TYPE_PASSAGE},
-    {GO_MASSIVE_IRONBOUND_DOOR_7,DATA_THOK_THE_BLOODTHIRSTY, DOOR_TYPE_PASSAGE},
-    {GO_MASSIVE_IRONBOUND_DOOR_7,DATA_SPOILS_OF_PANDARIA,    DOOR_TYPE_PASSAGE},
-    {GO_MASSIVE_IRONBOUND_DOOR_7,DATA_PARAGONS_OF_THE_KLAXXI,DOOR_TYPE_ROOM},
-    {GO_MASSIVE_IRONBOUND_DOOR_8,DATA_PARAGONS_OF_THE_KLAXXI,DOOR_TYPE_PASSAGE},
-    {GO_ENTRANCE_1,              DATA_GARROSH_HELLSCREAM, DOOR_TYPE_ROOM},
-    {GO_ENTRANCE_2,              DATA_GARROSH_HELLSCREAM, DOOR_TYPE_ROOM},
-    {GO_SANCTUM_DOOR,            DATA_GARROSH_HELLSCREAM, DOOR_TYPE_ROOM},
-    {GO_SOUTH_EAST_DOOR,         DATA_GARROSH_HELLSCREAM, DOOR_TYPE_SPAWN_HOLE},
-    {GO_SOUTH_WEST_DOOR,         DATA_GARROSH_HELLSCREAM, DOOR_TYPE_SPAWN_HOLE},
-    {0,                                      0,           DOOR_TYPE_ROOM},// END
+    {GO_MASSIVE_IRONBOUND_DOOR_7,DATA_SIEGECRAFTER_BLACKFUSE,DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    {GO_MASSIVE_IRONBOUND_DOOR_7,DATA_THOK_THE_BLOODTHIRSTY, DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    {GO_MASSIVE_IRONBOUND_DOOR_7,DATA_SPOILS_OF_PANDARIA,    DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    {GO_MASSIVE_IRONBOUND_DOOR_7,DATA_PARAGONS_OF_THE_KLAXXI,DOOR_TYPE_ROOM, BOUNDARY_NONE },
+    {GO_MASSIVE_IRONBOUND_DOOR_8,DATA_PARAGONS_OF_THE_KLAXXI,DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    {GO_ENTRANCE_1,              DATA_GARROSH_HELLSCREAM, DOOR_TYPE_ROOM, BOUNDARY_NONE },
+    {GO_ENTRANCE_2,              DATA_GARROSH_HELLSCREAM, DOOR_TYPE_ROOM, BOUNDARY_NONE },
+    {GO_SANCTUM_DOOR,            DATA_GARROSH_HELLSCREAM, DOOR_TYPE_ROOM, BOUNDARY_NONE },
+    {GO_SOUTH_EAST_DOOR,         DATA_GARROSH_HELLSCREAM, DOOR_TYPE_SPAWN_HOLE, BOUNDARY_NONE },
+    {GO_SOUTH_WEST_DOOR,         DATA_GARROSH_HELLSCREAM, DOOR_TYPE_SPAWN_HOLE, BOUNDARY_NONE },
+    {0,                                      0,           DOOR_TYPE_ROOM, BOUNDARY_NONE },// END
 };
 
 void ApplySpellToPlayersInRange(Unit* searcher, uint32 spellId, float range, bool isAura)
@@ -211,14 +211,19 @@ struct instance_siege_of_orgrimmar : public InstanceScript
         zealGUID = ObjectGuid::Empty;
         zealDoorGuid = ObjectGuid::Empty;
 
-        memset(tearsOfTheValeGUIDs, 0, sizeof(tearsOfTheValeGUIDs));
-        memset(shadowPrisonGuids, 0, sizeof(shadowPrisonGuids));
+        for (ObjectGuid& guid : tearsOfTheValeGUIDs)
+            guid = ObjectGuid::Empty;
+        for (ObjectGuid& guid : shadowPrisonGuids)
+            guid = ObjectGuid::Empty;
         for (uint8 i = 0; i < MAX_SHADOW_PRISONS; ++i)
-            memset(shadowPrisonTrapGuids[i], 0, sizeof(shadowPrisonTrapGuids[i]));
+            for (ObjectGuid& guid : shadowPrisonTrapGuids[i])
+                guid = ObjectGuid::Empty;
 
-        memset(lightContainmentGUIDs, 0, sizeof(lightContainmentGUIDs));
+        for (ObjectGuid& guid : lightContainmentGUIDs)
+            guid = ObjectGuid::Empty;
 
-        memset(vaultOfForbiddenTreasuresGUIDs, 0, sizeof(vaultOfForbiddenTreasuresGUIDs));
+        for (ObjectGuid& guid : vaultOfForbiddenTreasuresGUIDs)
+            guid = ObjectGuid::Empty;
 
         jainaProudmooreGalakrasGUID = ObjectGuid::Empty;
         kingVarianWrynnGalakrasGUID = ObjectGuid::Empty;
@@ -232,14 +237,20 @@ struct instance_siege_of_orgrimmar : public InstanceScript
         jiFirepawGUID = ObjectGuid::Empty;
         overseerKomakGUID = ObjectGuid::Empty;
 
-        memset(spoilsOfPandariaGoGUIDs, 0, sizeof(spoilsOfPandariaGoGUIDs));
-        memset(spoilsOfPandariaLevers, 0, sizeof(spoilsOfPandariaLevers));
+        for (ObjectGuid& guid : spoilsOfPandariaGoGUIDs)
+            guid = ObjectGuid::Empty;
+        for (ObjectGuid& guid : spoilsOfPandariaLevers)
+            guid = ObjectGuid::Empty;
 
-        memset(unlockedStockpileGUIDs, 0, sizeof(unlockedStockpileGUIDs));
+        for (ObjectGuid& guid : unlockedStockpileGUIDs)
+            guid = ObjectGuid::Empty;
 
-        memset(saurokPrisonGUIDs, 0, sizeof(saurokPrisonGUIDs));
-        memset(yaungolPrisonGUIDs, 0, sizeof(yaungolPrisonGUIDs));
-        memset(jinyuPrisonGUIDs, 0, sizeof(jinyuPrisonGUIDs));
+        for (ObjectGuid& guid : saurokPrisonGUIDs)
+            guid = ObjectGuid::Empty;
+        for (ObjectGuid& guid : yaungolPrisonGUIDs)
+            guid = ObjectGuid::Empty;
+        for (ObjectGuid& guid : jinyuPrisonGUIDs)
+            guid = ObjectGuid::Empty;
 
         thrallGuid = ObjectGuid::Empty;
 

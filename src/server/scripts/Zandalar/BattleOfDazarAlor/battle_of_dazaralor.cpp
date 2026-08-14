@@ -11,7 +11,7 @@
 //147383, 147367, 147372, 147370
 struct npc_generic_horde_bod_story : public CombatAI
 {
-    npc_generic_horde_bod_story(Creature* creature) : CombatAI(creature) { chargolm, (false); }
+    npc_generic_horde_bod_story(Creature* creature) : CombatAI(creature) { chargolm = false; }
 
     void Reset() override
     {

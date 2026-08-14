@@ -144,7 +144,7 @@ public:
         InstanceScript* instance;
         bool introText;
 
-        void MoveInLineOfSight(Unit* who)
+        void MoveInLineOfSight(Unit* /*who*/)
         {
             if (!introText)
             {

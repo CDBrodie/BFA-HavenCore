@@ -202,7 +202,7 @@ public:
             instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
         }
 
-        void EnterEvadeMode(EvadeReason why)
+        void EnterEvadeMode(EvadeReason /*why*/)
         {
             if (Creature* titan = GetTitan())
                 titan->DespawnOrUnsummon();

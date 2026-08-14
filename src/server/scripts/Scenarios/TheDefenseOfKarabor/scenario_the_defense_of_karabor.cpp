@@ -32,7 +32,7 @@ struct scenario_the_defense_of_karabor : public InstanceScript
 
     }
 
-    void OnPlayerEnter(Player* player) override
+    void OnPlayerEnter(Player* /*player*/) override
     {
 
     }

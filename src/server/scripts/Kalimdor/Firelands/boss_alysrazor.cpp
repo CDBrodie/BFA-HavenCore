@@ -1580,6 +1580,7 @@ class npc_alysrazor_voracious_hatchling : public CreatureScript // 53509
                         case EVENT_GUSHING_WOUND:
                             //DoCast(me->GetVictim(), SPELL_GUSHING_WOUND);
                             events.ScheduleEvent(EVENT_GUSHING_WOUND, 60000);
+                            /* fallthrough */
                         case EVENT_EAT_WORM:
                             if (Creature* pWorm = me->FindNearestCreature(NPC_PLUMP_LAVA_WORM, 5.0f, true))
                             {

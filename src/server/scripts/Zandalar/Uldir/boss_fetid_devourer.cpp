@@ -88,7 +88,7 @@ struct boss_fetid_devourer : public BossAI
         IsLock = true;
     }
 
-    void EnterCombat(Unit* u) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         _EnterCombat();
         DoCastSelf(SPELL_PERIODIC_ENERGY_GAIN);
@@ -111,7 +111,7 @@ struct boss_fetid_devourer : public BossAI
         me->DespawnCreaturesInArea(NPC_CORRUPTION_CORPUSCLE, 125.0f);
     }
 
-    void JustDied(Unit* u) override
+    void JustDied(Unit* /*killer*/) override
     {
         _JustDied();
         me->RemoveAllAreaTriggers();
@@ -132,7 +132,7 @@ struct boss_fetid_devourer : public BossAI
         }
     }
 
-    void DamageTaken(Unit* done_by, uint32& /*damage*/) override
+    void DamageTaken(Unit* /*done_by*/, uint32& /*damage*/) override
     {
         if (me->HealthBelowPct(51) && IsLock)
         {
@@ -194,7 +194,7 @@ struct boss_fetid_devourer : public BossAI
         {
             if (Unit* tank = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
             {
-                if (tank = SelectTarget(SELECT_TARGET_NEAREST, 0, 25.0f, true))
+                if ((tank = SelectTarget(SELECT_TARGET_NEAREST, 0, 25.0f, true)))
                 {
                     me->CastSpell(tank, SPELL_TERRIBLE_THRASH_DAMAGE, false);
                 }
@@ -209,7 +209,7 @@ struct boss_fetid_devourer : public BossAI
             for (Unit* targets : tarlist)
             {
                 me->AddAura(SPELL_MALODOROUS_MIASMA_AURA, targets);
-                targets->GetScheduler().Schedule(19s, [this, targets] (TaskContext context)
+                targets->GetScheduler().Schedule(19s, [this, targets] (TaskContext /*context*/)
                 {
                     me->AddAura(SPELL_PUTRID_PAROXYSM, targets);
                 });

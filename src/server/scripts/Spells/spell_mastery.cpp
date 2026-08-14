@@ -141,8 +141,8 @@ class spell_mastery_icicles_proc : public AuraScript
 
                     icicleFreeSlot = smallestIcicle;
                     // No break because we'll add the icicle in the next case
-                    /* fallthrough */
                 }
+                /* fallthrough */
                 case 0:
                 case 1:
                 case 2:
@@ -209,9 +209,9 @@ class spell_mastery_icicles_proc : public AuraScript
 
                         icicleSecondFreeSlot = smallestIcicle;
                         // No break because we'll add the icicle in the next case
-                        /* fallthrough */
                     }
                 }
+                /* fallthrough */
                 case 0:
                 case 1:
                 case 2:

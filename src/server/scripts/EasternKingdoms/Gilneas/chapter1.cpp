@@ -1781,7 +1781,7 @@ public:
             me->AddNpcFlag(UNIT_NPC_FLAG_SPELLCLICK);
         }
 
-        void OnSpellClick(Unit* clicker, bool& result)
+        void OnSpellClick(Unit* clicker, bool& /*result*/)
         {
             if (Player* player = clicker->ToPlayer())
                 if (player->GetQuestStatus(QUEST_GASPING_FOR_BREATH) == QUEST_STATUS_INCOMPLETE)
@@ -2993,7 +2993,7 @@ public:
             me->AddNpcFlag(UNIT_NPC_FLAG_SPELLCLICK);
         }
 
-        void OnSpellClick(Unit* clicker, bool& result) override
+        void OnSpellClick(Unit* clicker, bool& /*result*/) override
         {
             if (Player* player = clicker->ToPlayer())
                 if (player->GetQuestStatus(QUEST_THE_HUNGRY_ETTIN) == QUEST_STATUS_INCOMPLETE)
@@ -3827,7 +3827,7 @@ struct npc_dark_ranger_thyala_36312 : public ScriptedAI
 {
     npc_dark_ranger_thyala_36312(Creature* c) : ScriptedAI(c) { }
 
-    void JustDied(Unit* target) override
+    void JustDied(Unit* /*killer*/) override
     {
         std::list<Player*> playerList;
         me->GetPlayerListInGrid(playerList, 50.0f);

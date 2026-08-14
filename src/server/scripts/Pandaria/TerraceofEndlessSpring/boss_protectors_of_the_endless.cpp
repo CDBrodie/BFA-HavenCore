@@ -350,7 +350,7 @@ public:
                 Talk(TALK_REGAIL_SLAY);
         }
 
-        void JustDied(Unit* killer)
+        void JustDied(Unit* /*killer*/)
         {
             Talk(TALK_REGAIL_DEATH);
 
@@ -652,7 +652,7 @@ public:
                 Talk(TALK_ASANI_SLAY);
         }
 
-        void JustDied(Unit* killer)
+        void JustDied(Unit* /*killer*/)
         {
             Talk(TALK_ASANI_DEATH);
 
@@ -982,7 +982,7 @@ public:
                 Talk(TALK_KAOLAN_SLAY);
         }
 
-        void JustDied(Unit* killer)
+        void JustDied(Unit* /*killer*/)
         {
             Talk(TALK_KAOLAN_DEATH);
 
@@ -1421,6 +1421,8 @@ public:
                     break;
                 case DIFFICULTY_10_HC:
                     CastCorruptedEssence();
+                    break;
+                default:
                     break;
                 case DIFFICULTY_25_HC:
                     CastCorruptedEssencedoicinci();

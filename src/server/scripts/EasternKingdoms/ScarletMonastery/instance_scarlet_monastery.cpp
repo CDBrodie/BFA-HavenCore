@@ -24,8 +24,8 @@
 
 DoorData const doorData[] =
 {
-    { GO_HIGH_INQUISITORS_DOOR, DATA_MOGRAINE_AND_WHITE_EVENT, DOOR_TYPE_ROOM },
-    { 0,                        0,                             DOOR_TYPE_ROOM } // END
+    { GO_HIGH_INQUISITORS_DOOR, DATA_MOGRAINE_AND_WHITE_EVENT, DOOR_TYPE_ROOM , BOUNDARY_NONE },
+    { 0,                        0,                             DOOR_TYPE_ROOM , BOUNDARY_NONE } // END
 };
 
 class instance_scarlet_monastery : public InstanceMapScript

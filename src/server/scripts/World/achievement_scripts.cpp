@@ -321,7 +321,7 @@ class achievement_kill_antoran_demons : public AchievementCriteriaScript
 public:
     achievement_kill_antoran_demons() : AchievementCriteriaScript("achievement_kill_antoran_demons") { }
 
-    bool OnCheck(Player* source, Unit* target) override
+    bool OnCheck(Player* /*source*/, Unit* target) override
     {
         if (!target)
             return false;

@@ -201,7 +201,7 @@ public:
             me->SetPower(POWER_ENERGY, 0);
         }
 
-        void EnterCombat(Unit* target) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             _EnterCombat();
             Talk(0);            
@@ -209,7 +209,7 @@ public:
             SwitchPhases(1);
         }
 
-        void JustDied(Unit* target) override
+        void JustDied(Unit* /*killer*/) override
         {
             Talk(1);
             _JustDied();
@@ -218,7 +218,7 @@ public:
             SetCustomPhase(me, 1, true);
         }
 
-        void EnterEvadeMode(EvadeReason w) override
+        void EnterEvadeMode(EvadeReason /*w*/) override
         {
             _DespawnAtEvade(15);
         }
@@ -367,7 +367,7 @@ public:
                 events.ScheduleEvent(EVENT_MANIC_DREAD, TIMER_MANIC_DREAD);
                 events.ScheduleEvent(EVENT_DARK_PASSAGE, TIMER_DARK_PASSAGE);
                 Position random = me->GetRandomPoint(centerPos, 30.0f);
-                if (Creature* thalys = me->SummonCreature(NPC_FIRST_ARCANIST_THALYSSRA, random, TEMPSUMMON_MANUAL_DESPAWN))
+                if ([[maybe_unused]] Creature* thalys = me->SummonCreature(NPC_FIRST_ARCANIST_THALYSSRA, random, TEMPSUMMON_MANUAL_DESPAWN))
                 {
                     /*thalys->AI()->Talk(0);*/
                     me->GetScheduler().Schedule(3s, [this](TaskContext /*context*/)
@@ -668,7 +668,7 @@ public:
             if (!target)
                 return;
 
-            if (mode == AURA_REMOVE_BY_DEATH)
+            if (GetTargetApplication()->GetRemoveMode() == AURA_REMOVE_BY_DEATH)
             {
                 if (Unit* zaqul = target->FindNearestCreature(BOSS_ZAQUL, 200.0f, true))
                 {
@@ -965,7 +965,7 @@ public:
             if (!target)
                 return;
 
-            if (mode == AURA_REMOVE_BY_ENEMY_SPELL || mode == AURA_REMOVE_BY_EXPIRE)
+            if (GetTargetApplication()->GetRemoveMode() == AURA_REMOVE_BY_ENEMY_SPELL || GetTargetApplication()->GetRemoveMode() == AURA_REMOVE_BY_EXPIRE)
                 target->CastSpell(target, SPELL_DREAD_DAMAGE, true);
         }
 
@@ -1593,7 +1593,7 @@ public:
             if (!target)
                 return;
 
-            if (mode == AURA_REMOVE_BY_ENEMY_SPELL || mode == AURA_REMOVE_BY_EXPIRE)
+            if (GetTargetApplication()->GetRemoveMode() == AURA_REMOVE_BY_ENEMY_SPELL || GetTargetApplication()->GetRemoveMode() == AURA_REMOVE_BY_EXPIRE)
             {
                 if (Creature* zaqul = target->FindNearestCreature(BOSS_ZAQUL, 200.0f, true))
                     zaqul->CastSpell(target, SPELL_MANIC_DREAD_MISSILE, true);
@@ -1694,7 +1694,7 @@ public:
             if (!caster)
                 return;
 
-            if (mode == AURA_REMOVE_BY_INTERRUPT)
+            if (GetTargetApplication()->GetRemoveMode() == AURA_REMOVE_BY_INTERRUPT)
             {
                 caster->CastSpell(caster, SPELL_MIND_FRACTURE, true);
                 caster->CastStop(SPELL_DARK_PULSE_CAST_DAMAGE);
@@ -1742,7 +1742,7 @@ public:
             me->SetObjectScale(0.1f);
         }
 
-        void EnterCombat(Unit* target) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             events.ScheduleEvent(EVENT_TENTACLE_SLAM, TIMER_TENTACLE_SLAM);
         }
@@ -1808,7 +1808,7 @@ public:
             if (!caster)
                 return;
 
-            if (mode == AURA_REMOVE_BY_INTERRUPT)
+            if (GetTargetApplication()->GetRemoveMode() == AURA_REMOVE_BY_INTERRUPT)
             {
                 caster->CastSpell(caster, SPELL_MIND_FRACTURE, true);
                 caster->CastStop(SPELL_PSYCHOTIC_SPLIT);
@@ -1866,7 +1866,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* target) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
             events.ScheduleEvent(EVENT_DREAD_SCREAM, TIMER_DREAD_SCREAM);
@@ -1939,7 +1939,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* target) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
             events.ScheduleEvent(EVENT_VOID_SLAM, TIMER_VOID_SLAM);
@@ -2007,7 +2007,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* target) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             events.ScheduleEvent(EVENT_FEAR_GATE, TIMER_FEAR_GATE);
         }

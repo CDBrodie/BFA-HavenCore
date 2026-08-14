@@ -54,7 +54,7 @@ struct npc_princess_talanji_146921 : public ScriptedAI
         {
             me->AI()->Talk(0);
             player->KilledMonsterCredit(146921);
-            player->GetScheduler().Schedule(5s, [this, player](TaskContext context)
+            player->GetScheduler().Schedule(5s, [this, player](TaskContext /*context*/)
             {
                 me->SummonCreature(NPC_RIDE_ROBOT_VEHICLE, player->GetPosition(), TEMPSUMMON_TIMED_DESPAWN, 90000);
             });

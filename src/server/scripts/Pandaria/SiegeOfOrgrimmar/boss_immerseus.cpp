@@ -323,7 +323,7 @@ class boss_immerseus : public CreatureScript
                     DoStartNoMovement(who);
             }
 
-            void EnterCombat(Unit* attacker) override
+            void EnterCombat(Unit* /*unit*/) override
             {
                 events.ScheduleEvent(EVENT_SHA_BOLT, urand(6000, 20000));
                 events.ScheduleEvent(EVENT_CORROSIVE_BLAST, 10000);
@@ -362,7 +362,7 @@ class boss_immerseus : public CreatureScript
                 return ObjectGuid::Empty;
             }
 
-            void KilledUnit(Unit* who) override
+            void KilledUnit(Unit* /*who*/) override
             {
             }
 
@@ -530,7 +530,7 @@ class boss_immerseus : public CreatureScript
                 int32 CorruptionLevel = me->GetPower(POWER_MANA);
                 uint8 MaxPuddles = MAX_PUDDLES_IN_PHASE;
                 uint8 BlackPuddles = 0;
-                uint8 BluePuddles = 0;
+                [[maybe_unused]] uint8 BluePuddles = 0;
 
                 // Calculate Amount of Black & Blue Puddles:
                 if (CorruptionLevel >= 80)
@@ -679,6 +679,8 @@ class boss_immerseus : public CreatureScript
                     case DIFFICULTY_25_HC:
                         instance->DoRespawnGameObject(instance->GetObjectGuid(DATA_TEARS_OF_THE_VALE_25H), DAY);
                         break;
+                    default:
+                        break;
                 }
             }
         };
@@ -704,7 +706,7 @@ struct npc_immerseus_puddleAI : public ScriptedAI
         CheckDestination(diff);
     }
 
-    void JustDied(Unit* who) override
+    void JustDied(Unit* /*killer*/) override
     {
         me->DespawnOrUnsummon(1000);
     }

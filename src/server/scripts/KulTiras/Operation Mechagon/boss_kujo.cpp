@@ -71,7 +71,7 @@ struct boss_kujo : public BossAI
             if (Unit* target = SelectTarget(SELECT_TARGET_FARTHEST, 0, 100.0f, true))
             {
                 me->SetFacingToObject(target);
-                me->GetScheduler().Schedule(3s, [this, target](TaskContext context)
+                me->GetScheduler().Schedule(3s, [this, target](TaskContext /*context*/)
                 {
                     me->GetMotionMaster()->MoveCharge(target->GetPositionX(), target->GetPositionY(), target->GetPositionZ(), 80.0f, 1, true);
                 });

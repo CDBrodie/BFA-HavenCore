@@ -97,7 +97,7 @@ private:
         me->AddAura(AURA_OVERRIDE_POWER_COLOR_DEMONIC);
     }
 
-    void EnterCombat(Unit* u) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         _EnterCombat();
         Talk(SAY_AGGRO);
@@ -109,7 +109,7 @@ private:
         events.ScheduleEvent(EVENT_BERSERK, 8min);
     }
 
-    void DamageTaken(Unit* done_by, uint32& /*damage*/) override
+    void DamageTaken(Unit* /*done_by*/, uint32& /*damage*/) override
     {
         if (me->HealthBelowPct(81) && this->phase != 2 )
         {
@@ -168,7 +168,7 @@ private:
         _DespawnAtEvade();
     }
 
-    void JustDied(Unit* u) override
+    void JustDied(Unit* /*killer*/) override
     {
         _JustDied();
         me->RemoveAllAreaTriggers();
@@ -248,6 +248,7 @@ private:
                 auto* projections = DoSummon(NPC_PROPGET_SKITRA_PROJECTION, me->GetRandomPoint(middle_pos, 60.0f), TEMPSUMMON_MANUAL_DESPAWN);               
             }
             me->AddUnitState(UNIT_STATE_CASTING);
+            break;
         }
         case EVENT_BERSERK:
         {
@@ -305,7 +306,7 @@ struct npc_prophet_skitra_projection : public ScriptedAI
         me->AddUnitState(UNIT_STATE_CASTING);
     }
 
-    void JustDied(Unit* u) override
+    void JustDied(Unit* /*killer*/) override
     {
         DoCastAOE(SPELL_MINDQUAKE, false);
     }

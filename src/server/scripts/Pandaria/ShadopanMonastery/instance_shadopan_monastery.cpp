@@ -259,6 +259,7 @@ public:
                             break;
                         case IN_PROGRESS:
                             HandleGameObject(shaEntranceGUID,   false);
+                            /* fallthrough */
                         case DONE:
                             HandleGameObject(shaEntranceGUID,   true);
                             HandleGameObject(shaExitGUID,       true);

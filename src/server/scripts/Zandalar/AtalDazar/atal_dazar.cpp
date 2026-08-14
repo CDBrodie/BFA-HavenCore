@@ -137,7 +137,7 @@ struct npc_mob_echo_of_shadra : public ScriptedAI
         ScriptedAI::InitializeAI();
     }
 
-    void DamageTaken(Unit* /*who*/, uint32& damage) override
+    void DamageTaken(Unit* /*who*/, uint32& /*damage*/) override
     {
     }
 
@@ -199,10 +199,12 @@ public:
     void OnGameObjectStateChanged(GameObject* go, uint32 state) override
     {
         if (state == GO_STATE_ACTIVE)
+        {
             if (GameObject* colision = go->GetInstanceScript()->instance->GetGameObject(go->GetInstanceScript()->GetGuidData(GO_COLLISION_WALL)))
                 colision->Delete();
             if (GameObject* water = go->GetInstanceScript()->instance->GetGameObject(go->GetInstanceScript()->GetGuidData(GO_WATERFALL_STAIRS)))
                 OpenGate(go->GetInstanceScript());
+        }
     }
 };
 

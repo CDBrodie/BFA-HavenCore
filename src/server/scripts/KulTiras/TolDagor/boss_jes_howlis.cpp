@@ -53,7 +53,7 @@ struct boss_jes_howlis : public BossAI
         BossAI::EnterCombat(who);
     }
 
-    void SpellHitTarget(Unit* target, SpellInfo const* spell) override
+    void SpellHitTarget(Unit* /*target*/, SpellInfo const* /*spell*/) override
     {
     }
 

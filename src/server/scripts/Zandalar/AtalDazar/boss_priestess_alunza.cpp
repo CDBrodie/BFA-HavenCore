@@ -174,7 +174,7 @@ struct boss_priestess_alunza : public BossAI
         BossAI::EnterEvadeMode(why);
     }
 
-    void JustDied(Unit* killer) override
+    void JustDied(Unit* /*killer*/) override
     {
         Talk(TALK_DEATH);
         _JustDied();
@@ -387,7 +387,7 @@ struct npc_spirit_of_gold : public ScriptedAI
         ScriptedAI::Reset();
     }
 
-    void JustDied(Unit* killer) override
+    void JustDied(Unit* /*killer*/) override
     {
         if (taintedblood >= 8)
         {
@@ -504,7 +504,7 @@ class spell_priestess_transfusion : public AuraScript
 {
     PrepareAuraScript(spell_priestess_transfusion);
 
-    void OnApply(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+    void OnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
     {
         if (Unit* target = GetTarget())
             target->SetPower(POWER_MANA, 0);

@@ -33,7 +33,7 @@ class npc_expedition_map : public CreatureScript
 public:
     npc_expedition_map() : CreatureScript("npc_expedition_map") { }
 
-    bool OnGossipHello(Player* player, Creature* creature) override
+    bool OnGossipHello(Player* /*player*/, Creature* creature) override
     {
         return false;
     }

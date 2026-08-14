@@ -1144,7 +1144,7 @@ public:
             if (players.empty())
                 return;
 
-            for (auto & it : players)
+            for ([[maybe_unused]] auto & it : players)
             {
                 for (uint8 i = 0; i < 24; ++i)
                 {
@@ -1202,7 +1202,7 @@ public:
             if (targets.empty())
                 return;
 
-            uint32 side = 0;
+            [[maybe_unused]] uint32 side = 0;
 
             targets.remove_if([&](WorldObject*& target)
             {

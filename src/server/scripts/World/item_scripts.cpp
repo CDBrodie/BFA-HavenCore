@@ -456,7 +456,7 @@ class item_titanium_seal_of_dalaran : public ItemScript
 public:
     item_titanium_seal_of_dalaran() : ItemScript("item_titanium_seal_of_dalaran") { }
 
-    bool OnUse(Player* pPlayer, Item* pItem, SpellCastTargets const& /*targets*/, ObjectGuid /*castId*/) override
+    bool OnUse(Player* pPlayer, Item* /*pItem*/, SpellCastTargets const& /*targets*/, ObjectGuid /*castId*/) override
     {
         uint8 luky = urand(0, 1);
 

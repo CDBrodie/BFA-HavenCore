@@ -124,7 +124,7 @@ public:
                 me->CastSpell(fayeBoss, SPELL_REINFORCING_WARD);
         }
 
-        void EnterEvadeMode(EvadeReason why)
+        void EnterEvadeMode(EvadeReason /*why*/)
         {
             _DespawnAtEvade(15);
             Reset();
@@ -400,7 +400,7 @@ public:
             instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
         }
 
-        void EnterEvadeMode(EvadeReason why)
+        void EnterEvadeMode(EvadeReason /*why*/)
         {
             _DespawnAtEvade(15);
             Reset();

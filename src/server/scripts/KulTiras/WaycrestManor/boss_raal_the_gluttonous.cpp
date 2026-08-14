@@ -53,7 +53,7 @@ struct boss_raal_the_gluttonous : public BossAI
 		SetCombatMovement(false);
 	}
 
-	void EnterCombat(Unit* target) override
+	void EnterCombat(Unit* /*unit*/) override
 	{
 		Talk(SAY_AGGRO);
 		_EnterCombat();
@@ -159,7 +159,7 @@ struct boss_raal_the_gluttonous : public BossAI
 		me->SummonCreature(NPC_BILE_OOZELING, bile_oozeling_pos, TEMPSUMMON_MANUAL_DESPAWN);
 	}
 
-	void JustDied(Unit* u) override
+	void JustDied(Unit* /*killer*/) override
 	{
 		Talk(SAY_DEATH);
 		_JustDied();
@@ -179,11 +179,11 @@ struct npc_wasting_servant : public ScriptedAI
 		ScriptedAI::Reset();
 	}
 
-	void IsSummonedBy(Unit* u)
+	void IsSummonedBy(Unit* /*u*/)
 	{		
 		me->SetReactState(REACT_PASSIVE);
 		me->SetWalk(true);
-		if (Creature* raal = me->FindNearestCreature(NPC_RAAL_THE_GLUTTONOUS, 100.0f, true))
+		if (me->FindNearestCreature(NPC_RAAL_THE_GLUTTONOUS, 100.0f, true))
 			me->GetMotionMaster()->MovePoint(1, -494.0f, -345.0f, 237.0f);
 	}
 };

@@ -104,7 +104,7 @@ private:
 		me->SetReactState(REACT_AGGRESSIVE);
 	}
 
-	void EnterCombat(Unit* u) override
+	void EnterCombat(Unit* /*unit*/) override
 	{
 		_EnterCombat();
 		this->phase = 1;
@@ -146,7 +146,7 @@ private:
 		CleanEncounter(instance, me);
 	}
 
-	void CleanEncounter(InstanceScript* instance, Creature* me)
+	void CleanEncounter(InstanceScript* /*instance*/, Creature* me)
 	{
 		me->DespawnCreaturesInArea(NPC_LIVING_MIASMA, 125.0f);
 		me->DespawnCreaturesInArea(NPC_ENTROPIC_BUILDUP, 125.0f);

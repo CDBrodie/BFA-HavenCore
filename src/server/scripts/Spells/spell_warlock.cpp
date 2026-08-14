@@ -2928,6 +2928,8 @@ public:
             case TALENT_SPEC_WARLOCK_DESTRUCTION:
                 spellId = SPELL_WARLOCK_IMMOLATE_DOT;
                 break;
+            default:
+                break;
             }
             enemies.remove_if(Trinity::UnitAuraCheck(false, spellId, caster->GetGUID()));
             int32 mod = std::min((int)enemies.size(), 15);

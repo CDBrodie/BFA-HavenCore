@@ -521,7 +521,7 @@ struct npc_oliver_harris : public ScriptedAI
 {
     npc_oliver_harris(Creature* c) : ScriptedAI(c) { }
 
-    void sQuestAccept(Player* player, Quest const* quest) override
+    void sQuestAccept(Player* /*player*/, Quest const* quest) override
     {
         if (quest->GetQuestId() == QUEST_CRY_FOR_THE_MOON)
             me->SummonCreature(me->GetEntry(), TEMPSUMMON_MANUAL_DESPAWN);
@@ -532,7 +532,6 @@ struct npc_oliver_harris : public ScriptedAI
         if (!summoner->IsCreature())
             return;
         
-        ObjectGuid ownerGuid = summoner->GetGUID();
         me->GetOwnerGUID();
         me->SetWalk(true);
         me->GetMotionMaster()->MovePoint(1, -10745.0f, 330.0f, 37.87f, true);

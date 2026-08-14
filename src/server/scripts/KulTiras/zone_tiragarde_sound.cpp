@@ -672,7 +672,7 @@ public:
             plr->ForceCompleteQuest(56043);
             Talk(0);
 
-            plr->GetScheduler().Schedule(Seconds(3), [plr](TaskContext context)
+            plr->GetScheduler().Schedule(Seconds(3), [plr](TaskContext /*context*/)
             {
                 // tele to nazjatar
                 WorldLocation location(1718, 166.361f, -476.148f, -29.146f, 6.267f);
@@ -1195,7 +1195,7 @@ public:
 
     void OnUpdate(Player* plr, uint32 diff) override
     {
-        if (timer <= diff && plr->GetZoneId() == 8717 || plr->GetZoneId() == 8567 && plr->GetPhaseShift().HasPhase(180))
+        if ((timer <= diff && plr->GetZoneId() == 8717) || (plr->GetZoneId() == 8567 && plr->GetPhaseShift().HasPhase(180)))
         {            
             PhasingHandler::RemovePhase(plr, 180, true);
             if (plr->HasAura(78517))
@@ -1213,7 +1213,7 @@ public:
 
     void OnLogin(Player* plr, bool /*firstLogin*/)
     {        
-        if (plr->GetZoneId() == 8717 || plr->GetZoneId() == 8567 && plr->GetQuestStatus(QUEST_THE_OLD_KNIGHT) != QUEST_STATUS_REWARDED && plr->getLevel() >= 110 && plr->GetTeam() == ALLIANCE && plr->GetQuestStatus(QUEST_GET_YOUR_BEARINGS) == QUEST_STATUS_REWARDED)
+        if (plr->GetZoneId() == 8717 || (plr->GetZoneId() == 8567 && plr->GetQuestStatus(QUEST_THE_OLD_KNIGHT) != QUEST_STATUS_REWARDED && plr->getLevel() >= 110 && plr->GetTeam() == ALLIANCE && plr->GetQuestStatus(QUEST_GET_YOUR_BEARINGS) == QUEST_STATUS_REWARDED))
         {
             if (const Quest* qu = sObjectMgr->GetQuestTemplate(QUEST_THE_OLD_KNIGHT))
                 plr->AddQuest(qu, nullptr);

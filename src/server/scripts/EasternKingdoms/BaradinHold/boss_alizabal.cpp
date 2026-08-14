@@ -309,8 +309,6 @@ public:
 
             PreventHitDamage();
             uint32 ticks = 1;
-            if (AuraEffect const* aurEff = GetCaster()->GetAuraEffect(SPELL_BLADE_DANCE_AURA_2, EFFECT_0))         
-
             SetHitDamage(urand(11875, 13125) * ticks);
         }
 

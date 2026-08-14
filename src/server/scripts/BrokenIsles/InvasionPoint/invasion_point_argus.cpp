@@ -3276,7 +3276,7 @@ class spell_creeping_doom_argus : public AuraScript
 {
     PrepareAuraScript(spell_creeping_doom_argus);
 
-    void OnPeriodic(AuraEffect const*aurEff)
+    void OnPeriodic(AuraEffect const* /*aurEff*/)
     {
         Unit* target = GetTarget();
         if (!target)
@@ -3284,7 +3284,7 @@ class spell_creeping_doom_argus : public AuraScript
 
         if (target->IsPlayer())
         {
-            if (Aura * aur = target->GetAura(248507))
+            if ([[maybe_unused]] Aura * aur = target->GetAura(248507))
             {
                 if (target->isMoving())
                     target->RemoveAuraFromStack(248507);
@@ -3303,7 +3303,7 @@ class spell_narcolepsy : public AuraScript
 {
     PrepareAuraScript(spell_narcolepsy);
 
-    void OnPeriodic(AuraEffect const*aurEff)
+    void OnPeriodic(AuraEffect const* /*aurEff*/)
     {
         Unit* target = GetTarget();
         if (!target)

@@ -256,7 +256,7 @@ public:
                 Talk(TALK_SLAY);
         }
 
-        void DamageTaken(Unit* attacker, uint32& damage)
+        void DamageTaken(Unit* /*attacker*/, uint32& damage)
         {
             if (!pInstance)
                 return;
@@ -385,7 +385,7 @@ public:
                 shielded = false;
                 protectScheduled = false;
 
-                Creature* protector = NULL;
+                [[maybe_unused]] Creature* protector = NULL;
 
                 for (auto itr : animatedProtectors)
                 {
@@ -774,10 +774,6 @@ public:
                     events.ScheduleEvent(EVENT_HIDDEN_SPRAY, 0);
                     break;
                 }
-
-                uint64 leiShiGuid = 0;
-                if (pInstance)
-                    leiShiGuid = pInstance->GetData64(NPC_LEI_SHI);
 
                 if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f))
                     me->CastSpell(target, SPELL_SPRAY, false);

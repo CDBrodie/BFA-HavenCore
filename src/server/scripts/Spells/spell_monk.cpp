@@ -1117,7 +1117,7 @@ public:
                         statueList.remove((*i));
                     }
 
-                    for (auto itr : playerList)
+                    for ([[maybe_unused]] auto itr : playerList)
                     {
                         if (statueList.size() == 1)
                         {
@@ -2852,7 +2852,13 @@ class spell_monk_rising_sun_kick : public SpellScript
         caster->GetFriendlyUnitListInRange(u_li, 100.0f);
         for (auto& targets : u_li)
         {
-            if (Aura* relatedAuras = targets->GetAura(SPELL_MONK_RENEWING_MIST_HOT || targets->GetAura(SPELL_MONK_ENVELOPING_MIST || targets->GetAura(SPELL_MONK_ESSENCE_FONT_PERIODIC_HEAL))))
+            Aura* relatedAuras = targets->GetAura(SPELL_MONK_RENEWING_MIST_HOT);
+            if (!relatedAuras)
+                relatedAuras = targets->GetAura(SPELL_MONK_ENVELOPING_MIST);
+            if (!relatedAuras)
+                relatedAuras = targets->GetAura(SPELL_MONK_ESSENCE_FONT_PERIODIC_HEAL);
+
+            if (relatedAuras)
                 relatedAuras->RefreshDuration(true);
         }
     }

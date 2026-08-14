@@ -2252,7 +2252,7 @@ public:
                     uint32 spawntm = 180;
                     // 167145 = https://fr.wowhead.com/spell=167145/invocation-dune-table-de-rafra%C3%AEchissements
                     uint32 objectId = atoul("167145");
-                    GameObject* tempGob = gamer->SummonGameObject(objectId, *gamer, QuaternionData::fromEulerAnglesZYX(gamer->GetOrientation(), 0.0f, 0.0f), spawntm);
+                    gamer->SummonGameObject(objectId, *gamer, QuaternionData::fromEulerAnglesZYX(gamer->GetOrientation(), 0.0f, 0.0f), spawntm);
                 }
                 else
                     player->CastSpell(player, SPELL_MAGE_CONJURE_REFRESHMENT_SOLO, true);

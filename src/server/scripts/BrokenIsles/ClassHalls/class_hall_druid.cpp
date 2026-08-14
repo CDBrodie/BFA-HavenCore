@@ -2652,11 +2652,11 @@ struct npc_revil_kost_100578 : public ScriptedAI
 
     void DoAction(int32 param)
     {
+        //_sceneHelper.Clear();
+        //_sceneHelper.SetDefaultActorGuid(me->GetGUID());
 
-      //  _sceneHelper.Clear();
-     //   _sceneHelper.SetDefaultActorGuid(me->GetGUID());
-        if (Player* player = me->GetCharmerOrOwnerPlayerOrPlayerItself())
-         //   _sceneHelper.SetDefaultPlayerGuid(player->GetGUID());
+        //if (Player* player = me->GetCharmerOrOwnerPlayerOrPlayerItself())
+            //_sceneHelper.SetDefaultPlayerGuid(player->GetGUID());
         printf("111\n");
 
      //   _sceneHelper.AddSceneActionMovePos(me->GetPositionWithDistInFront(25.0f), 5000);
@@ -2875,7 +2875,7 @@ public:
     {
         if (Garrison* garrison = player->GetGarrison(GARRISON_TYPE_CLASS_HALL))
         {
-            switch (go->GetEntry())
+            /*switch (go->GetEntry())
             {
             case 250886:
              //   garrison->RewardWorkOrder(141);
@@ -2885,7 +2885,7 @@ public:
                 break;
             default:
                 break;
-            }
+            }*/
             std::list<GameObject*> golist = player->FindNearestGameObjects(go->GetEntry(), 15.f);
             for (auto gos : golist)
             {

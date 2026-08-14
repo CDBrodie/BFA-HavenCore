@@ -1637,7 +1637,7 @@ public:
 
             point += direction;
             // Turning back
-            if (point < 0 || point > 8)
+            if (point > 8)
             {
                 direction *= -1;
                 point += 2 * direction;

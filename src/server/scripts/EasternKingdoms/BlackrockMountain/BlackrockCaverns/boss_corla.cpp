@@ -164,7 +164,7 @@ public:
             me->SetReactState(REACT_PASSIVE);
         }
 
-        void UpdateAI(uint32 Diff) override
+        void UpdateAI(uint32 /*Diff*/) override
         {
             if (!Intialized && !me->HasAura(SPELL_KNEELING_IN_SUPPLICATION))
             {

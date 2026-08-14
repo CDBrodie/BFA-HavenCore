@@ -154,7 +154,7 @@ public:
             }
         }
 
-        void RewardCurrencyForPlayers(Creature* creature)
+        void RewardCurrencyForPlayers(Creature* /*creature*/)
         {
             Map::PlayerList const& lPlayers = instance->GetPlayers();
             for (Map::PlayerList::const_iterator itr = lPlayers.begin(); itr != lPlayers.end(); ++itr)

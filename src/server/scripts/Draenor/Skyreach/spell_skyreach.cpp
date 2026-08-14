@@ -154,7 +154,7 @@ public:
             }
         }
 
-        void OnUpdate(uint32 diff) override
+        void OnUpdate(uint32 /*diff*/) override
         {
             std::list<Creature*> l_TargetList;
             float l_Radius = 3.5f;
@@ -238,7 +238,7 @@ public:
             }
         }
 
-        void OnUpdate(uint32 diff) override
+        void OnUpdate(uint32 /*diff*/) override
         {
             std::list<Unit*> l_TargetList;
             float l_Radius = 30.0f;
@@ -302,11 +302,10 @@ public:
     {
         explicit at_smash_AI(AreaTrigger* at) : AreaTriggerAI(at) { }
 
-        void OnUpdate(uint32 diff) override
+        void OnUpdate(uint32 /*diff*/) override
         {
             std::list<Creature*> l_TargetList;
             static const float k_Radius = 10.0f;
-            static const float k_RadiusFromLine = 3.0f;
 
             l_TargetList = at->FindAllUnfriendlyCreaturesInRange(k_Radius);
 
@@ -573,7 +572,7 @@ public:
             }
         }
 
-        void OnUpdate(uint32 diff) override
+        void OnUpdate(uint32 /*diff*/) override
         {
             std::list<Creature*> l_TargetList;
             float l_Radius = 4.0f;
@@ -730,7 +729,7 @@ public:
             m_angle = (m_IsSpellAt2 ? M_PI / +72 : M_PI / 7) + (m_IsSpellAt2 ? M_PI / 36 : -M_PI / 72); // Magic values ! Taken from tests IG.}
         }
 
-        void OnUpdate(uint32 diff) override
+        void OnUpdate(uint32 /*diff*/) override
         {
             static const float k_RotSpeed[2] =
             {
@@ -928,7 +927,7 @@ public:
             }
         }
 
-        void OnUpdate(uint32 diff) override
+        void OnUpdate(uint32 /*diff*/) override
         {
             static const float k_RotSpeed[2] =
             {
@@ -1093,7 +1092,7 @@ public:
             }
         }
 
-        void OnUpdate(uint32 diff) override
+        void OnUpdate(uint32 /*diff*/) override
         {
             std::list<Creature*> l_TargetList;
             float l_Radius = 4.0f;
@@ -1179,7 +1178,7 @@ public:
             }
         }
 
-        void OnUpdate(uint32 diff) override
+        void OnUpdate(uint32 /*diff*/) override
         {
             std::list<Creature*> l_TargetList;
             float l_Radius = 6.0f;
@@ -1269,11 +1268,10 @@ public:
             }
         }
 
-        void OnUpdate(uint32 diff) override
+        void OnUpdate(uint32 /*diff*/) override
         {
             std::list<Creature*> l_TargetList;
             float l_Radius = 4.0f;
-            Unit* l_Caster = at->GetCaster();
 
             l_TargetList = at->FindAllUnfriendlyCreaturesInRange(l_Radius);
 
@@ -1348,11 +1346,10 @@ public:
             }
         }
 
-        void OnUpdate(uint32 diff) override
+        void OnUpdate(uint32 /*diff*/) override
         {
             std::list<Creature*> l_TargetList;
             float l_Radius = 4.0f;
-            Unit* l_Caster = at->GetCaster();
 
             l_TargetList = at->FindAllUnfriendlyCreaturesInRange(l_Radius);
 

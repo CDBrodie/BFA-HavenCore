@@ -635,8 +635,6 @@ class boss_tayak : public CreatureScript
                             std::list<Player*> playerList;
                             GetPlayerListInGrid(playerList, me, 200.0f);
 
-                            Position pos = { me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(), 0.0f };
-
                             for (Player* player : playerList)
                             {
                                 std::list<Creature*> GWStalkersList;
@@ -1003,8 +1001,6 @@ class mob_gale_winds_stalker : public CreatureScript
                         {
                             if (Creature* tayak = pInstance->GetCreature(NPC_TAYAK))
                             {
-                                Position pos = {tayak->GetPositionX(), tayak->GetPositionY(), tayak->GetPositionZ(), 0.0f};
-
                                 std::list<Player*> playerList;
                                 GetPlayerListInGrid(playerList, me, 200.0f);
 

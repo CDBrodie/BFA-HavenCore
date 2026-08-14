@@ -41,7 +41,7 @@ class boss_slagmaw : public CreatureScript
             void Reset() override
             {
                 events.Reset();
-                me->AddUnitFlag(UnitFlags(UNIT_FLAG_NOT_SELECTABLE && UNIT_FLAG_NON_ATTACKABLE));
+                me->AddUnitFlag(UnitFlags(UNIT_FLAG_NOT_SELECTABLE | UNIT_FLAG_NON_ATTACKABLE));
             }
 
             void AttackStart(Unit* target) override

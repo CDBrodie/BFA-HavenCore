@@ -432,7 +432,7 @@ public:
     }
 
     // Override EnterCombat to send the DoAction to the helper
-    void EnterCombat(Unit* pAttacker)
+    void EnterCombat(Unit* /*unit*/)
     {
         pInstance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
 
@@ -512,7 +512,7 @@ public:
     {
     }
 
-    void JustDied(Unit* pKiller)
+    void JustDied(Unit* /*killer*/)
     {
         pInstance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
 
@@ -911,7 +911,7 @@ public:
                     break;
                 case EVENT_RECKLESS_CAHRGE_INITIALIZE:
                 {
-                    if (me->HasAura(SPELL_DISCHARGE || me->HasAura(SPELL_OVERLOAD)))
+                    if (me->HasAura(SPELL_DISCHARGE) || me->HasAura(SPELL_OVERLOAD))
                     {
                         events.CancelEvent(EVENT_RECKLESS_CAHRGE_INITIALIZE);
                         events.ScheduleEvent(EVENT_RECKLESS_CAHRGE_INITIALIZE, 10 * IN_MILLISECONDS);
@@ -1713,7 +1713,7 @@ public:
     {
     public:
         mob_garajals_soul_AI(Creature* pCreature) :
-            ScriptedAI(pCreature), pInstance(pCreature->GetInstanceScript()), uiCouncillorEntry(0)
+            ScriptedAI(pCreature), uiCouncillorEntry(0), pInstance(pCreature->GetInstanceScript())
         {
             InitList(m_lBossGuids);
             timersStarted = false;
@@ -2331,6 +2331,7 @@ public:
                         break;
                     }
                 }
+                /* fallthrough */
                 case EVENT_MOVE_TO_PLAYER:
                 {
                     if (Unit* target = me->GetVictim())
@@ -2407,7 +2408,7 @@ public:
 
         }
 
-        void JustDied(Unit* pKiller) override
+        void JustDied(Unit* /*killer*/) override
         {
             if (Player* player = ObjectAccessor::FindPlayer(playerGuid))
             {
@@ -2613,7 +2614,7 @@ public:
                 uiOtherTwistedFateGuid = uiGuid;
         }
 
-        void JustDied(Unit* pKiller) override
+        void JustDied(Unit* /*killer*/) override
         {
             // Do not do something wierd when the other is dead => free memory
             // of the helper.
@@ -3185,7 +3186,7 @@ public:
                         {
                             float x, y;
                             GetPositionWithDistInOrientation(pKazrajin, fDist - (i * 3), fAngle, x, y);
-                            pKazrajin->CastSpell(x, y, pKazrajin->GetPositionZ() + 0.8f, NULL, true);
+                            pKazrajin->CastSpell(x, y, pKazrajin->GetPositionZ() + 0.8f, SPELL_RECKLESS_CHARGE_GROUND_AT, true);
                         }
 
                         if (pKazrajin->HasUnitState(UNIT_STATE_ROOT))
@@ -3851,6 +3852,8 @@ public:
                         mindmg = 50000;
                         maxdmg = 100000;
                         break;
+                    default:
+                        break;
                     }
 
                     if (distance > MAX_DIST)
@@ -4259,6 +4262,7 @@ public:
                         events.ScheduleEvent(EVENT_CAST_DAMAGE_BOTH, 500, 0, 0);
                         break;
                     }
+                    [[fallthrough]];
                 }
                 case EVENT_CAST_DAMAGE_BOTH:
                 {
@@ -4354,6 +4358,7 @@ public:
                         events.ScheduleEvent(EVENT_CAST_DAMAGE_BOTH, 500, 0, 0);
                         break;
                     }
+                    [[fallthrough]];
                 }
                 case EVENT_CAST_DAMAGE_BOTH:
                 {

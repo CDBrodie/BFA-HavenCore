@@ -102,7 +102,7 @@ struct npc_talanji_arrival_escort : public npc_escortAI
                 Start(false, true, summoner->GetGUID());
                 SetDespawnAtEnd(false);
                 summoner->CastSpell(summoner, SPELL_TALANJI_EXPOSITION_CONVERSATION_1, true);
-                summoner->GetScheduler().Schedule(50s, [this, summoner] (TaskContext context)
+                summoner->GetScheduler().Schedule(50s, [this, summoner] (TaskContext /*context*/)
                 {
                     if (Player* player = summoner->ToPlayer())
                     {

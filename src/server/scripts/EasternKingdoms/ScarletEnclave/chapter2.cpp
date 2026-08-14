@@ -701,9 +701,11 @@ public:
                 case 29070:                                     // Valok the Righteous
                     if (player->GetQuestStatus(12746) == QUEST_STATUS_INCOMPLETE)
                         return true;
+                    /* fallthrough */
                 case 49355:                                     // Lord Harford
                     if (player->GetQuestStatus(28649) == QUEST_STATUS_INCOMPLETE)
                         return true;
+                    /* fallthrough */
                 case 49356:                                     // Gally Lumpstain
                     if (player->GetQuestStatus(28650) == QUEST_STATUS_INCOMPLETE)
                         return true;

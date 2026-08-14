@@ -107,6 +107,7 @@ public:
                         SummonTimer = 2500;
                         Phase++;
                     }
+                    /* fallthrough */
                     case 2:
                     {
                         Talk(TALK_1);
@@ -122,6 +123,7 @@ public:
                         SummonTimer = 4500;
                         Phase++;
                     }
+                    /* fallthrough */
                     case 4:
                     {
                         Talk(TALK_2);
@@ -137,6 +139,7 @@ public:
                         SummonTimer = 6500;
                         Phase++;
                     }
+                    /* fallthrough */
                     case 6:
                     {
                         Talk(TALK_3);
@@ -152,6 +155,7 @@ public:
                         SummonTimer = 8500;
                         Phase++;
                     }
+                    /* fallthrough */
                     case 8:
                     {
                         Talk(TALK_4);
@@ -181,8 +185,10 @@ public:
     bool OnGossipHello(Player* player, Creature* creature)
     {
         if (player->GetQuestStatus(313) == QUEST_STATUS_INCOMPLETE)
+        {
             AddGossipItemFor(player, GOSSIP_ICON_CHAT, "Captain Tharran wants you to deploy your remote observation bots and withdraw to Kharanos.", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 1);
-            SendGossipMenuFor(player, creature->GetEntry(), creature->GetGUID());
+        }
+        SendGossipMenuFor(player, creature->GetEntry(), creature->GetGUID());
         return true;
     }
 

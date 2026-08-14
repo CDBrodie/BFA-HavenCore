@@ -1177,7 +1177,7 @@ class npc_warmaster_blackhorn_skyfire_harpoon_gun: public CreatureScript
             {
                 events.Update(diff);
 
-                switch (uint32 eventId = events.ExecuteEvent())
+                switch (events.ExecuteEvent())
                 {
                     case EVENT_HARPOON_END:
                     {

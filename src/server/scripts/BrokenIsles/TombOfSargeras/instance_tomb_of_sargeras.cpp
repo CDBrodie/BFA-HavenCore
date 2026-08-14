@@ -351,10 +351,10 @@ public:
                         if (auto golganeth = instance->GetCreature(GetGuidData(id)))
                             golganeth->SetVisible(true);
                     break;
-                case DATA_MAIDEN_OF_VIGILANCE:
+                /*case DATA_MAIDEN_OF_VIGILANCE:
                     if (auto go = instance->GetGameObject(GetGuidData(GO_ELEVATOR)))
-                      //  go->SetPhaseMask(1, true);  // invis
-                    break;
+                        go->SetPhaseMask(1, true);  // invis
+                    break;*/
                 default:
                     break;
                 }

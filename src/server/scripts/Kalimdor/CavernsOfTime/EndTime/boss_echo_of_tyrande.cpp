@@ -216,6 +216,7 @@ class boss_echo_of_tyrande : public CreatureScript
                         if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true))
                             DoCast(target, SPELL_TEARS_OF_ELUNE_AOE, true);
                         events.ScheduleEvent(EVENT_TEARS_OF_ELUNE_AOE, 500);
+                        /* fallthrough */
                     case EVENT_EYES_OF_THE_GODDESS:
                         if (PhaseCount > 2)
                             return;

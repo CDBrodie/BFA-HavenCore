@@ -594,7 +594,7 @@ class iron_docks_nokgar_mob_dreadfang : public CreatureScript
 
                 if (m_BloodlettingHowlDiff <= p_Diff)
                 {
-                    if (Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO, 0, 50.0f, true))
+                    if ([[maybe_unused]] Unit* l_Target = SelectTarget(SelectAggroTarget::SELECT_TARGET_TOPAGGRO, 0, 50.0f, true))
                         me->CastSpell(me, eDreadfangSpells::SpellBloodlettingHowl);
 
                     m_BloodlettingHowlDiff = 25 * TimeConstants::IN_MILLISECONDS;

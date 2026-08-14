@@ -736,16 +736,16 @@ uint32 getNextOrPrevSpeedSpell(bool next, uint32 currentId)
     switch (currentId)
     {
         case SPELL_NONE:
-            returnSpell = !next ? currentId:            SPELL_TROT;
+            returnSpell = !next ? currentId : uint32(SPELL_TROT);
             break;
         case SPELL_TROT:
-            returnSpell = !next ? SPELL_NONE:           SPELL_PETIT_GALOP;
+            returnSpell = !next ? uint32(SPELL_NONE) : uint32(SPELL_PETIT_GALOP);
             break;
         case SPELL_PETIT_GALOP:
-            returnSpell = !next ? SPELL_TROT:           SPELL_GRAND_GALOP;
+            returnSpell = !next ? uint32(SPELL_TROT) : uint32(SPELL_GRAND_GALOP);
             break;
         case SPELL_GRAND_GALOP:
-            returnSpell = !next ? SPELL_PETIT_GALOP:    currentId;
+            returnSpell = !next ? uint32(SPELL_PETIT_GALOP) : currentId;
             break;
     }
 

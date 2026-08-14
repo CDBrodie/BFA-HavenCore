@@ -164,7 +164,7 @@ private:
         SetCombatMovement(false);
     }
 
-    void DamageTaken(Unit* done_by, uint32& damage) override
+    void DamageTaken(Unit* /*done_by*/, uint32& damage) override
     {
         damage = 0;
     }
@@ -201,7 +201,7 @@ private:
         me->SetInCombatWithZone();
     }
 
-    void CleanEncounter(InstanceScript* instance, Creature* ghuun)
+    void CleanEncounter(InstanceScript* instance, Creature* /*ghuun*/)
     {
         me->DespawnCreaturesInArea(NPC_POWER_MATRIX, 125.0f);
         me->DespawnCreaturesInArea(NPC_DARK_YOUNG, 125.0f);
@@ -356,7 +356,7 @@ private:
         }
     }
 
-    void EnterEvadeMode(EvadeReason why) override
+    void EnterEvadeMode(EvadeReason /*why*/) override
     {
         _JustReachedHome();
         me->NearTeleportTo(me->GetHomePosition());
@@ -574,7 +574,7 @@ class spell_power_matrix_cast : public SpellScript
 {
     PrepareSpellScript(spell_power_matrix_cast);
 
-    void HandleDummy(SpellEffIndex effIndex)
+    void HandleDummy(SpellEffIndex /*effIndex*/)
     {
         if (Unit* caster = GetCaster())
         {
@@ -608,7 +608,7 @@ public:
 private:
     uint32 checkTimer = 1000;
 
-    void OnUpdate(Player* player, uint32 diff) override
+    void OnUpdate(Player* player, uint32 /*diff*/) override
     {
         if (player->GetMapId() == 1861 && checkTimer == 1000)
         {
@@ -648,7 +648,7 @@ struct areatrigger_undulating_mass : AreaTriggerAI
 
     void OnPeriodicProc()
     {
-        float scale = at->GetObjectScale();
+        [[maybe_unused]] float scale = at->GetObjectScale();
     }
 };
 
@@ -703,7 +703,7 @@ private:
         SetCombatMovement(false);
     }
 
-    void UpdateAI(uint32 diff) override
+    void UpdateAI(uint32 /*diff*/) override
     {
         if (me->GetPowerPct(POWER_ENERGY) >= 100 && !reorigination_blast)
         {
@@ -856,7 +856,7 @@ private:
         this->phase = 2;
     }
 
-    void EnterEvadeMode(EvadeReason why) override
+    void EnterEvadeMode(EvadeReason /*why*/) override
     {
         _JustReachedHome();
         me->NearTeleportTo(me->GetHomePosition());
@@ -870,7 +870,7 @@ private:
         }
     }
 
-    void CleanEncounter(InstanceScript* instance, Creature* ghuun)
+    void CleanEncounter(InstanceScript* instance, Creature* /*ghuun*/)
     {
         me->DespawnCreaturesInArea(NPC_POWER_MATRIX, 125.0f);
         me->DespawnCreaturesInArea(NPC_DARK_YOUNG, 125.0f);
@@ -884,7 +884,7 @@ private:
         me->DespawnCreaturesInArea(NPC_BURSTING_BOIL, 125.0f);
     }
 
-    void DamageTaken(Unit* done_by, uint32& /*damage*/) override
+    void DamageTaken(Unit* /*done_by*/, uint32& /*damage*/) override
     {
         if (me->HealthBelowPct(21) && this->phase == 2)
         {
@@ -1035,7 +1035,7 @@ struct npc_matrix_surge : public ScriptedAI
         me->GetSpeed(MOVE_WALK);
     }
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         AddTimedDelayedOperation(1500, [this]() -> void
         {            
@@ -1063,7 +1063,7 @@ struct npc_bursting_boil : public ScriptedAI
         ScriptedAI::Reset();       
     }
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         me->CastSpell(nullptr, SPELL_BURSTING_BOIL_VISUAL);
         AddTimedDelayedOperation(8100, [this]() -> void
@@ -1115,7 +1115,7 @@ private:
         }
     }
 
-    void DamageTaken(Unit* done_by, uint32& /*damage*/) override
+    void DamageTaken(Unit* /*done_by*/, uint32& /*damage*/) override
     {
         if (me->HealthBelowPct(2) && !me->HasUnitFlag(UNIT_FLAG_NON_ATTACKABLE))
         {
@@ -1143,7 +1143,7 @@ private:
         ScriptedAI::Reset();
     }
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         host_Targeted = false;
         if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0 , 100.0f, true))

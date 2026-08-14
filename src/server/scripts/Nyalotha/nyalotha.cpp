@@ -37,7 +37,7 @@ struct go_nyalotha_entrance : public GameObjectAI
 			{	
 				if (plr->getLevel() >= 120 && plr->GetMapId() != 2217 && !plr->IsInCombat())
 				{
-                    plr->GetScheduler().Schedule(100ms, [plr] (TaskContext context)
+                    plr->GetScheduler().Schedule(100ms, [plr] (TaskContext /*context*/)
 					{
                         plr->TeleportTo(2217, -1799.0f, -43.0f, -1476.0f, 6.24f);
 					});

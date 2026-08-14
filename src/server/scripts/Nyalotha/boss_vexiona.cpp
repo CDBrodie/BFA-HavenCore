@@ -206,7 +206,7 @@ private:
 
 	void DamageTaken(Unit* attacker, uint32& damage) override
 	{
-		if (this->phase = 1 && this->twilightDecimator == 3)
+		if (this->phase == 1 && this->twilightDecimator == 3)
 		{
 			//events.Reset();
 			this->phase = 2;

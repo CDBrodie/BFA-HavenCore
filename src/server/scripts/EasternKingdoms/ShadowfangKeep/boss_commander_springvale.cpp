@@ -167,11 +167,13 @@ class boss_commander_springvale : public CreatureScript
                     break;
                case EVENT_SUMMONS:
                 if (IsHeroic())
+                {
                     Talk(SAY_SUMMON_GUARDS);
-                    me->SummonCreature(NPC_TORMENTED_OFFICER, spawnPos[0], TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 5000);
-                    me->SummonCreature(NPC_WAILING_GUARDSMAN, spawnPos[1], TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 5000);
-                    events.ScheduleEvent(EVENT_SUMMONS, 40000);
-                    break;
+                }
+                me->SummonCreature(NPC_TORMENTED_OFFICER, spawnPos[0], TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 5000);
+                me->SummonCreature(NPC_WAILING_GUARDSMAN, spawnPos[1], TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 5000);
+                events.ScheduleEvent(EVENT_SUMMONS, 40000);
+                break;
                case EVENT_POWER:
                 if (Aura* aura = me->GetAura(DUNGEON_MODE(SPELL_UNHOLY_POWER,SPELL_UNHOLY_POWER_H)))
                     if (aura->GetStackAmount() == 3)
@@ -188,8 +190,8 @@ class boss_commander_springvale : public CreatureScript
                         }
                         me->RemoveAura(aura);
                     }
-                    events.ScheduleEvent(EVENT_POWER, 1000);
-                    break;
+                events.ScheduleEvent(EVENT_POWER, 1000);
+                break;
                 }
             }
 

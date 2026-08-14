@@ -139,8 +139,10 @@ public:
                 if (rand() % 2)
                     Talk(1);
                 if (Creature *FacelessPortalStalker = ObjectAccessor::GetCreature(*me, FacelessPortalStalkerGUID))
+                {
                     FacelessPortalStalker->GetAI()->DoCast(FacelessPortalStalker, SPELL_TWILIGHT_PORTAL_VISUAL, true);
-                    Talk(SAY_TWILIGHT_CORRUPTION_ANNOUNCE);
+                }
+                Talk(SAY_TWILIGHT_CORRUPTION_ANNOUNCE);
                 events.ScheduleEvent(EVENT_REMOVE_TWILIGHT_PORTAL, 7000);
                 if (Creature *FacelessPortalStalker = ObjectAccessor::GetCreature(*me, FacelessPortalStalkerGUID))
                     FacelessPortalStalker->GetAI()->DoCast(FacelessPortalStalker,SPELL_SPAWN_FACELESS,true);

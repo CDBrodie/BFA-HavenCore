@@ -1067,13 +1067,17 @@ public:
                         me->RemoveAura(SPELL_DEAFING_WINDS);
 
                     if (me->GetVictim())
+                    {
                         if (me->GetDistance2d(me->GetVictim()) > 90)
+                        {
                             if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 90, true))
                             {
                                 me->getThreatManager().resetAllAggro();
                                 me->AddThreat(target, 10);
                             }
-                        uiCheckAgroo = 5000;
+                        }
+                    }
+                    uiCheckAgroo = 5000;
                 }
                 else uiCheckAgroo -= diff;
 

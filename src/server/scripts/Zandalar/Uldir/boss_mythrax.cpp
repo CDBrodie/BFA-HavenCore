@@ -134,7 +134,7 @@ private:
             events.ScheduleEvent(EVENT_XALZAIX, 8s);
     }
 
-    void DamageTaken(Unit* done_by, uint32& /*damage*/) override
+    void DamageTaken(Unit* /*done_by*/, uint32& /*damage*/) override
     {
         if (me->HealthBelowPct(67) && this->phase != 2)
         {
@@ -154,7 +154,7 @@ private:
                 if (Creature* xalzaix = me->FindNearestCreature(NPC_XALZAIX, 100.0f, true))
                     xalzaix->DespawnOrUnsummon();
         }
-        if (me->HealthBelowPct(21) && this->phase == 1 && IsHeroic() || IsMythic())
+        if (me->HealthBelowPct(21) && this->phase == 1 && (IsHeroic() || IsMythic()))
         {
             std::list<Player*> pl_li;
             me->GetPlayerListInGrid(pl_li, 100.0f);
@@ -165,7 +165,7 @@ private:
         }
     }
 
-    void CleanEncounter(InstanceScript* instance, Creature* mythrax)
+    void CleanEncounter(InstanceScript* /*instance*/, Creature* /*mythrax*/)
     {
         me->DespawnCreaturesInArea(NPC_OBLIVION_SPHERE, 125.0f);
         me->DespawnCreaturesInArea(NPC_VISION_OF_MADNESS, 125.0f);
@@ -345,7 +345,7 @@ class aura_imminent_ruin : public AuraScript
 {
     PrepareAuraScript(aura_imminent_ruin);
 
-    void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+    void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
     {
         if (Unit* caster = GetCaster())
         {
@@ -420,7 +420,7 @@ private:
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
     }
 
-    void DamageTaken(Unit* done_by, uint32& /*damage*/) override
+    void DamageTaken(Unit* /*done_by*/, uint32& /*damage*/) override
     {
         if (me->HealthBelowPct(51) && !retreat)
         {

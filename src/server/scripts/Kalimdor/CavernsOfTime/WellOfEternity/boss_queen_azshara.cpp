@@ -162,7 +162,7 @@ public:
         {
             _Reset();
 
-            memset(addsGUIDs, 0, sizeof(addsGUIDs));
+            std::fill(std::begin(addsGUIDs), std::end(addsGUIDs), ObjectGuid::Empty);
 
             for (uint8 i = 0; i < 6; ++i)
                 if (Creature* pAdd = me->SummonCreature(addsEntry[i], addsPos[i], TEMPSUMMON_CORPSE_TIMED_DESPAWN, 5000))

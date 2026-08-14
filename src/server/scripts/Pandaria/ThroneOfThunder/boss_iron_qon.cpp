@@ -1569,6 +1569,8 @@ public:
                     case DIFFICULTY_25_N:
                         CastSpikes25();
                         break;
+                    default:
+                        break;
                     }
                     events.ScheduleEvent(EVENT_FROST_SPIKE, 30000);
                     break;

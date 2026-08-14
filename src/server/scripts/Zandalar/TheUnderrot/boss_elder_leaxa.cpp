@@ -125,7 +125,7 @@ public:
             }
         }
 
-        void EnterEvadeMode(EvadeReason why)
+        void EnterEvadeMode(EvadeReason /*why*/)
         {
             _DespawnAtEvade(15);
         }

@@ -252,6 +252,7 @@ class boss_theralion : public CreatureScript
                         events.ScheduleEvent(EVENT_VALIONA_TWILIGHT_BREATH, 60000, 0, 0);
                         events.ScheduleEvent(EVENT_VALIONA_TWILIGHT_METEORITE, urand(5000, 8000), 0, 0);
                         breathcount = 0;
+                        /* fallthrough */
                     case POINT_THERALION_HOME:
                         SetFlyState(false);
                         break;

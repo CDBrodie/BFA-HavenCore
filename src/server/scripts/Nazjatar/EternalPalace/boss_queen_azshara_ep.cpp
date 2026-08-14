@@ -500,7 +500,7 @@ struct bfa_boss_queen_azshara : public BossAI
             }
         }
 
-        void DamageTaken(Unit* target, uint32& damage) override
+        void DamageTaken(Unit* /*target*/, uint32& damage) override
         {
             if (me->HealthBelowPct(70) && !phase3)
             {
@@ -532,7 +532,7 @@ struct bfa_boss_queen_azshara : public BossAI
                 events.ScheduleEvent(EVENT_DIVINE_AND_CONQUER, TIMER_DIVIDE_AND_CONQUER);
         }
 
-        void JustDied(Unit* target) override
+        void JustDied(Unit* /*killer*/) override
         {
             Talk(8);
             _JustDied();
@@ -969,7 +969,7 @@ struct bfa_npc_aethanel : public ScriptedAI
         return me->FindNearestCreature(NPC_QUEEN_AZSHARA, 100.0f, true);
     }
 
-    void JustDied(Unit* target) override
+    void JustDied(Unit* /*killer*/) override
     {
         Talk(1);
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
@@ -977,7 +977,7 @@ struct bfa_npc_aethanel : public ScriptedAI
             azshara->AI()->DoAction(ACTION_COUNT_SERVANTS_P1);
     }
 
-    void EnterCombat(Unit* target) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
         events.ScheduleEvent(EVENT_LONGING, TIMER_PAINFUL_MEMORIES);
@@ -1044,7 +1044,7 @@ struct bfa_npc_cyranus : public ScriptedAI
         return me->FindNearestCreature(NPC_QUEEN_AZSHARA, 100.0f, true);
     }
 
-    void JustDied(Unit* target) override
+    void JustDied(Unit* /*killer*/) override
     {
         Talk(1);
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
@@ -1052,7 +1052,7 @@ struct bfa_npc_cyranus : public ScriptedAI
                 azshara->AI()->DoAction(ACTION_COUNT_SERVANTS_P1);
     }
 
-    void EnterCombat(Unit* target) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
         events.ScheduleEvent(EVENT_LONGING, TIMER_LONGING);
@@ -1305,7 +1305,7 @@ private:
             _stun = false;
         }
 
-        void EnterCombat(Unit* target) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             events.ScheduleEvent(EVENT_SELECT_RANDOM_WARD, TIMER_SELECT_WARD);
         }
@@ -1373,7 +1373,7 @@ private:
         {
             events.Update(diff);
 
-            if (!_stun && me->HasUnitState(UNIT_STATE_CONFUSED) || me->HasUnitState(UNIT_STATE_CONTROLLED) || me->HasUnitState(UNIT_STATE_DISTRACTED) || me->HasUnitState(UNIT_STATE_FLEEING)
+            if ((!_stun && me->HasUnitState(UNIT_STATE_CONFUSED)) || me->HasUnitState(UNIT_STATE_CONTROLLED) || me->HasUnitState(UNIT_STATE_DISTRACTED) || me->HasUnitState(UNIT_STATE_FLEEING)
                 || me->HasUnitState(UNIT_STATE_POSSESSED) || me->HasUnitState(UNIT_STATE_STUNNED) || me->HasUnitState(UNIT_STATE_ROOT))
             {
                 _stun = true;
@@ -1838,7 +1838,7 @@ struct bfa_npc_azshara_indomitable_devoted : public ScriptedAI
         events.Reset();
     }
 
-    void EnterCombat(Unit* target) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         events.ScheduleEvent(EVENT_CHARGE_WARD, 2000);
     }
@@ -1995,17 +1995,14 @@ class bfa_spell_divide_and_conquer_cast : public SpellScript
         {
         case 0:
         {
-            Position centerPos = { 216.65f, 2444.94f, 710.65f };
             break;
         }
         case 1:
         {
-            Position centerPos = { 216.65f, 2444.94f, 710.65f };
             break;
         }
         case 2:
         {
-            Position centerPos = { 216.65f, 2444.94f, 710.65f };
             break;
         }
         }
@@ -2103,7 +2100,7 @@ struct bfa_npc_loyal_myrmidon : public ScriptedAI
         events.Reset();
     }
 
-    void EnterCombat(Unit* target) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         events.ScheduleEvent(EVENT_CHARGED_SPEAR, TIMER_CHARGED_SPEAR);
     }
@@ -2152,7 +2149,7 @@ struct bfa_npc_tidemistresses : public ScriptedAI
             SetCombatMovement(false);
         }
 
-        void EnterCombat(Unit* target) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             events.ScheduleEvent(EVENT_STATIC_SHOCK, TIMER_STATIC_SHOCK);
             events.ScheduleEvent(EVENT_CHAIN_LIGHTNING, TIMER_CHAIN_LIGHTNING);

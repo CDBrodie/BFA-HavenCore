@@ -146,6 +146,7 @@ class boss_general_pavalak : public CreatureScript
                     return;
 
                 if (explosives && me->HasAura(SPELL_BULWARK))
+                {
                     if (explosives <= diff)
                     {
                         DoCast(me, SPEL_SIEGE_EXPLOSIVES_SUMMON, true);
@@ -153,6 +154,7 @@ class boss_general_pavalak : public CreatureScript
                     }
                     else
                         explosives -= diff;
+                }
 
                 if (me->HasUnitState(UNIT_STATE_CASTING))
                     return;

@@ -105,7 +105,7 @@ public:
        
     }
 
-    void KilledUnit(Unit* victim) override
+    void KilledUnit(Unit* /*victim*/) override
     {
 
     }

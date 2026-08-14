@@ -217,7 +217,7 @@ public:
             IsFinalForm = false;
             NeedThreatReset = false;
             EnrageUsed = false;
-            memset(InnderDemon, 0, sizeof(InnderDemon));
+            std::fill(std::begin(InnderDemon), std::end(InnderDemon), ObjectGuid::Empty);
             InnerDemon_Count = 0;
         }
 

@@ -1070,7 +1070,7 @@ class npc_spine_of_deathwing_burning_tendons : public CreatureScript
             {
                 events.Update(diff);
 
-                switch (uint32 eventId = events.ExecuteEvent())
+                switch (events.ExecuteEvent())
                 {
                     case EVENT_CHECK_CASTING:
                     {

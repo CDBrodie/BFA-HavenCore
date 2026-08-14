@@ -97,7 +97,7 @@ private:
         me->SetCurrentEquipmentId(2);
     };
 
-    void EnterCombat(Unit* u) override
+    void EnterCombat(Unit* /*unit*/) override
     {        
         _EnterCombat();
         Talk(SAY_AGGRO);
@@ -112,7 +112,7 @@ private:
         }
     }
 
-    void DamageTaken(Unit* done_by, uint32& /*damage*/) override
+    void DamageTaken(Unit* /*done_by*/, uint32& /*damage*/) override
     {
         if (me->HealthBelowPct(35) && !phase_two)
         {            
@@ -164,7 +164,7 @@ private:
                 {
                     me->SetFacingToObject(tar, true);
                     DoCast(tar, SPELL_CUDGEL_OF_GORE_CHARGE);
-                    me->GetScheduler().Schedule(3s, [this, tar](TaskContext context)
+                    me->GetScheduler().Schedule(3s, [this, tar](TaskContext /*context*/)
                     {
                         DoCast(tar, SPELL_CUDGEL_OF_GORE_DAMAGE_KNOCK);
                     });
@@ -221,7 +221,7 @@ private:
             for (Unit* targets : list)
             {  
                 me->AddAura(SPELL_HARDENED_ARTERIES_DEBUFF, targets);
-                me->GetScheduler().Schedule(8s, [this, targets] (TaskContext context)
+                me->GetScheduler().Schedule(8s, [this, targets] (TaskContext /*context*/)
                 {
                     DoCast(targets, SPELL_HARDENED_ARTERIES_EXP);
                 });
@@ -250,7 +250,7 @@ private:
         me->RemoveAllAreaTriggers();
     }
 
-    void JustDied(Unit* u) override
+    void JustDied(Unit* /*killer*/) override
     {
         _JustDied();
         Talk(SAY_DEATH);

@@ -47,9 +47,9 @@ Position const GuardianOfTimePos = { 2321.489f, 1268.383f, 132.8507f, 0.418879f 
 
 DoorData const doorData[] =
 {
-    { GO_MALGANIS_GATE_2, DATA_MAL_GANIS, DOOR_TYPE_ROOM },
-    { GO_EXIT_GATE,       DATA_MAL_GANIS, DOOR_TYPE_PASSAGE },
-    { 0,                  0,              DOOR_TYPE_ROOM } // END
+    { GO_MALGANIS_GATE_2, DATA_MAL_GANIS, DOOR_TYPE_ROOM , BOUNDARY_NONE },
+    { GO_EXIT_GATE,       DATA_MAL_GANIS, DOOR_TYPE_PASSAGE , BOUNDARY_NONE },
+    { 0,                  0,              DOOR_TYPE_ROOM , BOUNDARY_NONE } // END
 };
 
 class instance_culling_of_stratholme : public InstanceMapScript

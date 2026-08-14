@@ -108,15 +108,15 @@ struct boss_tusle_tonks : public BossAI
                 if (Creature* stalker = me->FindNearestCreature(NPC_STALKER_ROBODROME_ARENA, 100.0f, true))
                 {
                     buzz_saws->SetFacingToObject(stalker);
-                    me->GetScheduler().Schedule(1s, [buzz_saws, stalker] (TaskContext context)
+                    me->GetScheduler().Schedule(1s, [buzz_saws, stalker] (TaskContext /*context*/)
                     {                        
                         buzz_saws->GetMotionMaster()->MoveCharge(stalker->GetPositionX(), stalker->GetPositionY(), stalker->GetPositionZ(), 80.0f, 1, true);
                     });
-                    me->GetScheduler().Schedule(3s, [buzz_saws, stalker] (TaskContext context)
+                    me->GetScheduler().Schedule(3s, [buzz_saws, stalker] (TaskContext /*context*/)
                     {
                         buzz_saws->GetMotionMaster()->MoveRandom(30.0f);
                     });
-                    me->GetScheduler().Schedule(6s, [buzz_saws, stalker] (TaskContext context)
+                    me->GetScheduler().Schedule(6s, [buzz_saws, stalker] (TaskContext /*context*/)
                     {
                         buzz_saws->DespawnOrUnsummon();
                     });

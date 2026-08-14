@@ -42,7 +42,7 @@ struct npc_shadow_of_zul : public ScriptedAI
         me->AddUnitFlag(UNIT_FLAG_IMMUNE_TO_NPC);
     }
 
-    void EnterCombat(Unit* u) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         events.ScheduleEvent(EVENT_SHADOW_BARRAGE, 5s);
         events.ScheduleEvent(EVENT_DARK_REVELATION, 10s);
@@ -55,7 +55,7 @@ struct npc_shadow_of_zul : public ScriptedAI
         case EVENT_SHADOW_BARRAGE:
              DoCastVictim(SPELL_SHADOW_BARRAGE);
              events.Repeat(3s);
-
+             /* fallthrough */
         case EVENT_DARK_REVELATION:
              DoCastRandom(SPELL_DARK_REVELATION, 100.0f);
              me->SummonCreature(NPC_MINION_OF_ZUL, me->GetPosition());

@@ -1047,7 +1047,7 @@ struct paragon_of_klaxxiAI : public ScriptedAI
         }
     }
 
-    void JustDied(Unit* who) override
+    void JustDied(Unit* /*killer*/) override
     {
         m_IsDefeated = true;
         m_IsInCombat = false;
@@ -1483,6 +1483,7 @@ bool TargetUsedTankAbilities(Unit* target)
             case TALENT_SPEC_DRUID_BEAR: defendAuraId = 132402; break;
             case TALENT_SPEC_DEATHKNIGHT_BLOOD: defendAuraId = 77535; break;
             case TALENT_SPEC_MONK_BREWMASTER: defendAuraId = 115307; break;
+            default: break;
         }
     }
 
@@ -1621,7 +1622,8 @@ class HungryKunchongSpawner
 
         void Reset()
         {
-            memset(kunchongGuids, 0, sizeof(kunchongGuids));
+            for (ObjectGuid& guid : kunchongGuids)
+                guid = ObjectGuid::Empty;
         }
 
         void SpawnKunchong()
@@ -3016,7 +3018,7 @@ class npc_paragons_of_the_klaxxi_amber : public CreatureScript
                 }
             }
 
-            void JustDied(Unit* killer) override
+            void JustDied(Unit* /*killer*/) override
             {
                 InterruptEncase();
                 me->DespawnOrUnsummon(100);
@@ -3124,7 +3126,7 @@ class npc_paragons_of_the_klaxxi_blood : public CreatureScript
                 events.ScheduleEvent(EVENT_CHANGE_TARGET, 1000);
             }
 
-            void JustDied(Unit* killer)
+            void JustDied(Unit* /*killer*/)
             {
                 me->DespawnOrUnsummon(100);
             }
@@ -3264,7 +3266,7 @@ class npc_paragons_of_the_klaxxi_amber_parasite : public CreatureScript
                 events.ScheduleEvent(EVENT_HUNGER, TIMER_HUNGER);
             }
 
-            void JustDied(Unit* killer)
+            void JustDied(Unit* /*killer*/)
             {
                 me->DespawnOrUnsummon(100);
             }
@@ -4360,6 +4362,7 @@ class spell_paragons_of_the_klaxxi_bloodletting_missile_self : public SpellScrip
                     case DIFFICULTY_25_N: count = BLOODLETTING_25; break;
                     case DIFFICULTY_10_HC: count = BLOODLETTING_10H; break;
                     case DIFFICULTY_25_HC: count = BLOODLETTING_25H; break;
+                    default: break;
                 }
 
                 for (uint8 i = 0; i < count; ++i)
@@ -5037,6 +5040,7 @@ struct spell_area_paragons_of_the_klaxxi_reaction_yellow : AreaTriggerAI
     bool OnRemoveTarget(Unit* target, bool /*byExpire*/)
     {
         target->RemoveAura(SPELL_NOXIOUS_VAPORS);
+        return true;
     }
 };
 
@@ -5085,6 +5089,7 @@ struct spell_area_paragons_of_the_klaxxi_sonic_projection : AreaTriggerAI
     bool OnRemoveTarget(Unit* target, bool /*byExpire*/)
     {
         target->RemoveAura(SPELL_SONIC_PROJECTION_DMG);
+        return true;
     }
 };
 

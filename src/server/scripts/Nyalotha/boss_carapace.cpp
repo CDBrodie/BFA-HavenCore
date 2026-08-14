@@ -267,7 +267,7 @@ private:
 		}
 	}
 
-	void DamageTaken(Unit* attacker, uint32& damage) override
+	void DamageTaken(Unit* /*attacker*/, uint32& damage) override
 	{
 		if (this->phase == 1 && me->HealthBelowPct(50))
 		{
@@ -431,10 +431,10 @@ private:
 
 		case EVENT_INFINITE_DARKNESS:
 		{
-			if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true))
+			if ([[maybe_unused]] Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true))
 			{
 				me->CastSpell(nullptr, SPELL_INFINITE_DARKNESS_CAST);
-			}			
+			}
 			break;
 		}
 		case EVENT_BERSERK:

@@ -899,7 +899,7 @@ struct mob_clone_player : public ScriptedAI
     {
     }
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         me->AddAura(SPELL_ANIM_VISUAL, me);
         me->SetCanFly(true);

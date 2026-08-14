@@ -151,6 +151,7 @@ public:
                     creature->SetReactState(REACT_PASSIVE);
                     creature->AddUnitFlag(UNIT_FLAG_NON_ATTACKABLE);
                     creature->AddNpcFlag(UNIT_NPC_FLAG_GOSSIP);
+                    /* fallthrough */
                 case NPC_PROTO_BEHEMOTH:
                     uiProtoBehemoth = creature->GetGUID();
                     if (Unit * TimeWarden = GetCreature(NPC_TIME_WARDEN))

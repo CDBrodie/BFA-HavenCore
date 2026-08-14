@@ -172,7 +172,7 @@ public:
 
     struct boss_tortosAI : public BossAI
     {
-        boss_tortosAI(Creature* creature) : BossAI(creature, DATA_TORTOS), summons(me), vehicle(creature->GetVehicleKit())
+        boss_tortosAI(Creature* creature) : BossAI(creature, DATA_TORTOS), vehicle(creature->GetVehicleKit()), summons(me)
         {
             instance = creature->GetInstanceScript();
             ASSERT(vehicle);
@@ -219,7 +219,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* who) override
+        void EnterCombat(Unit* /*unit*/) override
         {
             me->AddAura(SPELL_KICK_SHELL_A, me);
             me->AddAura(SPELL_ROCKFALL_AURA, me);
@@ -340,7 +340,7 @@ public:
             }
         }
 
-        void JustDied(Unit* killer) override
+        void JustDied(Unit* /*killer*/) override
         {
             summons.DespawnAll();
 
@@ -634,12 +634,14 @@ public:
                         targets.resize(1);
 
                 for (std::list<Unit*>::iterator itr = targets.begin(); itr != targets.end(); ++itr)
+                {
                     if ((*itr)->IsFalling())
                     {
                         events.ScheduleEvent(EVENT_MOVE_STOP, 2000, 0, 0);
                         return;
                     }
                     me->GetMotionMaster()->MoveChase(me->GetVictim());
+                }
                 events.ScheduleEvent(EVENT_MOVE_STOP, 5000, 0, 0);
                 break;
             }
@@ -1115,8 +1117,7 @@ public:
             if (!caster || !target)
                 return;
 
-
-                caster->CastSpell(target, SPELL_DRAIN_THE_WEAK_DMG, true);
+            caster->CastSpell(target, SPELL_DRAIN_THE_WEAK_DMG, true);
         }
 
         void Register()

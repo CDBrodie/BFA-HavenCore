@@ -36,12 +36,15 @@ struct instance_operation_mechagon : public InstanceScript
                         cre->SetBaseHealth(cre->GetMaxHealth() * 6.0f);
 
                 if (instance->IsHeroic())
+                {
                     if (cre->getFaction() == 16)
                         cre->SetBaseHealth(cre->GetMaxHealth() * 5.0f);
-
+                }
                 else
+                {
                     if (cre->getFaction() == 16)
                         cre->SetBaseHealth(cre->GetMaxHealth() * 4.0f);
+                }
             }
         }
     };

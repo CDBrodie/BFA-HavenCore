@@ -104,7 +104,7 @@ private:
             me->SummonCreature(NPC_HEADHUNTER_GALWANA, -1232.223f, 807.1162f, 351.649f, 0.051f, TEMPSUMMON_MANUAL_DESPAWN);
     }
 
-    void DamageTaken(Unit* done_by, uint32& damage) override
+    void DamageTaken(Unit* /*done_by*/, uint32& /*damage*/) override
     {
         if (me->HealthBelowPct(60) && this->phase == 2)
         {
@@ -169,13 +169,13 @@ private:
             {
                 bwonsamdi->RemoveAura(SPELL_UNLIVING_PASSIVE);
                 bwonsamdi->CastSpell(me, SPELL_BWONSAMDIS_BOON, false);                
-                me->GetScheduler().Schedule(5300ms, [this](TaskContext context)
+                me->GetScheduler().Schedule(5300ms, [this](TaskContext /*context*/)
                 {
                     me->AddAura(SPELL_BWONSAMDIS_BOON_BUFF);
                     me->AddAura(SPELL_ALL_ENCOMPASSING_DEATH);
                     me->SetDisplayId(me->GetNativeDisplayId());
                 });
-                bwonsamdi->GetScheduler().Schedule(6000ms, [bwonsamdi](TaskContext context)
+                bwonsamdi->GetScheduler().Schedule(6000ms, [bwonsamdi](TaskContext /*context*/)
                 {
                     bwonsamdi->AI()->Talk(1);
                 });
@@ -197,7 +197,7 @@ private:
                 Talk(6);
                 if (Creature* bwonsamdi = GetBwonsamdi())
                 {
-                    bwonsamdi->GetScheduler().Schedule(6000ms, [bwonsamdi](TaskContext context)
+                    bwonsamdi->GetScheduler().Schedule(6000ms, [bwonsamdi](TaskContext /*context*/)
                     {
                         bwonsamdi->AI()->Talk(3);
                     });
@@ -261,7 +261,7 @@ private:
             if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 100.f, true))      
             {
                 me->CastSpell(target, SPELL_SCORCHING_DETONATION_DUMMY_DAMAGE_AURA, false);
-                target->GetScheduler().Schedule(5100ms, [this, target](TaskContext context)
+                target->GetScheduler().Schedule(5100ms, [this, target](TaskContext /*context*/)
                 {
                     if (target)
                         return;
@@ -308,7 +308,7 @@ private:
             me->CastSpell(nullptr, SPELL_INEVITABLE_END_PULL_CREATE_AT, false);
             std::list<Player*> playerList;
             me->GetPlayerListInGrid(playerList, 100.0f);
-            for (auto& targets : playerList)
+            for ([[maybe_unused]] auto& targets : playerList)
             {
                 /*targets->AddUnitState(UNIT_STATE_LOST_CONTROL);
                 targets->SetWalk(true);
@@ -515,7 +515,7 @@ private:
                 instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
             break;
         }
-        if (Creature* Get = GetMe())
+        if ([[maybe_unused]] Creature* Get = GetMe())
             if (Creature* rastakhan = GetRastakhan())
                 rastakhan->AI()->DoAction(ACTION_PHASE_TWO);
     }
@@ -697,7 +697,7 @@ private:
         });
     }
 
-    void DamageTaken(Unit* done_by, uint32& damage) override
+    void DamageTaken(Unit* /*done_by*/, uint32& damage) override
     {
         if (me->HasAura(SPELL_UNLIVING_PASSIVE))
         {
@@ -904,7 +904,7 @@ private:
             me->CastSpell(AreatriggerPos, SPELL_PLAGUE_OF_TOAD_JUMP, true);
             if (IsHeroic() || IsMythic())
                 me->CastSpell(AreatriggerPos, SPELL_PLAGUE_OF_TOAD_CREATE_AT, true);
-            if (this->jumpCount = !3)
+            if (this->jumpCount != 3)
                 context.Repeat(2s);
         });
     }
@@ -957,7 +957,7 @@ class aura_bwonsamdis_toon : public AuraScript
 
     void OnApply(AuraEffect const* /*p_AurEff*/, AuraEffectHandleModes /*mode*/)
     {
-        if (Unit* caster = GetCaster())
+        if ([[maybe_unused]] Unit* caster = GetCaster())
             if (Unit* target = GetTarget())
             {
                 target->GetScheduler().Schedule(100ms, [target](TaskContext context)

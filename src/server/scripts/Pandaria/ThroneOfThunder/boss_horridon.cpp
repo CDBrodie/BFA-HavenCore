@@ -450,22 +450,6 @@ static const Position zandalariDinomancersSummonPositions[] =
 // Relocation of Horridon's Home Position
 static const Position middlePosition = { 5431.621094f, 5763.865723f, 129.606461f, 1.57860f };
 
-static uint32 GetNewEmoteBySpell(uint32 spellId)
-{
-    switch (spellId)
-    {
-    case SPELL_CONTROL_HORRIDON_FARRAKI:
-        return EMOTE_FARAKKI_DOOR;
-    case SPELL_CONTROL_HORRIDON_GURUBASHI:
-        return EMOTE_GURUBASHI_DOOR;
-    case SPELL_CONTROL_HORRIDON_DRAKKARI:
-        return EMOTE_DRAKKARI_DOOR;
-    case SPELL_CONTROL_HORRIDON_AMANI:
-        return EMOTE_AMANI_DOOR;
-    }
-    return 0;
-}
-
 static uint32 GetSummoningOrbSpellByPhase(uint32 phase)
 {
     switch (phase)
@@ -487,49 +471,7 @@ static uint32 GetSummoningOrbSpellByPhase(uint32 phase)
     }
 }
 
-static uint32 GetControlSpellByOrb(GameObject* pOrb)
-{
-    switch (pOrb->GetEntry())
-    {
-    case GOB_ORB_OF_CONTROL_FARRAKI:
-        return SPELL_CONTROL_HORRIDON_FARRAKI;
-
-    case GOB_ORB_OF_CONTROL_GURUBASHI:
-        return SPELL_CONTROL_HORRIDON_GURUBASHI;
-
-    case GOB_ORB_OF_CONTROL_DRAKKARI:
-        return SPELL_CONTROL_HORRIDON_DRAKKARI;
-
-    case GOB_ORB_OF_CONTROL_AMANI:
-        return SPELL_CONTROL_HORRIDON_AMANI;
-
-    default:
-        return 0;
-    }
-}
-
-static uint32 GetControlSpellByPhase(eTrashPhases ePhase)
-{
-    switch (ePhase)
-    {
-    case TRASH_PHASE_FARRAKI:
-        return SPELL_CONTROL_HORRIDON_FARRAKI;
-
-    case TRASH_PHASE_GURUBASHI:
-        return SPELL_CONTROL_HORRIDON_GURUBASHI;
-
-    case TRASH_PHASE_DRAKKARI:
-        return SPELL_CONTROL_HORRIDON_DRAKKARI;
-
-    case TRASH_PHASE_AMANI:
-        return SPELL_CONTROL_HORRIDON_AMANI;
-
-    default:
-        return 0;
-    }
-}
-
-static Position GetChargePositionByDoor(GameObject* pDoor)
+/*static Position GetChargePositionByDoor(GameObject* pDoor)
 {
     switch (pDoor->GetEntry())
     {
@@ -548,8 +490,7 @@ static Position GetChargePositionByDoor(GameObject* pDoor)
     default:
         return { 0.0f, 0.0f, 0.0f, 0.0f };
     }
-}
-
+}*/
 
 // Helper AI
 class npc_horridon_event_helper : public CreatureScript
@@ -560,7 +501,7 @@ public:
     class npc_horridon_event_helper_AI : public ScriptedAI
     {
     public:
-        npc_horridon_event_helper_AI(Creature* pCreature) : ScriptedAI(pCreature), pInstance(pCreature->GetInstanceScript()), summons(me)
+        npc_horridon_event_helper_AI(Creature* pCreature) : ScriptedAI(pCreature), summons(me), pInstance(pCreature->GetInstanceScript())
         {
             events.Reset();
             jumpers.clear();
@@ -1313,7 +1254,7 @@ public:
                 trigger2->Kill(trigger2);
         }
 
-        void EnterCombat(Unit* pVictim)
+        void EnterCombat(Unit* /*unit*/)
         {
             events.ScheduleEvent(EVENT_TRIPLE_PUNCTURE, 10 * IN_MILLISECONDS);
             events.ScheduleEvent(EVENT_DOUBLE_SWIPE, 15 * IN_MILLISECONDS);
@@ -1430,6 +1371,7 @@ public:
                         break;
                     }
                 }
+                /* fallthrough */
                 case EVENT_DOUBLE_SWIPE_ACTION:
                 {
                     if (Unit* target = me->GetVictim())
@@ -1447,6 +1389,7 @@ public:
                         break;
                     }
                 }
+                /* fallthrough */
                 case EVENT_RETURN_TO_COMBAT:
                     me->SetReactState(REACT_AGGRESSIVE);
                     break;
@@ -1471,7 +1414,7 @@ public:
             DoMeleeAttackIfReady();
         }
 
-        void JustDied(Unit* pKiller)
+        void JustDied(Unit* /*killer*/)
         {
             pInstance->SetBossState(DATA_HORRIDON, DONE);
             if (Creature* pController = GetHorridonHelper())
@@ -1506,7 +1449,6 @@ public:
                 const_orientation = me->GetOrientation();
                 me->SetFacingTo(const_orientation);
                 break;
-
             default:
                 break;
             }
@@ -1651,7 +1593,7 @@ public:
             }
         }
 
-        void EnterCombat(Unit* pVictim)
+        void EnterCombat(Unit* /*unit*/)
         {
             events.ScheduleEvent(EVENT_BESTIAL_CRY, 10 * IN_MILLISECONDS);
         }
@@ -1691,7 +1633,7 @@ public:
             Talk(TALK_ON_JALAK_KILLED_UNIT);
         }
 
-        void JustDied(Unit* pKiller)
+        void JustDied(Unit* /*killer*/)
         {
             if (GetHorridon() && GetHorridon()->isDead())
             {
@@ -2020,7 +1962,7 @@ public:
             DoMeleeAttackIfReady();
         }
 
-        void JustDied(Unit* pKiller) override
+        void JustDied(Unit* /*killer*/) override
         {
             if (me->GetEntry() == MOB_AMANI_WARBEAR)
             {
@@ -2332,6 +2274,7 @@ public:
                         break;
                     }
                     //}
+                    [[fallthrough]];
                 }
                 case EVENT_DAMAGE_IF_NEARBY:
                 {
@@ -2357,7 +2300,7 @@ public:
             }
         }
 
-        void JustDied(Unit* pKiller)
+        void JustDied(Unit* /*killer*/)
         {
             if (Unit* player = me->GetVictim())
             {
@@ -2596,7 +2539,7 @@ public:
             }*/
         }
 
-        void JustDied(Unit* pKiller) override
+        void JustDied(Unit* /*killer*/) override
         {
             me->SummonCreature(MOB_AMANI_SHI_BEAST_SHAMAN, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(), me->GetOrientation(), TEMPSUMMON_MANUAL_DESPAWN);
         }

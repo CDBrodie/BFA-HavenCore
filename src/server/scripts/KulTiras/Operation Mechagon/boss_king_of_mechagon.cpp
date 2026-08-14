@@ -183,12 +183,12 @@ struct npc_aeriel_unit : public BossAI
                 for (auto& plasma_orbs : plasma_orbs_list)
                 {
                     plasma_orbs->SetFacingToObject(targets);
-                    me->GetScheduler().Schedule(1s, [plasma_orbs, targets, this] (TaskContext context)
+                    me->GetScheduler().Schedule(1s, [plasma_orbs, targets, this] (TaskContext /*context*/)
                     {
                         plasma_orbs->CastSpell(targets, SPELL_RECALIBRATE_TAR_DEST_VISUAL, false);
                         plasma_orbs->GetMotionMaster()->MoveCharge(targets->GetPositionX(), targets->GetPositionY(), targets->GetPositionZ(), 80.0f, 1, true);
                     });
-                    me->GetScheduler().Schedule(2s, [plasma_orbs, targets] (TaskContext context)
+                    me->GetScheduler().Schedule(2s, [plasma_orbs, targets] (TaskContext /*context*/)
                     {
                         plasma_orbs->AI()->DoCastAOE(SPELL_RECALIBRATE_DAMAGE_KNOCK, true);
                     });

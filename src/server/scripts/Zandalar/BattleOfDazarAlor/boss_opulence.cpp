@@ -90,7 +90,7 @@ struct boss_opulence : public BossAI
         if (Creature* gallywix = me->FindNearestCreature(NPC_TRADE_PRINCE_GALLYWIX, 100.0f, true))
         {
             gallywix->AI()->Talk(SAY_GALLYWIX_STAGE_TWO_BEGINS);
-            gallywix->GetScheduler().Schedule(7s, [this, gallywix] (TaskContext context)
+            gallywix->GetScheduler().Schedule(7s, [this, gallywix] (TaskContext /*context*/)
             {
                 gallywix->AI()->Talk(SAY_GALLYWIX_STAGE_TWO_BEGINS_1);
 
@@ -137,7 +137,7 @@ struct boss_opulence : public BossAI
                     gallywix->AI()->Talk(SAY_GALLYWIX_KILL);
     }
 
-    void JustDied(Unit* unit) override
+    void JustDied(Unit* /*killer*/) override
     {
         _JustDied();
         me->DespawnCreaturesInArea(NPC_SPIRIT_OF_GOLD, 125.0f);

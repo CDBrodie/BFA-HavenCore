@@ -132,7 +132,7 @@ public:
             instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
         }
 
-        void EnterEvadeMode(EvadeReason why)
+        void EnterEvadeMode(EvadeReason /*why*/)
         {
             DespawnCreature(NPC_BLOOD_TICK);
             DespawnCreature(NPC_LARVES);

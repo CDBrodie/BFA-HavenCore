@@ -652,7 +652,7 @@ public:
             me->SetCanFly(IsFlying);
         }
 
-        void JustDied(Unit* killer)
+        void JustDied(Unit* /*killer*/)
         {
             Talk(TALK_DEATH);
             RemoveAdds();
@@ -717,7 +717,7 @@ public:
                     (*itr)->SetGoState(GO_STATE_ACTIVE);
         }
 
-        void EnterCombat(Unit* attacker)
+        void EnterCombat(Unit* /*unit*/)
         {
             DeactivateObjects();
             Talk(TALK_AGGRO);
@@ -1251,6 +1251,8 @@ public:
                 break;
             case DIFFICULTY_25_HC:
                 CastMark25();
+                break;
+            default:
                 break;
             }
         }
@@ -2569,6 +2571,8 @@ public:
                 me->SetMaxHealth(25300000);
                 me->SetHealth(25300000);
                 break;
+            default:
+                break;
             }
         }
 
@@ -2670,6 +2674,8 @@ public:
                 me->SetMaxHealth(25300000);
                 me->SetHealth(25300000);
                 break;
+            default:
+                break;
             }
         }
 
@@ -2770,6 +2776,8 @@ public:
             case DIFFICULTY_25_HC:
                 me->SetMaxHealth(25300000);
                 me->SetHealth(25300000);
+                break;
+            default:
                 break;
             }
         }
@@ -3057,6 +3065,8 @@ public:
                                 break;
                             case DIFFICULTY_25_HC:
                                 CastStern25();
+                                break;
+                            default:
                                 break;
                             }
                         }
@@ -3436,6 +3446,8 @@ public:
                         mindmg = 90000;
                         maxdmg = 100000;
                         break;
+                    default:
+                        break;
                     }
 
                     if (distance > STERN_DISTANCE)
@@ -3489,6 +3501,8 @@ public:
                         break;
                     case DIFFICULTY_25_HC:
                         damage = 128000;
+                        break;
+                    default:
                         break;
                     }
 

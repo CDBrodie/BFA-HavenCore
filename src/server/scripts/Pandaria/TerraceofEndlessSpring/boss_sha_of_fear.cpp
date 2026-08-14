@@ -154,9 +154,9 @@ struct BowmanData
 
 static BowmanData bowmenData[] = // DNC
 {
-    { NPC_YANG_GUOSHI, 119593, -1214.795f, -2824.823f, 41.24303f, 3.506719f },
-    { NPC_CHENG_KANG, 119693, -1075.198f, -2577.711f, 15.828019f, 1.725f },
-    { NPC_JINLUN_KUN, 119692, -832.0764f, -2745.405f, 31.67757f, 0.1583484f }
+    { NPC_YANG_GUOSHI, 119593, -1214.795f, -2824.823f, 41.24303f, 3.506719f, false },
+    { NPC_CHENG_KANG, 119693, -1075.198f, -2577.711f, 15.828019f, 1.725f, false },
+    { NPC_JINLUN_KUN, 119692, -832.0764f, -2745.405f, 31.67757f, 0.1583484f, false }
 };
 
 Position const centerPlatform{ -1017.52f, -2772.47f, 38.57f, 0.0f };
@@ -862,6 +862,8 @@ public:
                     case DIFFICULTY_25_HC:
                         events.ScheduleEvent(EVENT_OMINOUS_CACKLE, 45000);
                         break;
+                    default:
+                        break;
                     }
                     break;
                 case EVENT_CHECK_PLAYERS:
@@ -899,6 +901,8 @@ public:
                     case DIFFICULTY_25_HC:
                         CastWaterspout25();
                         break;
+                    default:
+                        break;
                     }
                     events.ScheduleEvent(EVENT_WATERSPOUT, 40000, 0, 0);
                     break;
@@ -920,6 +924,7 @@ public:
                         events.ScheduleEvent(EVENT_NAKED_AND_AFRAID, 30000, 0, 0);
                         break;
                     }
+                    [[fallthrough]];
                 }
                 case EVENT_RETURN_TO_COMBAT:
                     me->SetReactState(REACT_AGGRESSIVE);
@@ -943,6 +948,8 @@ public:
                     case DIFFICULTY_25_N:
                     case DIFFICULTY_25_HC:
                         CastHuddleInTerror25();
+                        break;
+                    default:
                         break;
                     }
                     events.ScheduleEvent(EVENT_HUDDLE_IN_TERROR, 65000, 0, 0);
