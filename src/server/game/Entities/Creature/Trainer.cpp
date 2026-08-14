@@ -53,7 +53,7 @@ namespace Trainer
             WorldPackets::NPC::TrainerListSpell& trainerListSpell = trainerList.Spells.back();
             trainerListSpell.SpellID = trainerSpell.SpellId;
             trainerListSpell.MoneyCost = int32(trainerSpell.MoneyCost * reputationDiscount);
-            trainerListSpell.ReqSkillLine = trainerSpell.ReqSkillLine == SKILL_JEWELCRAFTING ? SKILL_JEWELCRAFTING_2 : trainerSpell.ReqSkillLine;
+            trainerListSpell.ReqSkillLine = trainerSpell.ReqSkillLine;
             trainerListSpell.ReqSkillRank = trainerSpell.ReqSkillRank;
             std::copy(trainerSpell.ReqAbility.begin(), trainerSpell.ReqAbility.end(), trainerListSpell.ReqAbility.begin());
             trainerListSpell.Usable = AsUnderlyingType(GetSpellState(player, &trainerSpell));
@@ -127,12 +127,16 @@ namespace Trainer
         if (!player->IsSpellFitByClassAndRace(trainerSpell->SpellId))
             return SpellState::Unavailable;
 
-        uint32 const reqSkillLine = trainerSpell->ReqSkillLine == SKILL_JEWELCRAFTING
-            ? SKILL_JEWELCRAFTING_2
-            : trainerSpell->ReqSkillLine;
-
         // check skill requirement
-        if (reqSkillLine && player->GetBaseSkillValue(reqSkillLine) < trainerSpell->ReqSkillRank)
+        uint32 requiredSkillLine = trainerSpell->ReqSkillLine;
+
+        // Classic Enchanting progression is stored on the expansion-specific
+        // child skill line, while trainer requirements can reference the
+        // parent Enchanting skill line.
+        if (requiredSkillLine == SKILL_ENCHANTING)
+            requiredSkillLine = SKILL_ENCHANTING_2;
+
+        if (requiredSkillLine && player->GetBaseSkillValue(requiredSkillLine) < trainerSpell->ReqSkillRank)
             return SpellState::Unavailable;
 
         for (int32 reqAbility : trainerSpell->ReqAbility)
