@@ -8,6 +8,12 @@
  <img width="250" height="30" src="https://www.zupimages.net/up/21/43/drky.jpg">  <img width="250" height="30" src="https://www.zupimages.net/up/21/43/zvg8.jpg">
 </p>
 
+<p align="center">
+    <a href="https://discord.gg/XbJH5zngk5">
+        <img src="https://img.shields.io/badge/Discord-Join%20the%20Community-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Discord">
+    </a>
+</p>
+
 <p align="center"><b>BFA-HavenCore</b> is a open-source project for World of Warcraft, currently supporting the 8.3.7 (build 35662) game version.</p>
 
 <br>
