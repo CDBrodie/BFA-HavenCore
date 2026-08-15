@@ -1,4 +1,4 @@
-name: "👤 NPC or creature problem"
+name: "NPC or creature problem"
 description: "A monster, guard, vendor or friendly NPC behaving wrongly"
 title: "[NPC] "
 labels: ["Creatures", "needs-triage"]

@@ -1,4 +1,4 @@
-name: "📦 Object or vehicle problem"
+name: "Object or vehicle problem"
 description: "A chest, door, ladder, cannon or vehicle that won't work when you click it"
 title: "[Object] "
 labels: ["Object", "needs-triage"]

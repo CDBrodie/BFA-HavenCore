@@ -1,4 +1,4 @@
-name: "✨ Spell, talent or class ability problem"
+name: "Spell, talent or class ability problem"
 description: "An ability that deals the wrong damage, has the wrong cooldown, or that you shouldn't have yet"
 title: "[Class] "
 labels: ["Class", "needs-triage"]

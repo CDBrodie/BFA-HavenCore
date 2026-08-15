@@ -1,4 +1,4 @@
-name: "🎒 Item or loot problem"
+name: "Item or loot problem"
 description: "Wrong stats on an item, something that won't drop, or an empty chest"
 title: "[Item] "
 labels: ["Loot", "needs-triage"]

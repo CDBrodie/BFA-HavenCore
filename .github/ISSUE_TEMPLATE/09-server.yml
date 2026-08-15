@@ -1,4 +1,4 @@
-name: "⚙️ Server, build or crash"
+name: "Server, build or crash"
 description: "For contributors: build failures, crashes, performance problems, or core code issues"
 title: "[Core] "
 labels: ["CPP", "needs-triage"]

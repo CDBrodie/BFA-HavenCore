@@ -1,4 +1,4 @@
-name: "🏰 Dungeon or raid problem"
+name: "Dungeon or raid problem"
 description: "A boss that doesn't work, a fight you can't finish, or wrong loot from a dungeon"
 title: "[Dungeon] "
 labels: ["Instance", "needs-triage"]
