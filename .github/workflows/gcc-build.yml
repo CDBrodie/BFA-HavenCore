@@ -1,0 +1,37 @@
+name: GCC
+
+on:
+  workflow_call:
+    inputs:
+      run_build:
+        description: Whether the changed paths warrant a native build.
+        required: true
+        type: boolean
+
+jobs:
+  build:
+    if: inputs.run_build
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v6
+    - name: Install toolchain and system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y --no-install-recommends \
+          gcc-11 g++-11 ninja-build \
+          libmysqlclient-dev libssl-dev libbz2-dev libreadline-dev zlib1g-dev
+    - name: Install Boost
+      id: install-boost
+      uses: MarkusJx/install-boost@v2.6.0
+      with:
+        boost_version: 1.81.0
+        toolset: gcc
+        platform_version: 22.04
+    - name: Setup
+      env:
+        BOOST_ROOT: ${{ steps.install-boost.outputs.BOOST_ROOT }}
+        CC: gcc-11
+        CXX: g++-11
+      run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DTOOLS=1 -DSCRIPTS=dynamic -DSERVERS=1 -DCMAKE_INSTALL_PREFIX=check_install
+    - name: Build
+      run: cmake --build build --target install --parallel

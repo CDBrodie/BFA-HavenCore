@@ -48,3 +48,9 @@ jobs:
     uses: ./.github/workflows/msvc-build.yml
     with:
       run_build: ${{ needs.changes.outputs.code == 'true' && !github.event.pull_request.draft }}
+
+  gcc:
+    needs: changes
+    uses: ./.github/workflows/gcc-build.yml
+    with:
+      run_build: ${{ needs.changes.outputs.code == 'true' && !github.event.pull_request.draft }}
