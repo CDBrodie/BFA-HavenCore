@@ -92,7 +92,6 @@ private:
     {
         BossAI::Reset();
         DoCastSelf(SPELL_ELECTROSHOCK_STRIKES_DUMMY);
-        Vehicle* vehicle = me->GetVehicleKit();
         me->SummonCreature(NPC_HIGH_TINKER_MEKKATORQUE_GNOME, me->GetPosition(), TEMPSUMMON_MANUAL_DESPAWN);
         if (auto* highTinker = me->FindNearestCreature(NPC_HIGH_TINKER_MEKKATORQUE_GNOME, 30.0f, true))
         {
@@ -105,7 +104,7 @@ private:
             //me->setActive(false); ++
     }
 
-    void JustSummoned(Creature* summon) override
+    void JustSummoned(Creature* /*summon*/) override
     {
     };
 
@@ -132,7 +131,7 @@ private:
             encounterDoor->SetGoState(GO_STATE_READY);
     }
 
-    void DamageTaken(Unit* unit, uint32& damage) override
+    void DamageTaken(Unit* /*unit*/, uint32& /*damage*/) override
     {
         if (me->HealthBelowPct(41) && phase1)
         {
@@ -170,7 +169,7 @@ private:
             {
                 Talk(SAY_BUSTER_CANNON);
                 me->CastSpell(nullptr, SPELL_BUSTER_CANNON_CAST_DUMMY);
-                me->GetScheduler().Schedule(1s, [this, target] (TaskContext context)
+                me->GetScheduler().Schedule(1s, [this, target] (TaskContext /*context*/)
                 {
                     me->CastSpell(nullptr, SPELL_BUSTER_CANNON_CREATE_AT, true);
                 });
@@ -183,7 +182,7 @@ private:
             if (Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 100.0f, true))
             {                
                 me->CastSpell(target->GetPosition(), SPELL_BLAST_OFF, false);
-                me->GetScheduler().Schedule(3600ms, [this, target](TaskContext context)
+                me->GetScheduler().Schedule(3600ms, [this, target](TaskContext /*context*/)
                 {
                     me->CastSpell(target->GetPosition(), SPELL_CRASH_DOWN_DAMAGE);
                 });
@@ -257,7 +256,7 @@ private:
             {
                 me->CastSpell(target, SPELL_WORMHOLE_GENERATOR_VISUAL, true);
                 me->CastSpell(nullptr, SPELL_WORMHOLE_GENERATOR_DUMMY_CAST, false);                
-                me->GetScheduler().Schedule(5s, [this, target] (TaskContext context)
+                me->GetScheduler().Schedule(5s, [this, target] (TaskContext /*context*/)
                 {
                     std::list<Player*> pl_li;
                     me->GetPlayerListInGrid(pl_li, 300.0f);
@@ -328,7 +327,7 @@ struct npc_gnomish_support_claw : public ScriptedAI
         me->SetFlying(true);
     }
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         me->SummonCreature(NPC_SPARK_BOT, me->GetPosition(), TEMPSUMMON_MANUAL_DESPAWN);
         me->DespawnOrUnsummon(3s);
@@ -352,9 +351,9 @@ struct npc_spark_bot : public ScriptedAI
         me->CastSpell(nullptr, SPELL_GNOMISH_FORCE_SHIELD, true);
     }
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
-        me->GetScheduler().Schedule(2s, [this](TaskContext context)
+        me->GetScheduler().Schedule(2s, [this](TaskContext /*context*/)
         {
             me->AI()->DoZoneInCombat(nullptr);
         });
@@ -388,7 +387,7 @@ struct npc_explosive_sheep : public ScriptedAI
         me->SetReactState(REACT_PASSIVE);
     }
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         me->CastSpell(nullptr, SPELL_CRITTER_EXPLOSION, false);
     }

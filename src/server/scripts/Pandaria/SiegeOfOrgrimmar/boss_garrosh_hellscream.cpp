@@ -992,7 +992,7 @@ class RealmOfYShaarjHelper
             m_Events.ScheduleEvent(EVENT_REALM_OF_YSHAARJ_TELEPORT_OUT, TIMER_REALM_OF_YSHAARJ_TELEPORT_OUT);
         }
 
-        void SpawnYShaarjCreatures(IntermissionIndexes intermission)
+        void SpawnYShaarjCreatures(IntermissionIndexes /*intermission*/)
         {
             if (Creature* pHeart = m_Owner->SummonCreature(NPC_HEART_OF_YSHAARJ_2, heartOfYshaarjIntermissionPos[m_NextIntermission]))
             {
@@ -1243,7 +1243,7 @@ class boss_garrosh_hellscream : public CreatureScript
                 m_EnergyRegenerator.Reset();
             }
 
-            void EnterCombat(Unit* who) override
+            void EnterCombat(Unit* /*unit*/) override
             {
                 Talk(SAY_GARROSH_AGGRO);
 
@@ -1374,7 +1374,7 @@ class boss_garrosh_hellscream : public CreatureScript
                 BossAI::EnterEvadeMode();
             }
 
-            void JustDied(Unit* who) override
+            void JustDied(Unit* /*killer*/) override
             {
                 _JustDied();
 
@@ -2106,7 +2106,7 @@ class npc_garrosh_hellscream_desecrated_weapon : public CreatureScript
                 }
             }
 
-            void JustDied(Unit* who) override
+            void JustDied(Unit* /*killer*/) override
             {
                 me->DespawnOrUnsummon(100);
             }
@@ -2240,7 +2240,7 @@ struct npc_garrosh_hellscream_orcsAI : public ScriptedAI
         }
     }
 
-    void JustDied(Unit* who) override
+    void JustDied(Unit* /*killer*/) override
     {
         events.Reset();
         summons.DespawnAll();
@@ -2573,7 +2573,7 @@ class npc_garrosh_hellscream_korkron_iron_star : public CreatureScript
                     HandleExplode();
             }
 
-            void JustDied(Unit* who) override
+            void JustDied(Unit* /*killer*/) override
             {
                 m_IsPowered = false;
 
@@ -2734,7 +2734,7 @@ class npc_garrosh_hellscream_embodied : public CreatureScript
                 }
             }
 
-            void EnterCombat(Unit* who) override
+            void EnterCombat(Unit* /*unit*/) override
             {
                 switch (me->GetEntry())
                 {
@@ -2758,7 +2758,7 @@ class npc_garrosh_hellscream_embodied : public CreatureScript
                 }
             }
 
-            void JustDied(Unit* who) override
+            void JustDied(Unit* /*killer*/) override
             {
                 events.Reset();
 
@@ -2813,7 +2813,7 @@ class npc_garrosh_hellscream_embodied : public CreatureScript
                 });*/
                 me->GetCreatureListWithEntryInGrid(l_Despairs, Adds::NPC_EMBODIED_DESPAIR, 30.0f);
                 for (Creature* creature : l_Despairs)
-                    if (creature = me)
+                    if (creature == me)
                         l_Despairs.remove(me);
             }
 
@@ -2951,7 +2951,7 @@ class npc_garrosh_hellscream_iron_star : public CreatureScript
         struct npc_garrosh_hellscream_iron_starAI : public ScriptedAI
         {
             npc_garrosh_hellscream_iron_starAI(Creature* creature) : ScriptedAI(creature),
-                m_IsMoving(false), m_MovingTimer(TIMER_IRON_STAR_FIXATE_FIRST), m_IsExploded(false), m_ExplodeCheckTimer(500)
+                m_IsMoving(false), m_IsExploded(false), m_MovingTimer(TIMER_IRON_STAR_FIXATE_FIRST), m_ExplodeCheckTimer(500)
             {
                 me->setActive(true);
                 me->SetReactState(REACT_PASSIVE);

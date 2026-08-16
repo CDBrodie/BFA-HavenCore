@@ -466,7 +466,7 @@ struct npc_challenger_fel_explosives : ScriptedAI
 
     void Reset() override {}
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         DoCast(me, SPELL_FEL_EXPLOSIVES_VISUAL, true);
         events.ScheduleEvent(1, 500);

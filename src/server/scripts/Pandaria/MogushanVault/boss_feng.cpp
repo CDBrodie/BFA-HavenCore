@@ -631,8 +631,10 @@ class boss_feng : public CreatureScript
                     case EVENT_RE_ATTACK:
                     {
                         if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO))
+                        {
                             me->GetMotionMaster()->MoveChase(target);
-                            me->SetReactState(REACT_AGGRESSIVE);
+                        }
+                        me->SetReactState(REACT_AGGRESSIVE);
                         break;
                     }
                     // Fist Phase

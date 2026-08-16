@@ -547,7 +547,7 @@ class boss_thok_the_bloodthirsty : public CreatureScript
         {
             boss_thok_the_bloodthirstyAI(Creature* creature) : BossAI(creature, DATA_THOK_THE_BLOODTHIRSTY),
                 m_EnergyRegenerator(creature), m_PrisonsController(creature),
-                m_IsInIntro(true), m_Phase(PHASE_NONE), m_FixateGuid(ObjectGuid::Empty), m_PrisonerGuid(ObjectGuid::Empty),
+                m_Phase(PHASE_NONE), m_IsInIntro(true), m_FixateGuid(ObjectGuid::Empty), m_PrisonerGuid(ObjectGuid::Empty),
                 m_IsYetiReleased(false), m_IsBatsReleased(false)
             {
                 //ApplyAllImmunities(true);
@@ -590,7 +590,7 @@ class boss_thok_the_bloodthirsty : public CreatureScript
                 m_IsBatsReleased = false;
             }
 
-            void EnterCombat(Unit* who) override
+            void EnterCombat(Unit* /*unit*/) override
             {
                 m_Phase = PHASE_NORMAL;
 
@@ -683,7 +683,7 @@ class boss_thok_the_bloodthirsty : public CreatureScript
                 }
             }
 
-            void JustDied(Unit* who) override
+            void JustDied(Unit* /*killer*/) override
             {
                 _JustDied();
 
@@ -1335,7 +1335,7 @@ struct npc_thok_the_bloodthirsty_captive_beastAI : public ScriptedAI
         }
     }
 
-    void JustDied(Unit* killer) override
+    void JustDied(Unit* /*killer*/) override
     {
         events.Reset();
     }
@@ -1418,7 +1418,7 @@ class npc_thok_the_bloodthirsty_starved_yeti : public CreatureScript
                 m_NextWreckingBallPos = wreckingBallPos[0];
             }
 
-            void EnterCombat(Unit* victim) override
+            void EnterCombat(Unit* /*unit*/) override
             {
                 events.ScheduleEvent(EVENT_WRECKING_BALL, TIMER_WRECKING_BALL_FIRST);
             }

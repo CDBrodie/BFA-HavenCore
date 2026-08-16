@@ -1111,7 +1111,7 @@ class npc_hagara_the_stormbinder_stormbinder_adept : public CreatureScript
                 if (me->HasUnitState(UNIT_STATE_CASTING))
                     return;
 
-                switch (uint32 eventId = events.ExecuteEvent())
+                switch (events.ExecuteEvent())
                 {
                     case EVENT_TORNADO:
                         DoCast(SPELL_TORNADO);
@@ -1159,7 +1159,7 @@ class npc_hagara_the_stormbinder_tornado_stalker : public CreatureScript
             {
                 events.Update(diff);
 
-                switch (uint32 eventId = events.ExecuteEvent())
+                switch ([[maybe_unused]] uint32 eventId = events.ExecuteEvent())
                 {
                     case EVENT_TORNADO:
                         me->StopMoving();
@@ -1251,7 +1251,7 @@ class npc_hagara_the_stormbinder_twilight_frost_evoker : public CreatureScript
                             if (!pTarget)
                                 return;
 
-                                DoCast(pTarget, SPELL_BLIZZARD);
+                            DoCast(pTarget, SPELL_BLIZZARD);
 
                             events.ScheduleEvent(EVENT_BLIZZARD, urand(16000, 20000));
                             break;
@@ -1263,7 +1263,7 @@ class npc_hagara_the_stormbinder_twilight_frost_evoker : public CreatureScript
                             if (!pTarget)
                                 return;
 
-                                DoCast(pTarget, SPELL_SHACKLES_OF_ICE);
+                            DoCast(pTarget, SPELL_SHACKLES_OF_ICE);
 
                             events.ScheduleEvent(EVENT_SHACKLES_OF_ICE, urand(8000, 14000));
                             break;
@@ -1537,7 +1537,7 @@ class npc_hagara_the_stormbinder_collapsing_icicle : public CreatureScript
             {
                 events.Update(diff);
 
-                switch (uint32 eventId = events.ExecuteEvent())
+                switch ([[maybe_unused]] uint32 eventId = events.ExecuteEvent())
                 {
                     case EVENT_ICICLE:
                         DoCast(me, SPELL_ICICLE_AURA);
@@ -1772,7 +1772,7 @@ class npc_hagara_the_stormbinder_crystal_conductor : public CreatureScript
             {
                 events.Update(diff);
 
-                switch (uint32 eventId = events.ExecuteEvent())
+                switch ([[maybe_unused]] uint32 eventId = events.ExecuteEvent())
                 {
                     case EVENT_CHECK_PLAYERS:
                         if (Player* pPlayer = me->SelectNearestPlayer(10.0f))
@@ -1840,7 +1840,7 @@ class npc_hagara_the_stormbinder_bound_lightning_elemental : public CreatureScri
 
                 events.Update(diff);
 
-                switch (uint32 eventId = events.ExecuteEvent())
+                switch ([[maybe_unused]] uint32 eventId = events.ExecuteEvent())
                 {
                     case EVENT_CHECK_PLAYERS:
                         me->SetReactState(REACT_AGGRESSIVE);

@@ -26,10 +26,10 @@
 
 DoorData const doorData[] =
 {
-    { GO_SIVARA_ENCOUNTER, DATA_COMMANDER_SIVARA, DOOR_TYPE_ROOM },
-    { GO_SIVARA_LEFT, DATA_COMMANDER_SIVARA, DOOR_TYPE_PASSAGE },
-    { GO_SIVARA_RIGHT, DATA_COMMANDER_SIVARA, DOOR_TYPE_PASSAGE },
-    { GO_LADY_ASHVANE_ENCOUNTER, DATA_LADY_ASHVANE, DOOR_TYPE_ROOM },
+    { GO_SIVARA_ENCOUNTER, DATA_COMMANDER_SIVARA, DOOR_TYPE_ROOM , BOUNDARY_NONE },
+    { GO_SIVARA_LEFT, DATA_COMMANDER_SIVARA, DOOR_TYPE_PASSAGE , BOUNDARY_NONE },
+    { GO_SIVARA_RIGHT, DATA_COMMANDER_SIVARA, DOOR_TYPE_PASSAGE , BOUNDARY_NONE },
+    { GO_LADY_ASHVANE_ENCOUNTER, DATA_LADY_ASHVANE, DOOR_TYPE_ROOM , BOUNDARY_NONE },
 };
 
 struct instance_eternal_palace : public InstanceScript
@@ -71,7 +71,7 @@ struct go_ashvane_arcane_wall : public GameObjectAI
         {
             if (InstanceScript* instance = go->GetInstanceScript())
             {
-                if (instance->GetBossState(DATA_COMMANDER_SIVARA == DONE) && instance->GetBossState(DATA_BLACKWATER_BEHEMOTH == DONE) && instance->GetBossState(DATA_RADIANCE_OF_AZSHARA == DONE))
+                if (instance->GetBossState(DATA_COMMANDER_SIVARA) == DONE && instance->GetBossState(DATA_BLACKWATER_BEHEMOTH) == DONE && instance->GetBossState(DATA_RADIANCE_OF_AZSHARA) == DONE)
                     go->RemoveFromWorld();
 
                 if (go->IsInWorld())
@@ -116,7 +116,7 @@ struct npc_generic_ashvane : public ScriptedAI
         ScriptedAI::Reset();
     }
 
-    void EnterCombat(Unit* u) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         switch (me->GetEntry())
         {
@@ -174,7 +174,7 @@ struct npc_generic_ashvane : public ScriptedAI
         }
     }
 
-    void JustDied(Unit* u) override
+    void JustDied(Unit* /*killer*/) override
     {
         switch (me->GetEntry())
         {

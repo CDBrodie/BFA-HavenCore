@@ -82,7 +82,7 @@ public:
       SummonTimer = 2000;
     }
 
-    void IsSummonedBy(Unit *summoner) override {
+    void IsSummonedBy(Unit* /*summoner*/) override {
       me->SetReactState(REACT_PASSIVE);
       me->AddUnitFlag(UNIT_FLAG_NON_ATTACKABLE);
     }

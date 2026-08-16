@@ -212,7 +212,7 @@ public:
             }
         }
 
-        void KilledUnit(Unit* t)
+        void KilledUnit(Unit* /*t*/)
         {
             SelectSoundAndText(me, 3);
         }
@@ -718,7 +718,7 @@ public:
             }
         }
 
-        void JustDied(Unit* at)
+        void JustDied(Unit* /*killer*/)
         {
             instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
         }

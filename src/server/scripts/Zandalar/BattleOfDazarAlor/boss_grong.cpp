@@ -66,7 +66,6 @@ private:
         me->SetPowerType(POWER_ENERGY);
         me->SetPower(POWER_ENERGY, 0);
         me->AddAura(AURA_OVERRIDE_POWER_COLOR_RAGE);
-        Vehicle* vehicle = me->GetVehicleKit();
         intro = false;
         me->RemoveAllAreaTriggers();
         if (me->GetAreaId() == 10373)
@@ -350,7 +349,7 @@ struct npc_apetagonizer_3000 : public ScriptedAI
         }
     }
 
-    void JustDied(Unit* u) override
+    void JustDied(Unit* /*killer*/) override
     {
         Talk(1);
         DoCastAOE(LIGHTNING_DETONATION);

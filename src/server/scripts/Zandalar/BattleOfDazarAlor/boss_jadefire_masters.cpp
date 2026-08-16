@@ -180,7 +180,7 @@ struct boss_jadefire_masters : public BossAI
 
        case NPC_MANCEROY_FLAMEFIST:            
             _EnterCombat(); 
-            me->GetScheduler().Schedule(4s, [this] (TaskContext context)
+            me->GetScheduler().Schedule(4s, [this] (TaskContext /*context*/)
             {
                 Talk(SAY_MANCEROY_AGGRO);
             });           
@@ -209,7 +209,7 @@ struct boss_jadefire_masters : public BossAI
        }      
    }
 
-   void SpellHitDest(SpellDestination const* dest, SpellInfo const* spellInfo)
+   void SpellHitDest(SpellDestination const* /*dest*/, SpellInfo const* spellInfo)
    {
        if (spellInfo->Id == MAGMA_TRAP_MISSILE_TRIGGER)
        {       
@@ -223,7 +223,7 @@ struct boss_jadefire_masters : public BossAI
            switch (me->GetEntry())
            {
            case NPC_MANCEROY_FLAMEFIST:
-               if (Creature* mestrah = me->FindNearestCreature(NPC_MESTRAH, 100.0f, false))
+               if ([[maybe_unused]] Creature* mestrah = me->FindNearestCreature(NPC_MESTRAH, 100.0f, false))
                {
                    if (auto* wallOfSpears = me->FindNearestGameObject(GO_JADEFIRE_MASTERS_HORDE_WALL_OF_SPEARS_MAIN, 100.0f))
                        wallOfSpears->SetGoState(GO_STATE_ACTIVE);
@@ -299,7 +299,7 @@ struct boss_jadefire_masters : public BossAI
                me->CastStop();
                me->SetReactState(REACT_PASSIVE);
                me->CastSpell(stalker, ROLL);
-               me->GetScheduler().Schedule(1s, [this] (TaskContext context)
+               me->GetScheduler().Schedule(1s, [this] (TaskContext /*context*/)
                {
                     me->SetReactState(REACT_DEFENSIVE);
                     DoCastAOE(WHIRLING_JADE_STORM);
@@ -350,8 +350,9 @@ struct boss_jadefire_masters : public BossAI
                    me->SummonCreature(NPC_LIVING_BOMB_BOD, living_bomb_pos_a, TEMPSUMMON_MANUAL_DESPAWN);
                    me->SummonCreature(NPC_LIVING_BOMB_BOD, living_bomb_pos_b, TEMPSUMMON_MANUAL_DESPAWN);
                }
-           }       
+           }
        }
+       /* fallthrough */
        case EVENT_A_FLASH_OF_HOSTILITY:
        {    
            switch (me->GetEntry())
@@ -368,6 +369,7 @@ struct boss_jadefire_masters : public BossAI
                 break;
            }
        }
+       /* fallthrough */
        case EVENT_MESTRAH_TRANSFORM:
        {
            if (me->GetPower(POWER_ENERGY) == 100)
@@ -560,7 +562,7 @@ struct npc_magma_trap_bod : public ScriptedAI
         me->SetUnitFlags(UNIT_FLAG_NOT_SELECTABLE);
     }
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {        
         me->GetScheduler().Schedule(1s, [this] (TaskContext context)
         {
@@ -659,7 +661,7 @@ struct npc_super_meter : public ScriptedAI
 
     void MoveInLineOfSight(Unit* unit) override
     {
-        if (instance->GetBossState(DATA_FRIDA_IRONBELLOWS) == DONE || instance->GetBossState(DATA_RAWANI_KANAE) == DONE && !call_masters)
+        if (instance->GetBossState(DATA_FRIDA_IRONBELLOWS) == DONE || (instance->GetBossState(DATA_RAWANI_KANAE) == DONE && !call_masters))
         {            
             if (unit->IsPlayer() && unit->GetDistance2d(me) < 45.0f)
             {
@@ -668,7 +670,7 @@ struct npc_super_meter : public ScriptedAI
                 {
                     manceroy->SetWalk(true);
                     manceroy->GetMotionMaster()->MovePoint(1, -922.332f, 796.938f, 368.412f, true);
-                    manceroy->GetScheduler().Schedule(5s, [manceroy] (TaskContext context)
+                    manceroy->GetScheduler().Schedule(5s, [manceroy] (TaskContext /*context*/)
                     {
                         manceroy->RemoveUnitFlag(UNIT_FLAG_IMMUNE_TO_PC);
                         manceroy->RemoveUnitFlag(UNIT_FLAG_IMMUNE_TO_NPC);
@@ -679,7 +681,7 @@ struct npc_super_meter : public ScriptedAI
                 {
                     mestrah->SetWalk(true);
                     mestrah->GetMotionMaster()->MovePoint(1, -922.101f, 813.481f, 368.412f, true);
-                    mestrah->GetScheduler().Schedule(5s, [mestrah] (TaskContext context)
+                    mestrah->GetScheduler().Schedule(5s, [mestrah] (TaskContext /*context*/)
                     {
                         mestrah->RemoveUnitFlag(UNIT_FLAG_IMMUNE_TO_PC);
                         mestrah->RemoveUnitFlag(UNIT_FLAG_IMMUNE_TO_NPC);

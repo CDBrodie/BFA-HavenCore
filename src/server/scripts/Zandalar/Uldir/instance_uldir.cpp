@@ -25,7 +25,7 @@
 
 DoorData const doorData[] =
 {
-    { GO_MYTHRAX_DOOR, DATA_MYTHRAX, DOOR_TYPE_PASSAGE },
+    { GO_MYTHRAX_DOOR, DATA_MYTHRAX, DOOR_TYPE_PASSAGE , BOUNDARY_NONE },
 };
 
 struct instance_uldir : public InstanceScript

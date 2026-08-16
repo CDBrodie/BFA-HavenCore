@@ -347,7 +347,7 @@ class spell_gestate : public AuraScript
         if (Unit* target = GetTarget())
         {
             Unit* caster = GetCaster();
-            GetCaster()->CastSpell(target, SPELL_GESTATE_DAMAGE, true);
+            caster->CastSpell(target, SPELL_GESTATE_DAMAGE, true);
         }
     }
 
@@ -413,7 +413,7 @@ class spell_omega_vector : public AuraScript
             target->CastSpell(target, SPELL_OMEGA_VECTOR_DAMAGE, true);
     }
 
-    void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+    void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
     {
         if (GetEffect(EFFECT_0)->GetTickNumber() >= uint32(GetEffect(EFFECT_0)->GetTotalTicks()))
         {
@@ -492,7 +492,7 @@ class spell_plague_bomb : public SpellScript
     void HandleSummon()
     {
         if (!hitplayers)
-            if (Creature* caster = GetCaster()->ToCreature())
+            if ([[maybe_unused]] Creature* caster = GetCaster()->ToCreature())
             {
                 if (bunny)
                     bunny->CastSpell(bunny, SPELL_PLAGUE_BOMB_SUMMON_AMALGAM);
@@ -565,7 +565,7 @@ class spell_blood_geyser_cast : public SpellScript
 {
     PrepareSpellScript(spell_blood_geyser_cast);
 
-    void HandleDummy(SpellEffIndex effIndex)
+    void HandleDummy(SpellEffIndex /*effIndex*/)
     {
         if (Unit* caster = GetCaster())
             caster->CastSpell(caster, SPELL_BLOOD_GEYSER_CREATE_AT);

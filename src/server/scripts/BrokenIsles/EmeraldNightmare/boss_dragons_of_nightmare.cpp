@@ -392,7 +392,7 @@ struct boss_dragon_taerar : public ScriptedAI
             me->SetVisible(true);
             me->RemoveUnitFlag(UnitFlags(UNIT_FLAG_IMMUNE_TO_PC | UNIT_FLAG_NOT_ATTACKABLE_1));
             me->GetMotionMaster()->MovePoint(2, dragonPos[2].GetPosition(), false);
-            //No break!
+            /* fallthrough */
         case 3:
             DefaultEvents();
             break;
@@ -534,7 +534,7 @@ struct boss_dragon_lethon : public ScriptedAI
             me->SetVisible(true);
             me->RemoveUnitFlag(UnitFlags(UNIT_FLAG_IMMUNE_TO_PC | UNIT_FLAG_NOT_ATTACKABLE_1));
             me->GetMotionMaster()->MovePoint(2, dragonPos[2].GetPosition(), false);
-            //No break!
+            /* fallthrough */
         case 3:
             DefaultEvents();
             break;
@@ -671,7 +671,7 @@ struct boss_dragon_emeriss : public ScriptedAI
             me->SetVisible(true);
             me->RemoveUnitFlag(UnitFlags(UNIT_FLAG_IMMUNE_TO_PC | UNIT_FLAG_NOT_ATTACKABLE_1));
             me->GetMotionMaster()->MovePoint(2, dragonPos[2].GetPosition(), false);
-            //No break!
+            /* fallthrough */
         case 3:
             DefaultEvents();
             break;

@@ -3628,7 +3628,7 @@ public:
         {
             if (SpellInfo const* spellInfo = spell->GetSpellInfo())
             {
-                switch (spell->GetSpellInfo()->Id)
+                switch (spellInfo->Id)
                 {
                 case SPELL_SHAMAN_LIGHTNING_BOLT_ELEM:
                     player->CastSpell(player->GetSelectedUnit(), SPELL_SHAMAN_LIGHTNING_BOLT_ELEM, true);

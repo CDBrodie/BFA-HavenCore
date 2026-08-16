@@ -199,7 +199,7 @@ private:
                 Talk(SAY_KILL);
     }
 
-    void DamageTaken(Unit* /*attacker*/, uint32& damage) override
+    void DamageTaken(Unit* /*attacker*/, uint32& /*damage*/) override
     {
         if (me->HealthBelowPct(65) && !sixtyfivePercent)
         {
@@ -239,7 +239,7 @@ private:
         me->RemoveAllAreaTriggers();
     }
 
-    void CleanEncounter(InstanceScript* instance, Creature* zekvoz)
+    void CleanEncounter(InstanceScript* /*instance*/, Creature* /*zekvoz*/)
     {
         me->DespawnCreaturesInArea(NPC_SILITHID_WARRIOR, 125.0f);
         me->DespawnCreaturesInArea(NPC_NERUBIAN_VOIDWEAVER, 125.0f);
@@ -292,7 +292,7 @@ private:
                 if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 30.0f, true))
                 {
                     DoCast(target, SPELL_MIGHT_OF_THE_VOID, false);
-                    me->GetScheduler().Schedule(3500ms, [this, target](TaskContext context)
+                    me->GetScheduler().Schedule(3500ms, [this, target](TaskContext /*context*/)
                     {
                         me->CastSpell(target, SPELL_VOID_LASH_DMG, true);
                         me->CastSpell(target, SPELL_SHATTER, true);
@@ -303,7 +303,7 @@ private:
             }
         }
         //Phase 1
-        if (this->phase = 1)
+        if (this->phase == 1)
         {
             switch (eventId)
             {
@@ -327,7 +327,7 @@ private:
             }
         }
         //Phase 2
-        if (this->phase = 2)
+        if (this->phase == 2)
         {
             switch (eventId)
             {
@@ -358,7 +358,7 @@ private:
             }
         }
         //Phase 3
-        if (this->phase = 3)
+        if (this->phase == 3)
         {
             switch (eventId)
             {
@@ -417,7 +417,7 @@ struct npc_silithid_warrior : public ScriptedAI
         events.ScheduleEvent(EVENT_JAGGED_MANDIBLE, 2s);
     }
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         me->AI()->DoZoneInCombat(nullptr);
     }
@@ -625,7 +625,7 @@ class spell_shatter : public SpellScript
 {
     PrepareSpellScript(spell_shatter);
 
-    void HandleDummy(SpellEffIndex effIndex)
+    void HandleDummy(SpellEffIndex /*effIndex*/)
     {
         if (Unit* caster = GetCaster())
             caster->CastSpell(caster->GetVictim(), SPELL_SHATTER);
@@ -691,16 +691,16 @@ class spell_roiling_deceit_aura : public AuraScript
 {
     PrepareAuraScript(spell_roiling_deceit_aura);
 
-    void HandlePeriodic(AuraEffect const* aurEff)
+    void HandlePeriodic(AuraEffect const* /*aurEff*/)
     {
         if (Unit* target = GetTarget())
         {
-            Unit* caster = GetCaster();
+            [[maybe_unused]] Unit* caster = GetCaster();
             GetCaster()->CastSpell(target, SPELL_ROILING_DECEIT_AURA_DAMAGE, true);
         }
     }
 
-    void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+    void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
     {
         if (Unit* caster = GetCaster())
             caster->CastSpell(caster, SPELL_ROILING_DECEIT_SUMMON);
@@ -718,7 +718,7 @@ class spell_roiling_deceit_dummy : public SpellScript
 {
     PrepareSpellScript(spell_roiling_deceit_dummy);
 
-    void HandleDummy(SpellEffIndex effIndex)
+    void HandleDummy(SpellEffIndex /*effIndex*/)
     {
         if (Unit* caster = GetCaster())
             caster->CastSpell(caster, SPELL_ROILING_DECEIT_TARGET_SELECTOR);
@@ -806,7 +806,7 @@ struct npc_nerubian_voidweaver : public ScriptedAI
         ScriptedAI::Reset();       
     }
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         me->AI()->DoZoneInCombat(nullptr);
 
@@ -1012,11 +1012,11 @@ class aura_corruptors_path : public AuraScript
 {
     PrepareAuraScript(aura_corruptors_path);
 
-    void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+    void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
     {
         if (Unit* caster = GetCaster())
         {
-            if (Creature* zekvoz = caster->FindNearestCreature(NPC_ZEKVOZ, 150.0f, true))
+            if ([[maybe_unused]] Creature* zekvoz = caster->FindNearestCreature(NPC_ZEKVOZ, 150.0f, true))
             {
                 caster->CastSpell(GetTarget(), SPELL_VOID_WALL, true);
                 caster->CastSpell(GetTarget(), SPELL_WILL_OF_THE_CORRUPTOR, true);

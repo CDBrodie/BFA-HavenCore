@@ -137,7 +137,7 @@ class bfa_spell_generic_deadeye : public AuraScript
 {
     PrepareAuraScript(bfa_spell_generic_deadeye);
 
-    void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+    void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
     {
         Unit* caster = GetCaster();
         if (!caster)
@@ -161,7 +161,7 @@ class bfa_spell_explosive_burst : public AuraScript
 {
     PrepareAuraScript(bfa_spell_explosive_burst);
 
-    void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+    void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
     {
         Unit* caster = GetCaster();
         if (!caster)

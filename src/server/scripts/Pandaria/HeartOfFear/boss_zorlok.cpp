@@ -952,7 +952,7 @@ class boss_zorlok : public CreatureScript
                         me->AddUnitFlag2(UNIT_FLAG2_DISABLE_TURN);
                         me->RemoveUnitFlag2(UNIT_FLAG2_ALLOW_ENEMY_INTERACT);
 
-                        uint32 action = ((phase == PHASE_ZORLOK1 || isEcho) ? EVENT_ATTENUATION : ChooseAction());
+                        uint32 action = ((phase == PHASE_ZORLOK1 || isEcho) ? uint32(EVENT_ATTENUATION) : ChooseAction());
                         events.ScheduleEvent(action, 40000);
 
                         break;
@@ -982,7 +982,7 @@ class boss_zorlok : public CreatureScript
                         Talk(TALK_CONVERT);
                         DoCast(SPELL_CONVERT);
 
-                        uint32 action = ((phase == PHASE_ZORLOK1 || isEcho) ? EVENT_CONVERT : ChooseAction());
+                        uint32 action = ((phase == PHASE_ZORLOK1 || isEcho) ? uint32(EVENT_CONVERT) : ChooseAction());
                         events.ScheduleEvent(action, 40000);
 
                         break;
@@ -1034,7 +1034,7 @@ class boss_zorlok : public CreatureScript
                         text << (me->GetName()) << " shouts with |cFFFF0000|Hspell:122713|h[Force et brio]|h|r!";
                         me->TextEmote(text.str().c_str(), 0, true);
                         me->CastSpell(me, SPELL_FORCE_AND_VERVE, true);
-                        uint32 action = ((phase == PHASE_ZORLOK1 || isEcho) ? EVENT_FORCE_AND_VERVE : ChooseAction());
+                        uint32 action = ((phase == PHASE_ZORLOK1 || isEcho) ? uint32(EVENT_FORCE_AND_VERVE) : ChooseAction());
                         // On first Force and Verve during phase 2 in Heroic mode, Zor'lok summons the last echo at the end of spell (10 secs)
                         if (!hasSummonedLastEcho && phase == PHASE_ZORLOK2)
                         {

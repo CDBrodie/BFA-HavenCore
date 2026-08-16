@@ -124,7 +124,7 @@ struct boss_rawani_kanae : public BossAI
         DoCast(PERIODIC_ENERGY_GAIN);
         me->StopMoving();
         me->AddAura(SEAL_OF_RETRIBUTION);
-        me->GetScheduler().Schedule(3s, [this] (TaskContext context)
+        me->GetScheduler().Schedule(3s, [this] (TaskContext /*context*/)
         {
             Talk(SAY_RETRIBUTION);           
         });
@@ -371,7 +371,7 @@ struct npc_zandalari_crusader_147896 : public ScriptedAI
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
     }
 
-    void EnterCombat(Unit * u) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         //instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
         events.ScheduleEvent(EVENT_CRUSADER_STRIKE, 3s);
@@ -404,7 +404,7 @@ struct npc_zandalari_crusader_147896 : public ScriptedAI
         }
     }
 
-    void JustDied(Unit* u) override
+    void JustDied(Unit* /*killer*/) override
     {
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
         if (Creature* frida = me->FindNearestCreature(NPC_RAWANI_KANAE, 100.0f))
@@ -461,7 +461,7 @@ struct npc_rezani_disciple_147895 : public ScriptedAI
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
     }
 
-    void EnterCombat(Unit* u) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         //instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
         events.ScheduleEvent(EVENT_DIVINE_BURST, 3s);
@@ -490,7 +490,7 @@ struct npc_rezani_disciple_147895 : public ScriptedAI
         }
     }
 
-    void JustDied(Unit* u) override
+    void JustDied(Unit* /*killer*/) override
     {
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
         if (Creature* frida = me->FindNearestCreature(NPC_RAWANI_KANAE, 100.0f))

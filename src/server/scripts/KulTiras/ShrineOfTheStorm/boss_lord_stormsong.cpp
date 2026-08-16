@@ -136,7 +136,7 @@ public:
             }
         }
 
-        void EnterEvadeMode(EvadeReason why)
+        void EnterEvadeMode(EvadeReason /*why*/)
         {
             summons.DespawnAll();
             _DespawnAtEvade(15);
@@ -253,7 +253,7 @@ public:
     {
         PrepareAuraScript(bfa_spell_ancient_mindbender_AuraScript);
 
-        void CalculateAmount(AuraEffect const* auraEffect, int32& amount, bool& /*canBeRecalculated*/)
+        void CalculateAmount(AuraEffect const* /*auraEffect*/, int32& amount, bool& /*canBeRecalculated*/)
         {
             amount = -1;
         }

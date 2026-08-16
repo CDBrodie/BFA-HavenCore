@@ -92,7 +92,7 @@ private:
         Talk(SAY_DEATH);
     }
 
-    void KilledUnit(Unit* victim) override { }
+    void KilledUnit(Unit* /*victim*/) override { }
 
     void DamageTaken(Unit* /*attacker*/, uint32& /*damage*/) override // percent 90/80/70/60 will be done by Call Dogs (soon)
     {

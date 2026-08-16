@@ -342,12 +342,16 @@ class boss_sinestra : public CreatureScript
                                 orbs[1]->ClearUnitState(UNIT_STATE_CASTING);
 
                                 if (orbs[1]->GetVictim())
+                                {
                                     orbs[1]->RemoveUnitFlag(UNIT_FLAG_REMOVE_CLIENT_CONTROL);
                                     orbs[1]->GetMotionMaster()->MoveChase(orbs[1]->GetVictim());
+                                }
 
                                 if (orbs[0]->GetVictim())
+                                {
                                     orbs[0]->RemoveUnitFlag(UNIT_FLAG_REMOVE_CLIENT_CONTROL);
                                     orbs[0]->GetMotionMaster()->MoveChase(orbs[0]->GetVictim());
+                                }
                             }
                             break;
                         case EVENT_RESET_ORBS:

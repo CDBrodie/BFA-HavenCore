@@ -222,7 +222,7 @@ public:
         PrepareAuraScript(spell_dk_crimsom_scourge_AuraScript);
 
 
-        bool CheckProc(ProcEventInfo& eventInfo)
+        bool CheckProc(ProcEventInfo& /*eventInfo*/)
         {
             Unit* target = GetTarget();
             target->HasAura(SPELL_DK_BLOOD_PLAGUE);
@@ -653,14 +653,14 @@ public:
                 }
 
                 /* If on quest 12757 "Scarlet enemies approach" */
-                else if ( (player->GetQuestStatus(QUEST_LIGHT_OF_DAWN) == QUEST_STATUS_NONE) && (player->GetQuestStatus(QUEST_SCARLET_ARMIES_APPROACH) == QUEST_STATUS_NONE) && (!player->IsAlliedRace())
+                else if ( ((player->GetQuestStatus(QUEST_LIGHT_OF_DAWN) == QUEST_STATUS_NONE) && (player->GetQuestStatus(QUEST_SCARLET_ARMIES_APPROACH) == QUEST_STATUS_NONE) && (!player->IsAlliedRace()))
                 || (player->HasQuest(QUEST_SCARLET_ARMIES_APPROACH) && (!player->IsAlliedRace())) )
                 {
                     player->TeleportTo(609, 2368.0444f, -5656.1748f, 382.2804f, player->GetOrientation()); // classic ebon hold
                 }
 
                 /* If quest 12801 "Light of Dawn" is completed OR if player is alliedrace*/
-                else if ( (player->GetQuestStatus(QUEST_LIGHT_OF_DAWN) == QUEST_STATUS_REWARDED) && (player->GetQuestStatus(QUEST_SCARLET_ARMIES_APPROACH) == QUEST_STATUS_REWARDED)
+                else if ( ((player->GetQuestStatus(QUEST_LIGHT_OF_DAWN) == QUEST_STATUS_REWARDED) && (player->GetQuestStatus(QUEST_SCARLET_ARMIES_APPROACH) == QUEST_STATUS_REWARDED))
                 || (player->IsAlliedRace()) )
                 {
                     player->TeleportTo(0, 2368.0444f, -5656.1748f, 382.2804f, player->GetOrientation()); // final phase of classic ebon hold
@@ -1008,9 +1008,6 @@ public:
             // Apply Blood Rites effects
             if (caster->ToPlayer()->HasAura(SPELL_DK_BLOOD_RITES))
             {
-                bool l_RuneFrost = false;
-                bool l_RuneUnholy = false;
-
                 std::vector<uint8> runes;
                 for (uint8 i = 0; i < MAX_RUNES; ++i)
                     if (caster->ToPlayer()->GetRuneCooldown(i) == caster->ToPlayer()->GetRuneBaseCooldown())

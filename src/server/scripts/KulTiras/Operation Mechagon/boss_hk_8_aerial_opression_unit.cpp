@@ -109,7 +109,7 @@ struct npc_tank_buster_mk1 : public ScriptedAI
         init_stage_two = false;        
     }
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         if (instance)
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
@@ -144,7 +144,7 @@ struct npc_tank_buster_mk1 : public ScriptedAI
         }
     }
 
-    void DamageTaken(Unit* u, uint32& dmg)
+    void DamageTaken(Unit* /*u*/, uint32& /*dmg*/)
     {
         if (me->HealthBelowPct(2) && !init_stage_two)
         {
@@ -186,7 +186,7 @@ struct npc_tank_buster_mk1 : public ScriptedAI
             if (Unit* target = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 100.0f, true))
             {
                 DoCast(target, SPELL_WRECK, false);
-                me->GetScheduler().Schedule(2900ms, [target, this] (TaskContext context)
+                me->GetScheduler().Schedule(2900ms, [target, this] (TaskContext /*context*/)
                 {
                     DoCast(target, SPELLW_WRECK_DAMAGE, false);
                 });
@@ -214,7 +214,7 @@ struct npc_tank_buster_mk1 : public ScriptedAI
         case EVENT_CANNON_BLAST:
             if (Creature* hk8 = me->FindNearestCreature(NPC_HK_8_AERIAL_OPPRESION_UNIT, 100.0f, true))
             {
-                if (Creature* center_stalker = me->FindNearestCreature(NPC_HK8_CENTER_ARENA_STALKER, 100.0f, true))
+                if ([[maybe_unused]] Creature* center_stalker = me->FindNearestCreature(NPC_HK8_CENTER_ARENA_STALKER, 100.0f, true))
                 {
                     hk8->AI()->Talk(SAY_CANNON_BLAST);
                     hk8->AI()->DoCast(SPELL_CANNON_BLAST_TRIGGER);
@@ -377,7 +377,7 @@ struct npc_hk8_arena_center_stalker : public ScriptedAI
         {            
             if (instance->GetBossState(DATA_HK8) != DONE)
             {
-                if (Creature* stalker = me->FindNearestCreature(NPC_HK_8_AERIAL_OPPRESION_UNIT, 100.0f, true))                
+                if ([[maybe_unused]] Creature* stalker = me->FindNearestCreature(NPC_HK_8_AERIAL_OPPRESION_UNIT, 100.0f, true))
                     return;
                 else
                 {

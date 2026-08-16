@@ -154,25 +154,25 @@ struct instance_atal_dazar : public InstanceScript
             break;
         case GO_GATE_005:
             Gate05GUID = go->GetGUID();
-            if (GameObject* ancientSwitch = instance->GetGameObject(ancientSwitchGUID))
+            if (instance->GetGameObject(ancientSwitchGUID))
                 go->SetGoState(GetBossState(NPC_VOLKAAL) == IN_PROGRESS ? GO_STATE_READY : GO_STATE_ACTIVE);
             go->AddFlag(GO_FLAG_NOT_SELECTABLE);
             break;
         case GO_GATE_006:
             Gate06GUID = go->GetGUID();
-            if (GameObject* ancientSwitch = instance->GetGameObject(ancientSwitchGUID))
+            if (instance->GetGameObject(ancientSwitchGUID))
                 go->SetGoState(GetBossState(NPC_VOLKAAL) == IN_PROGRESS ? GO_STATE_READY : GO_STATE_ACTIVE);
             go->AddFlag(GO_FLAG_NOT_SELECTABLE);
             break;
         case GO_GATE_007:
             Gate07GUID = go->GetGUID();
-            if (GameObject* ancientSwitch = instance->GetGameObject(ancientSwitchGUID))
+            if (instance->GetGameObject(ancientSwitchGUID))
                 go->SetGoState(GetBossState(NPC_VOLKAAL) == IN_PROGRESS ? GO_STATE_READY : GO_STATE_ACTIVE);
             go->AddFlag(GO_FLAG_NOT_SELECTABLE);
             break;
         case GO_GATE_008:
             Gate08GUID = go->GetGUID();
-            if (GameObject* ancientSwitch = instance->GetGameObject(ancientSwitchGUID))
+            if (instance->GetGameObject(ancientSwitchGUID))
                 go->SetGoState(GetBossState(NPC_VOLKAAL) == IN_PROGRESS ? GO_STATE_READY : GO_STATE_ACTIVE);
             go->AddFlag(GO_FLAG_NOT_SELECTABLE);
             break;

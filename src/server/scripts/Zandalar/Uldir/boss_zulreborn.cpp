@@ -132,7 +132,7 @@ private:
         DoCastSelf(SPELL_PERIODIC_ENERGY_GAIN);
     }
 
-    void DamageTaken(Unit* /*attacker*/, uint32& damage) override
+    void DamageTaken(Unit* /*attacker*/, uint32& /*damage*/) override
     {
         if (me->HealthBelowPct(41) && this->phase == 1)
         {
@@ -263,7 +263,7 @@ private:
         me->RemoveAllAreaTriggers();
     }
 
-    void CleanEncounter(InstanceScript* instance, Creature* zul)
+    void CleanEncounter(InstanceScript* /*instance*/, Creature* /*zul*/)
     {
         me->DespawnCreaturesInArea(NPC_POOL_OF_DARKNESS, 125.0f);
         me->DespawnCreaturesInArea(NPC_CRAWG, 125.0f);
@@ -297,7 +297,7 @@ class aura_dark_revelation : public AuraScript
 {
     PrepareAuraScript(aura_dark_revelation);
 
-    void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+    void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
     {
         if (Unit* caster = GetCaster())
         {
@@ -488,7 +488,7 @@ struct go_zul_trapdoor : public GameObjectAI
         {
             if (InstanceScript* instance = go->GetInstanceScript())
             {
-                if (instance->GetBossState(DATA_TALOC == DONE) && instance->GetBossState(DATA_MOTHER == DONE) && instance->GetBossState(DATA_DEVOURER == DONE) && instance->GetBossState(DATA_VECTIS == DONE) && instance->GetBossState(DATA_ZEKVOZ == DONE)) /*&& instance->GetBossState(DATA_ZUL == DONE)*/
+                if (instance->GetBossState(DATA_TALOC) == DONE && instance->GetBossState(DATA_MOTHER) == DONE && instance->GetBossState(DATA_DEVOURER) == DONE && instance->GetBossState(DATA_VECTIS) == DONE && instance->GetBossState(DATA_ZEKVOZ) == DONE) /*&& instance->GetBossState(DATA_ZUL == DONE)*/
                     go->SetGoState(GO_STATE_ACTIVE);
                 else
                     context.Repeat(15s);
@@ -555,7 +555,7 @@ class aura_decaying_flesh : public AuraScript
 {
     PrepareAuraScript(aura_decaying_flesh);
 
-    void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+    void OnRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
     {
     }
 

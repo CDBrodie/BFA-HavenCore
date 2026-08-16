@@ -35,10 +35,10 @@
 
 static const DoorData doorData[] =
 {
-    {GO_ULDUM_DOOR_14,                      DATA_TEMPLE_GUARDIAN_ANHUUR_EVENT,      DOOR_TYPE_ROOM      },
-    {GO_ANHUURS_DOOR,                       DATA_TEMPLE_GUARDIAN_ANHUUR_EVENT,      DOOR_TYPE_PASSAGE   },
-    {GO_ANHUURS_BRIDGE,                     DATA_TEMPLE_GUARDIAN_ANHUUR_EVENT,      DOOR_TYPE_PASSAGE   },
-    {0,                                     0,                                      DOOR_TYPE_ROOM      } // END
+    {GO_ULDUM_DOOR_14,                      DATA_TEMPLE_GUARDIAN_ANHUUR_EVENT,      DOOR_TYPE_ROOM,    BOUNDARY_NONE },
+    {GO_ANHUURS_DOOR,                       DATA_TEMPLE_GUARDIAN_ANHUUR_EVENT,      DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    {GO_ANHUURS_BRIDGE,                     DATA_TEMPLE_GUARDIAN_ANHUUR_EVENT,      DOOR_TYPE_PASSAGE, BOUNDARY_NONE },
+    {0,                                     0,                                      DOOR_TYPE_ROOM,    BOUNDARY_NONE } // END
 };
 
 class instance_halls_of_origination : public InstanceMapScript
@@ -98,6 +98,7 @@ class instance_halls_of_origination : public InstanceMapScript
                     anraphetDoorGUID = go->GetGUID();
                     if(slainElementals >= 4)
                         HandleGameObject(ObjectGuid::Empty, true, go);
+                    break;
                 case GO_LIGHTMACHINE_1:
                 case GO_LIGHTMACHINE_2:
                 case GO_LIGHTMACHINE_3:

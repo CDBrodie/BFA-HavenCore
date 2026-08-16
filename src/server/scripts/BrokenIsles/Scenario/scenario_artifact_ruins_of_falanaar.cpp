@@ -518,9 +518,8 @@ struct npc_verstok_darkbough_108053 : public ScriptedAI
             me->GetScheduler().Schedule(Milliseconds(6000), [this](TaskContext context)
             {
                 //summon fang
-                TempSummon* fang = me->SummonCreature(107385, Position(2063.92f, 5403.93f, -34.7028f, 0.715101f));
-
-                GameObject* fangloot = me->SummonGameObject(250386, Position(2063.78f, 5403.75f, -34.7747f, 0.7151f), QuaternionData(), WEEK);
+                me->SummonCreature(107385, Position(2063.92f, 5403.93f, -34.7028f, 0.715101f));
+                me->SummonGameObject(250386, Position(2063.78f, 5403.75f, -34.7747f, 0.7151f), QuaternionData(), WEEK);
             });
 
             break;
@@ -531,6 +530,7 @@ struct npc_verstok_darkbough_108053 : public ScriptedAI
     {
         instance = me->GetInstanceScript();
     }
+
 private:
     InstanceScript * instance;
 };

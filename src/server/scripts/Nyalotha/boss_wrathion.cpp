@@ -306,7 +306,7 @@ private:
                 // On TC, speed also affect non-missiles effects
                 if (SpellInfo const* spellInfo = sSpellMgr->GetSpellInfo(SPELL_SCALES_OF_WRATHION_MISSILE))
                 {
-                    if (SpellEffectInfo const* effectInfo = spellInfo->GetEffect(GetDifficulty()))
+                    if (spellInfo->GetEffect(GetDifficulty()))
                     {
                         Position destPos = GetRandomRoomPosition();
 

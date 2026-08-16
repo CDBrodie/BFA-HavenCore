@@ -53,7 +53,7 @@ struct npc_queen_azshara_154480 : public ScriptedAI
 			Talk(0);
 			if (Creature* szalira = me->FindNearestCreature(NPC_SZALIRA, 50.0f, true))
 			{
-				szalira->GetScheduler().Schedule(9s, [this, szalira](TaskContext context)
+				szalira->GetScheduler().Schedule(9s, [this, szalira](TaskContext /*context*/)
 				{
 					//Yes, my queen. I sacrifice all that I am to serve you!
 					szalira->AI()->Talk(0);

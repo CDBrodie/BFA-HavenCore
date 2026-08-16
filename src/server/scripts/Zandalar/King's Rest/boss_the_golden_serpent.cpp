@@ -29,7 +29,7 @@ struct boss_golden_serpent : public BossAI
         BossAI::Reset();
     }
 
-    void EnterCombat(Unit* u) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         _EnterCombat();
         events.ScheduleEvent(EVENT_SPIRIT_OF_GOLD, 5s);
@@ -56,12 +56,10 @@ struct boss_golden_serpent : public BossAI
              DoCastRandom(SPELL_SPIRIT_OF_GOLD_PERIODIC, 100.0f);
              events.Repeat(15s);
              break;
-
         case EVENT_TAIL_THRASH:
              DoCastVictim(SPELL_TAIL_THRASH);
              events.Repeat(25s);
-
-
+             /* fallthrough */
         case EVENT_SERPENT_GUST_WIND:
              DoCastAOE(SPELL_SERPENTINE_GUST, false);
              events.Repeat(35s);
@@ -69,7 +67,7 @@ struct boss_golden_serpent : public BossAI
         }
     }
 
-    void JustDied(Unit* u) override
+    void JustDied(Unit* /*killer*/) override
     {
         _JustDied();
     }

@@ -467,7 +467,6 @@ public:
 
                         if (!caster)
                             return;
-                        uint32 prevItem = target->GetVirtualItemId(0);
                         if (Player* player = caster->ToPlayer())
 
                         {
@@ -478,8 +477,6 @@ public:
                         else
                             target->SetVirtualItem(0, caster->GetVirtualItemId(0));
 
-                        prevItem = target->GetVirtualItemId(2);
-
                         if (Player* player = caster->ToPlayer())
                         {
                             if (Item* offItem = player->GetItemByPos(INVENTORY_SLOT_BAG_0, EQUIPMENT_SLOT_OFFHAND))
@@ -487,8 +484,6 @@ public:
                         }
                         else
                             target->SetVirtualItem(2, caster->GetVirtualItemId(2));
-
-                        prevItem = target->GetVirtualItemId(4);
 
                         if (Player* player = caster->ToPlayer())
                         {

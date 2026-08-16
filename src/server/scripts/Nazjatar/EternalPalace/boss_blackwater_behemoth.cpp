@@ -144,7 +144,7 @@ public:
                 oxy->SetNpcFlags(UNIT_NPC_FLAG_GOSSIP);
         }
 
-        void MoveInLineOfSight(Unit* who)
+        void MoveInLineOfSight(Unit* /*who*/)
         {
             if (!oxygenSpawned)
             {
@@ -497,7 +497,7 @@ public:
                         for (auto player : playerList)
                         {
                             std::ostringstream str;
-                            str << player->GetName(); " has been targeted by |cFFF00000|h[Piercing Barb]|h|r!";
+                            str << player->GetName() << " has been targeted by |cFFF00000|h[Piercing Barb]|h|r!";
                             me->TextEmote(str.str().c_str(), 0, true);
 
                             me->CastSpell(player, SPELL_PIERCING_BARB_CAST);
@@ -917,7 +917,7 @@ public:
             return fabs(sin(angle)) * source.GetExactDist2d(obj->GetPositionX(), obj->GetPositionY()) < beamWidth;
         }
 
-        void OnPeriodic(AuraEffect const* aurEff)
+        void OnPeriodic(AuraEffect const* /*aurEff*/)
         {
             Unit* caster = GetCaster();
             Unit* target = caster->GetVictim();
@@ -928,7 +928,6 @@ public:
 
             Unit* maintrigger = caster;
             Unit* triggerTarget = target;
-            Unit* targetPlayer = NULL;
 
             if (!maintrigger || !triggerTarget)
                 return;
@@ -1010,8 +1009,6 @@ public:
 
         void OnUpdate(uint32 diff)
         {
-            float range = 8.0f;
-
             std::list<Player*> playerList;
             at->GetPlayerListInGrid(playerList, 8.0f);
             if (!playerList.empty())
@@ -1020,7 +1017,7 @@ public:
                 {
                     if (!player->HasAura(SPELL_BIOLUMINESCENCE) && !player->GetRoleForGroup() == ROLE_TANK)
                         player->AddAura(SPELL_BIOLUMINESCENCE, player);
-                    else if (!player->HasAura(SPELL_BIOLUMINESCENCE && player->GetRoleForGroup() == ROLE_TANK))
+                    else if (!player->HasAura(SPELL_BIOLUMINESCENCE) && player->GetRoleForGroup() == ROLE_TANK)
                         player->AddAura(SPELL_RADIANT_BIOMASS_AURA, player);
                 }
             }

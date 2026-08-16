@@ -108,7 +108,7 @@ static const std::pair<uint32, uint32> m_pMutations[4] =
     { SPELL_CLEAR_MIND, SPELL_CLOUDED_MIND }
 };
 
-static inline const uint32 GetTotalMutations(Unit* pUnit)
+static inline uint32 GetTotalMutations(Unit* pUnit)
 {
     uint32 m_uiMutations = 0;
 
@@ -116,7 +116,7 @@ static inline const uint32 GetTotalMutations(Unit* pUnit)
 
     for (uint8 i = 0; i < 4; ++i)
     {
-        if (pAura = pUnit->GetAura(m_pMutations[i].first))
+        if ((pAura = pUnit->GetAura(m_pMutations[i].first)))
             m_uiMutations += pAura->GetStackAmount();
     }
 

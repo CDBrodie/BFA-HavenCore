@@ -1166,7 +1166,6 @@ private:
         if (GetCaster()->HasAura(SPELL_WARRIOR_BATTLE_TRANCE))
         {
             Unit* target = GetCaster()->ToPlayer()->GetSelectedUnit();
-            ObjectGuid targetGUID = target->GetGUID();
             targetHit++;
 
             if (this->targetHit == 4)
@@ -2898,7 +2897,7 @@ public:
 
     void OnSpellCast(Player* player, Spell* spell, bool) override
     {
-        if (!player->getClass() == CLASS_WARRIOR)
+        if (player->getClass() != CLASS_WARRIOR)
             return;
 
         if (Aura* anger = player->GetAura(SPELL_WARRIOR_ANGER_MANAGEMENT))
@@ -2999,7 +2998,7 @@ public:
         if (killer->getClass() != CLASS_WARRIOR)
             return;
 
-        if (!killer->HasAura(SPELL_WARRRIOR_WAR_MACHINE_BUFF && killer->HasAura(SPELL_WARRIOR_WAR_MACHINE)))
+        if (!killer->HasAura(SPELL_WARRRIOR_WAR_MACHINE_BUFF) && killer->HasAura(SPELL_WARRIOR_WAR_MACHINE))
             killer->CastSpell(nullptr, SPELL_WARRRIOR_WAR_MACHINE_BUFF, true);
     }
 
@@ -3008,7 +3007,7 @@ public:
         if (killer->getClass() != CLASS_WARRIOR)
             return;
 
-        if (!killer->HasAura(SPELL_WARRRIOR_WAR_MACHINE_BUFF && killer->HasAura(SPELL_WARRIOR_WAR_MACHINE)))
+        if (!killer->HasAura(SPELL_WARRRIOR_WAR_MACHINE_BUFF) && killer->HasAura(SPELL_WARRIOR_WAR_MACHINE))
             killer->CastSpell(nullptr, SPELL_WARRRIOR_WAR_MACHINE_BUFF, true);
     }
 };

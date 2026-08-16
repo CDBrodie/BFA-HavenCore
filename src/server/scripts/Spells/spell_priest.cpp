@@ -246,7 +246,6 @@ class spell_pri_power_word_shield : public SpellScript
 
     SpellCastResult CheckCast()
     {
-        Unit* caster = GetCaster();
         Unit* target = GetExplTargetUnit();
 
         if (target->HasAura(SPELL_PRIEST_WEAKENED_SOUL))

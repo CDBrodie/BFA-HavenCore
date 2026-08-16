@@ -102,7 +102,7 @@ private:
 		me->SetReactState(REACT_AGGRESSIVE);		
 	}
 
-	void EnterCombat(Unit* /*who*/ override)
+	void EnterCombat(Unit* /*who*/) override
 	{
 		_EnterCombat();
 		Talk(SAY_AGGRO);

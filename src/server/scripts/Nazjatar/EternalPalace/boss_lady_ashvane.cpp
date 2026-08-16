@@ -190,7 +190,7 @@ public:
             }
         }
 
-        void MoveInLineOfSight(Unit* who) override
+        void MoveInLineOfSight(Unit* /*who*/) override
         {
             if (!introText)
             {
@@ -1115,7 +1115,7 @@ public:
             creature->AddUnitState(UNIT_STATE_ROOT);
         }
 
-        void JustDied(Unit* unit) override
+        void JustDied(Unit* /*killer*/) override
         {
             if (auto owner = me->GetOwner())
             {

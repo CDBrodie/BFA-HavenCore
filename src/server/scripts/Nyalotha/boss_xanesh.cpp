@@ -235,7 +235,7 @@ struct boss_xanesh : public BossAI
 		}
 	}
 
-	void CleanupEncounter(InstanceScript* instance, Creature* me)
+	void CleanupEncounter(InstanceScript* /*instance*/, Creature* me)
 	{
 		_JustReachedHome();
 		me->DespawnCreaturesInArea(NPC_FLAYED_SOUL, 125.0f);

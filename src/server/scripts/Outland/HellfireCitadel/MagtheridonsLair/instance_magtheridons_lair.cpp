@@ -31,8 +31,8 @@ BossBoundaryData const boundaries =
 
 DoorData const doorData[] =
 {
-    { GO_MAGTHERIDON_DOOR,      DATA_MAGTHERIDON,           DOOR_TYPE_ROOM },
-    { 0,                        0,                          DOOR_TYPE_ROOM } // END
+    { GO_MAGTHERIDON_DOOR,      DATA_MAGTHERIDON,           DOOR_TYPE_ROOM , BOUNDARY_NONE },
+    { 0,                        0,                          DOOR_TYPE_ROOM , BOUNDARY_NONE } // END
 };
 
 ObjectData const creatureData[] =

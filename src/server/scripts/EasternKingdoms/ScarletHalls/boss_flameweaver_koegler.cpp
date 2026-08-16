@@ -131,7 +131,7 @@ struct npc_book_case : public ScriptedAI
 
     void EnterCombat(Unit* /*who*/) override { }
 
-    void SpellHit(Unit* caster, SpellInfo const* spell) override
+    void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override
     {
         if (spell->Id == SPELL_BOOK_BURNER)
             DoCast(me, SPELL_BURNING_BOOKS);

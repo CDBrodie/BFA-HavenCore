@@ -352,9 +352,11 @@ class boss_magmaw : public CreatureScript
                         init.SetFacing(pos ? 4.7f : 3.47f);
 
                         std::list<Position> summonPos;
-                          for (uint8 i = 0; i < 8; i++)
+                        for (uint8 i = 0; i < 8; i++)
+                        {
                             me->SummonCreature(NPC_IGNITION_TRIGGER, me->GetPositionX() + i, me->GetPositionY() + i, me->GetPositionZ(), 1.5f, TEMPSUMMON_TIMED_DESPAWN, 65100);
-                            summonPos.clear();
+                        }
+                        summonPos.clear();
                         events.DelayEvents(10000);
                         events.ScheduleEvent(EVENT_MASSIVE_CRASH, 3000);
                         events.ScheduleEvent(EVENT_EJECT, 40000);
@@ -380,6 +382,7 @@ class boss_magmaw : public CreatureScript
                         events.RescheduleEvent(EVENT_MAGMA_SPIT, urand(8000, 10000));
                         events.RescheduleEvent(EVENT_PILLAR_OF_FLAME, urand(8000, 12000));
                         events.RescheduleEvent(EVENT_MANGLE, urand(25000, 30000));
+                        break;
                     case EVENT_MASSIVE_CRASH_END:
                         me->RemoveUnitFlag(UNIT_FLAG_NOT_SELECTABLE);
                         me->SetReactState(REACT_AGGRESSIVE);

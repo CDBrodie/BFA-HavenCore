@@ -97,13 +97,13 @@ public:
             addsDead = 0;
         }
 
-        void EnterEvadeMode(EvadeReason why) override
+        void EnterEvadeMode(EvadeReason /*why*/) override
         {
             _DespawnAtEvade(15);
             Reset();
         }
 
-        void SummonedCreatureDies(Creature* summon, Unit* killer)
+        void SummonedCreatureDies(Creature* summon, Unit* /*killer*/)
         {
             switch (summon->GetEntry())
             {
@@ -146,7 +146,7 @@ public:
             }
         }
 
-        void DamageTaken(Unit* attacker, uint32& damage)
+        void DamageTaken(Unit* /*attacker*/, uint32& /*damage*/)
         {
             if (me->HealthBelowPct(50) && !splitPhase2)
             {
@@ -228,7 +228,6 @@ public:
                 {
                     float x;
                     float y;
-                    float z = me->GetPositionZ();
 
                     switch (rand() % 5)
                     {
@@ -426,7 +425,7 @@ public:
     public:
         PrepareAuraScript(bfa_spell_choking_brine_AuraScript);
 
-        void HandleEffectRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+        void HandleEffectRemove(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
         {
             if (!GetUnitOwner())
                 return;

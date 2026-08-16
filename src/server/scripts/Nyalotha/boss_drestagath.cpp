@@ -353,14 +353,14 @@ struct boss_drestagath : public BossAI
 		_DespawnAtEvade();
 	}
 
-	void JustDied(Unit* unit) override
+	void JustDied(Unit* /*killer*/) override
 	{
 		_JustDied();
 		CleanupEncounter(instance, me);
 		instance->DoModifyPlayerCurrencies(CURRENCY_ECHOES_OF_NYALOTHA, 16);
 	}
 
-	void CleanupEncounter(InstanceScript* instance, Creature* me)
+	void CleanupEncounter(InstanceScript* /*instance*/, Creature* me)
 	{
 		_JustReachedHome();
 		me->DespawnCreaturesInArea(NPC_EYE_OF_DRESTAGATH, 125.0f);
@@ -494,7 +494,7 @@ struct npc_maw_of_drestagath : public ScriptedAI
 
 	void MoveInLineOfSight(Unit* unit) override
 	{
-		if (me->HasAura(SPELL_MUTTERING_OF_BETRAYAL_TRIGGER && unit->IsPlayer() && unit->GetDistance2d(me) <= 10.0f))
+		if (me->HasAura(SPELL_MUTTERING_OF_BETRAYAL_TRIGGER) && unit->IsPlayer() && unit->GetDistance2d(me) <= 10.0f)
 		{
 			if (Aura* muttering = unit->GetAura(SPELL_MUTTERING_OF_BETRAYAL_AURA))
 			{

@@ -4585,7 +4585,6 @@ class spell_item_water_strider : public AuraScript
 
     void HandleRemove(AuraEffect const* /*effect*/, AuraEffectHandleModes /*mode*/)
     {
-        Unit* target = GetTarget();
         //GetTarget()->RemoveAurasDueToSpell(GetSpellInfo()->GetEffect(EFFECT_1)->TriggerSpell);
     }
 

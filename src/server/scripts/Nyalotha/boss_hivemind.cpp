@@ -358,9 +358,9 @@ private:
 		case NPC_AQIR_DARTER:
 		case NPC_AQIR_RAVAGER:
 			summon->AI()->DoZoneInCombat(nullptr);
-			if (this->hivemindControlTekris = 1)
+			if (this->hivemindControlTekris == 1)
 				summon->AddAura(SPELL_VOID_INFUSION);
-			if (this->hivemindControlKazir = 1)
+			if (this->hivemindControlKazir == 1)
 				summon->AddAura(SPELL_REGENERATION);
 			break;
 		}

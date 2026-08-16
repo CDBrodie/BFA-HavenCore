@@ -165,7 +165,7 @@ private:
 
         case NPC_ANATHOS_FIRECALLER:
             _EnterCombat();
-            me->GetScheduler().Schedule(4s, [this](TaskContext context)
+            me->GetScheduler().Schedule(4s, [this](TaskContext /*context*/)
             {
                 Talk(0);
             });
@@ -211,7 +211,7 @@ private:
        }      
    }
 
-   void SpellHitDest(SpellDestination const* dest, SpellInfo const* spellInfo)
+   void SpellHitDest(SpellDestination const* /*dest*/, SpellInfo const* spellInfo)
    {
        if (spellInfo->Id == MAGMA_TRAP_MISSILE_TRIGGER)
        {       
@@ -282,7 +282,7 @@ private:
                me->CastStop();
                me->SetReactState(REACT_PASSIVE);
                me->CastSpell(stalker, ROLL);
-               me->GetScheduler().Schedule(1s, [this] (TaskContext context)
+               me->GetScheduler().Schedule(1s, [this] (TaskContext /*context*/)
                {
                     me->SetReactState(REACT_DEFENSIVE);
                     DoCastAOE(WHIRLING_JADE_STORM);
@@ -333,8 +333,9 @@ private:
                    me->SummonCreature(NPC_LIVING_BOMB_BOD, living_bomb_pos_a, TEMPSUMMON_MANUAL_DESPAWN);
                    me->SummonCreature(NPC_LIVING_BOMB_BOD, living_bomb_pos_b, TEMPSUMMON_MANUAL_DESPAWN);
                }
-           }       
+           }
        }
+       /* fallthrough */
        case EVENT_A_FLASH_OF_HOSTILITY:
        {    
            Talk(4);
@@ -351,6 +352,7 @@ private:
                 break;
            }
        }
+       /* fallthrough */
        case EVENT_MARA_GRIMFANG_TRANSFORM:
        {
            if (me->GetPower(POWER_ENERGY) == 100)

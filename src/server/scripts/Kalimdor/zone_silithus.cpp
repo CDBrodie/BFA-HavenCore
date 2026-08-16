@@ -1416,7 +1416,7 @@ public:
 
     void OnSceneStart(Player* player, uint32 /*sceneInstanceID*/, SceneTemplate const* /*sceneTemplate*/)
     {
-        player->GetScheduler().Schedule(38s, [player] (TaskContext context)
+        player->GetScheduler().Schedule(38s, [player] (TaskContext /*context*/)
         {
             player->RemoveAurasDueToSpell(268798);
             player->GetSceneMgr().CancelSceneBySceneId(3046);
@@ -1640,7 +1640,7 @@ class On110Silithus : public PlayerScript
 public:
     On110Silithus() : PlayerScript("On110Silithus") { }
 
-    void OnLogin(Player* player, bool firstLogin) override
+    void OnLogin(Player* player, bool /*firstLogin*/) override
     {
         // Can happen in recovery cases
         if (player->getLevel() >= 110)
@@ -1785,7 +1785,7 @@ struct npc_master_mathias_shaw_132255 : public ScriptedAI
         }
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
         if (player->HasQuest(QUEST_GIFTS_OF_THE_FALLEN))
@@ -1865,7 +1865,7 @@ struct npc_zidormi_128607 : public ScriptedAI
         }
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
 
@@ -2203,7 +2203,7 @@ struct npc_nathanos_blightcaller_132254 : public ScriptedAI
             SendGossipMenuFor(player, player->GetGossipTextId(me), me->GetGUID());
         }
     }
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
 
@@ -2243,7 +2243,7 @@ struct npc_laurette_royston_132995 : public ScriptedAI
         }
     }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
         if (player->HasQuest(QUEST_A_THE_SPEAKERS_CALL))
@@ -2276,7 +2276,7 @@ struct npc_kaylie_benson_133254 : public ScriptedAI
 {
     npc_kaylie_benson_133254(Creature* creature) : ScriptedAI(creature) { }
 
-    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 gossipListId)
+    void sGossipSelect(Player* player, uint32 /*menuId*/, uint32 /*gossipListId*/)
     {
         CloseGossipMenuFor(player);
         PhasingHandler::RemovePhase(player, PHASE_AFTER_QUEST, true);

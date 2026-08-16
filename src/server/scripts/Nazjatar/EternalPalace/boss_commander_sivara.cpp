@@ -296,7 +296,7 @@ public:
             instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
         }
 
-        void KilledUnit(Unit* t)
+        void KilledUnit(Unit* /*t*/)
         {
             SelectSoundAndText(me, 3);
         }
@@ -357,7 +357,7 @@ public:
                             if (player->HasAura(SPELL_FOST_MARK))
                             {
                                 std::ostringstream str;
-                                str << player->GetName(); " has been targeted for |cFFF00000|h[Toxic Javelin]|h|r!";
+                                str << player->GetName() << " has been targeted for |cFFF00000|h[Toxic Javelin]|h|r!";
                                 me->TextEmote(str.str().c_str(), 0, true);
 
                                 me->CastSpell(player, SPELL_TOXIC_BOLT_JAVELIN);
@@ -365,7 +365,7 @@ public:
                             else if (player->HasAura(SPELL_TOXIC_BRAND))
                             {
                                 std::ostringstream str;
-                                str << player->GetName();  " has been targeted for |cFFF00000|h[Frost Javelin]|h|r!";
+                                str << player->GetName() << " has been targeted for |cFFF00000|h[Frost Javelin]|h|r!";
                                 me->TextEmote(str.str().c_str(), 0, true);
 
                                 me->CastSpell(player, SPELL_FROST_BOLT_JAVELIN);
@@ -1047,7 +1047,6 @@ public:
 
             Unit* maintrigger = caster;
             Unit* triggerTarget = target;
-            Unit* targetPlayer = NULL;
 
             if (!maintrigger || !triggerTarget)
                 return;
@@ -1113,7 +1112,6 @@ public:
 
             Unit* maintrigger = caster;
             Unit* triggerTarget = target;
-            Unit* targetPlayer = NULL;
 
             if (!maintrigger || !triggerTarget)
                 return;
@@ -1628,7 +1626,6 @@ public:
 
             float dx = (tgt.x - src.x);
             float dy = (tgt.y - src.y);
-            float dz = (tgt.z - src.z);
 
             for (uint32 i = 0; i < 100; ++i)
             {

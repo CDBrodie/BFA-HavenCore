@@ -976,7 +976,7 @@ public:
                         }
                         else if (GetDifficulty() == DIFFICULTY_25_N)
                         {
-                            memset(_surgeTargetGUID, 0, sizeof(_surgeTargetGUID));
+                            std::fill(std::begin(_surgeTargetGUID), std::end(_surgeTargetGUID), ObjectGuid::Empty);
                             DoCastAOE(SPELL_SURGE_OF_POWER_WARNING_SELECTOR_25, true);
                         }
 

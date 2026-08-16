@@ -242,9 +242,11 @@ class mob_figment_of_doubt : public CreatureScript
                         events.ScheduleEvent(EVENT_SPELL_FURY, 5000);
                         events.ScheduleEvent(EVENT_BLADE_SONG, 13000);
                         events.ScheduleEvent(EVENT_GLIMPSE_OF_MADNESS, 8000);
+                        /* fallthrough */
                     case CLASS_HEAL:
                         events.ScheduleEvent(EVENT_SPELL_PHANTOM_STRIKE, 20000);
                         events.ScheduleEvent(EVENT_STUN, 7000);
+                        /* fallthrough */
                     case CLASS_TANK:
                         events.ScheduleEvent(EVENT_SPELL_ARMOR_BUFF, 10000);
                         events.ScheduleEvent(EVENT_SANCTUARY, 10000);

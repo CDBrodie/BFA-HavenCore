@@ -1577,6 +1577,8 @@ public:
                         mindmg = 1500000;
                         maxdmg = 1600000;
                         break;
+                    default:
+                        break;
                     }
 
                     if (distance > SAFE_DISTANCE)
@@ -3272,6 +3274,8 @@ public:
                     case DIFFICULTY_25_HC:
                         mindmg = 2500000;
                         maxdmg = 3000000;
+                        break;
+                    default:
                         break;
                     }
 

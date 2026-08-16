@@ -93,7 +93,7 @@ private:
 		}
 	}
 
-	void DamageTaken(Unit* target, uint32& damage) override
+	void DamageTaken(Unit* /*target*/, uint32& damage) override
 	{
 		switch (me->GetEntry())
 		{
@@ -161,7 +161,7 @@ private:
 		}
 	}
 
-	void EnterCombat(Unit* u) override
+	void EnterCombat(Unit* /*unit*/) override
 	{
 		switch (me->GetEntry())
 		{
@@ -247,13 +247,13 @@ private:
 		}
 	}
 
-	void JustDied(Unit* victim) override
+	void JustDied(Unit* /*killer*/) override
 	{
 		switch (me->GetEntry())
 		{
 		case NPC_LORD_WAYCREST:
 			 _JustDied();
-			 if (Creature* lady = me->FindNearestCreature(NPC_LADY_WAYCREST, 100.0f, false))
+			 if (me->FindNearestCreature(NPC_LADY_WAYCREST, 100.0f, false))
 			 {
 				instance->SendBossKillCredit(ENCOUNTER_ID);
 				if (auto* sfx = me->FindNearestGameObject(DOODAD_SFX_LORD_AND_LADY_WAYCREST, 100.0f))
@@ -264,7 +264,7 @@ private:
 		case NPC_LADY_WAYCREST:
 			Talk(SAY_DEATH_LADY);
 			_JustDied();
-			if (Creature* lord = me->FindNearestCreature(NPC_LORD_WAYCREST, 100.0f, false))
+			if (me->FindNearestCreature(NPC_LORD_WAYCREST, 100.0f, false))
 				if (auto* sfx = me->FindNearestGameObject(DOODAD_SFX_LORD_AND_LADY_WAYCREST, 100.0f))
 					sfx->RemoveFromWorld();
 			break;

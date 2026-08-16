@@ -301,8 +301,10 @@ public:
                 if(me->GetMap()->IsHeroic())
                     events.ScheduleEvent(EVENT_ACTIVATE_NEXT_CONSTRUCT, 30000);
                 else
+                {
                     events.ScheduleEvent(EVENT_ACTIVATE_NEXT_CONSTRUCT, 45000);
-                    events.ScheduleEvent(EVENT_UPDATE_HEALTH, 1000);
+                }
+                events.ScheduleEvent(EVENT_UPDATE_HEALTH, 1000);
                 break;
 
             case ACTION_OMNOTRON_RESET:

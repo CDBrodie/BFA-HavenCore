@@ -42,7 +42,7 @@ struct scenario_uncharted_island_tutorial : public InstanceScript
         }
     }
 
-    void OnCompletedCriteriaTree(CriteriaTree const* tree) override
+    void OnCompletedCriteriaTree(CriteriaTree const* /*tree*/) override
     {
             
     }

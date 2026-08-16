@@ -616,7 +616,6 @@ struct npc_siphoning_rift_102787 : public ScriptedAI
     {
         if (!who || !who->IsInWorld())
             return;
-        Player* player = who->GetCharmerOrOwnerPlayerOrPlayerItself();
 
         if (!me->IsWithinDist(who, 40.0f, false))
         {

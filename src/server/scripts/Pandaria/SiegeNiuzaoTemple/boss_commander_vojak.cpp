@@ -153,7 +153,7 @@ public:
 
         InstanceScript* instance;
 
-        void IsSummonedBy(Unit* summoner)
+        void IsSummonedBy(Unit* /*summoner*/)
         {
             me->ApplySpellImmune(0, IMMUNITY_ID, SPELL_BOMBARD_DMG, true);
            // me->AddUnitFlag(UnitFlags(UNIT_FLAG_DISABLE_MOVE);

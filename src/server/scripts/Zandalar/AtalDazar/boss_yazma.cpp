@@ -239,7 +239,7 @@ struct npc_ataldazar_soulspawn : public ScriptedAI
             }
     }
 
-    void UpdateAI(uint32 diff) override
+    void UpdateAI(uint32 /*diff*/) override
     {
         if (Creature* yazma = me->FindNearestCreature(NPC_YAZMA, 100))
             if (me->GetDistance(yazma) < 1)

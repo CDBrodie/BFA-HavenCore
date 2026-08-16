@@ -316,7 +316,7 @@ struct boss_the_desolate_host_generic : BossAI
         }
     }
 
-    void SummonedCreatureDies(Creature* summon, Unit* killer) override
+    void SummonedCreatureDies(Creature* summon, Unit* /*killer*/) override
     {
         switch (summon->GetEntry())
         {
@@ -478,7 +478,7 @@ struct npc_tos_engine_of_souls : ScriptedAI
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
     }
 
-    void DamageTaken(Unit* /*attacker*/, uint32& damage) override
+    void DamageTaken(Unit* /*attacker*/, uint32& /*damage*/) override
     {
         if (me->HealthBelowPct(31) && !phaseTwo)
         {
@@ -489,7 +489,7 @@ struct npc_tos_engine_of_souls : ScriptedAI
         }
     }
 
-    void SpellHitTarget(Unit* target, SpellInfo const* spell) override
+    void SpellHitTarget(Unit* /*target*/, SpellInfo const* spell) override
     {
         switch (spell->Id)
         {
@@ -575,7 +575,7 @@ struct npc_tos_soul_queen_dejahna : ScriptedAI
         fThreat = victim->HasAura(SPELL_SPIRIT_REALM) ? (fThreat ? fThreat : fThreat + 1.0f) : 0.0f;
     }
 
-    void EnterEvadeMode(EvadeReason why) override
+    void EnterEvadeMode(EvadeReason /*why*/) override
     {
         ScriptedAI::EnterEvadeMode();
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
@@ -733,7 +733,7 @@ struct npc_tos_desolate_host : ScriptedAI
         events.RescheduleEvent(EVENT_DOOMED_SUNDERING, 24000);
     }
 
-    void EnterEvadeMode(EvadeReason why) override
+    void EnterEvadeMode(EvadeReason /*why*/) override
     {
         ScriptedAI::EnterEvadeMode();
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
@@ -831,7 +831,7 @@ struct npc_tos_spiritual_font : ScriptedAI
         DoCast(me, SPELL_SPIRITUAL_FONT_SPIRIT, true);
     }
 
-    void OnSpellClick(Unit* clicker, bool& result) override
+    void OnSpellClick(Unit* clicker, bool& /*result*/) override
     {
         if (!clicker)
             return;
@@ -855,7 +855,7 @@ struct npc_tos_spiritual_font : ScriptedAI
         }
     }
 
-    void UpdateAI(uint32 diff) override {}
+    void UpdateAI(uint32 /*diff*/) override {}
 };
 
 //118715, 119938
@@ -872,7 +872,7 @@ struct npc_tos_reanimated_templar : ScriptedAI
     bool armor = false;
     bool mirror = false;
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         if (!mirror)
         {
@@ -913,7 +913,7 @@ struct npc_tos_reanimated_templar : ScriptedAI
             fThreat = victim->HasAura(SPELL_SPIRIT_REALM) ? (fThreat ? fThreat : fThreat + 1.0f) : 0.0f;
     }
 
-    void EnterEvadeMode(EvadeReason why) override
+    void EnterEvadeMode(EvadeReason /*why*/) override
     {
         ScriptedAI::EnterEvadeMode();
 
@@ -930,7 +930,7 @@ struct npc_tos_reanimated_templar : ScriptedAI
         }
     }
 
-    void SpellHit(Unit* caster, SpellInfo const* spell) override
+    void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override
     {
         if (spell->Id == SPELL_SHATTERING_SCREAM_EXPLOSION)
             me->RemoveAurasDueToSpell(SPELL_BONECAGE_ARMOR);
@@ -977,7 +977,7 @@ struct npc_tos_ghastly_bonewarden : ScriptedAI
     bool armor = false;
     bool mirror = false;
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         if (!mirror)
         {
@@ -1018,7 +1018,7 @@ struct npc_tos_ghastly_bonewarden : ScriptedAI
             fThreat = victim->HasAura(SPELL_SPIRIT_REALM) ? (fThreat ? fThreat : fThreat + 1.0f) : 0.0f;
     }
 
-    void EnterEvadeMode(EvadeReason why) override
+    void EnterEvadeMode(EvadeReason /*why*/) override
     {
         ScriptedAI::EnterEvadeMode();
 
@@ -1035,7 +1035,7 @@ struct npc_tos_ghastly_bonewarden : ScriptedAI
         }
     }
 
-    void SpellHit(Unit* caster, SpellInfo const* spell) override
+    void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override
     {
         if (spell->Id == SPELL_SHATTERING_SCREAM_EXPLOSION)
             me->RemoveAurasDueToSpell(SPELL_BONECAGE_ARMOR);
@@ -1090,7 +1090,7 @@ struct npc_tos_fallen_priestess : ScriptedAI
     EventMap events;
     bool mirror = false;
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         if (!mirror)
         {
@@ -1132,7 +1132,7 @@ struct npc_tos_fallen_priestess : ScriptedAI
             fThreat = victim->HasAura(SPELL_SPIRIT_REALM) ? 0.0f : (fThreat ? fThreat : fThreat + 1.0f);
     }
 
-    void EnterEvadeMode(EvadeReason why) override
+    void EnterEvadeMode(EvadeReason /*why*/) override
     {
         ScriptedAI::EnterEvadeMode();
 
@@ -1200,7 +1200,7 @@ struct npc_tos_soul_residue : ScriptedAI
     uint32 fixateTimer = 0;
     ObjectGuid targetGUID;
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         if (!mirror)
         {
@@ -1229,7 +1229,7 @@ struct npc_tos_soul_residue : ScriptedAI
             unrelentingTImer = 4000;
     }
 
-    void EnterEvadeMode(EvadeReason why) override
+    void EnterEvadeMode(EvadeReason /*why*/) override
     {
         ScriptedAI::EnterEvadeMode();
 
@@ -1336,7 +1336,7 @@ struct npc_tos_tormented_cries : ScriptedAI
 
     void Reset() override {}
 
-    void IsSummonedBy(Unit* summoner) override
+    void IsSummonedBy(Unit* /*summoner*/) override
     {
         Talk(SAY_TORMENTED_CRIES);
         //me->CastSpellDelay(me, SPELL_TORMENTED_CRIES_FILTER, true, 100);
@@ -1361,7 +1361,7 @@ struct npc_tos_tormented_cries : ScriptedAI
         }
     }
     */
-    void UpdateAI(uint32 diff) override {}
+    void UpdateAI(uint32 /*diff*/) override {}
 };
 
 //236673
@@ -1828,7 +1828,7 @@ class spell_tos_shattering_scream : public AuraScript
 {
     PrepareAuraScript(spell_tos_shattering_scream);
 
-    void OnTick(AuraEffect const* aurEff)
+    void OnTick(AuraEffect const* /*aurEff*/)
     {
         //if (GetUnitOwner() && aurEff->GetBase()->GetStackAmount() == 5)
         {
@@ -1849,7 +1849,7 @@ class spell_tos_spiritual_barrier_dissonance : public AuraScript
 
     uint32 tickTimer = 3000;
 
-    void OnApply(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
+    void OnApply(AuraEffect const* /*aurEff*/, AuraEffectHandleModes /*mode*/)
     {
         if (GetTarget())
         {
@@ -1912,7 +1912,7 @@ class spell_tos_spiritual_barrier_dissonance : public AuraScript
         //}
     //}
 
-    void OnUpdate(uint32 diff, AuraEffect* auraEffect)
+    void OnUpdate(uint32 diff, AuraEffect* /*auraEffect*/)
     {
         if (tickTimer)
         {

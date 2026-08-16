@@ -287,7 +287,7 @@ public:
             DoCast(me, SPELL_EMPOWERING_TWILIGHT_AURA);
         }
 
-        void UpdateAI(uint32 uiDiff)
+        void UpdateAI(uint32 /*uiDiff*/)
         {
         }
     };

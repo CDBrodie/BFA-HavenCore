@@ -482,7 +482,7 @@ class spell_sha_of_anger_aggressive_behaviour: public SpellScriptLoader
              }
          }
 
-         void UpdateAI(uint32 const diff) { }
+         void UpdateAI(uint32 const /*diff*/) { }
      };
 
      CreatureAI* GetAI(Creature* creature) const

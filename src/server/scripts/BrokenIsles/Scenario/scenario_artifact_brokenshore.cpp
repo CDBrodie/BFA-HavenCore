@@ -869,7 +869,6 @@ public:
         {
             for (uint8 i = 0; i < count; i++)
             {
-                uint8 rand = urand(1, 2);
                 float angle = frand(0.0f, 5.0f * float(M_PI));
                 float x = targetPos.GetPositionX() + (10.0f * std::cos(angle));
                 float y = targetPos.GetPositionY() + (10.0f * std::sin(angle));

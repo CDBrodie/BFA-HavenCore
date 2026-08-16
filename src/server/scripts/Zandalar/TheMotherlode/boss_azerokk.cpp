@@ -403,7 +403,7 @@ struct bfa_npc_fracking_totem : public ScriptedAI {
         me->SetInCombatWithZone();
     }
 
-    void UpdateAI(uint32 diff) override
+    void UpdateAI(uint32 /*diff*/) override
     {
         StunRager();
     }

@@ -657,8 +657,8 @@ struct npc_lea_stonepaw_105243 : public ScriptedAI
 
         player->GetScenario()->CompleteScenario();
 
-        if (InstanceScenario* scenario = me->GetMap()->ToInstanceMap()->GetInstanceScenario())
-        {
+        //if ([[maybe_unused]] InstanceScenario* scenario = me->GetMap()->ToInstanceMap()->GetInstanceScenario())
+        //{
 
             //TC_LOG_ERROR("server.worldserver", "====================scenario_artifact_ursocslair  InstanceScenario111====================== ");
             //instance->SendScenarioState(InstanceScript::ScenarioData(SCENARIO_ID, DATA_STEP_1));
@@ -671,7 +671,7 @@ struct npc_lea_stonepaw_105243 : public ScriptedAI
             //scenario->SendScenarioEvent(player, 46437);
             //if (players.begin() != players.end())
             //    scenario->UpdateCriteria(CRITERIA_TYPE_COMPLETE_DUNGEON_ENCOUNTER, encounter->dbcEntry->ID, 0, 0, nullptr, players.begin()->GetSource());
-        }
+        //}
 
         ///if (InstanceScenario* scenario = instance->ToInstanceMap()->GetInstanceScenario())        DoUpdateCriteria(CRITERIA_TYPE_SEND_EVENT_SCENARIO, 46437, 0, nullptr);
         //instance->SendScenarioState(InstanceScript::ScenarioData(SCENARIO_ID, DATA_STEP_2));

@@ -71,7 +71,6 @@ class spell_back_camp : public SpellScript
         player->RemoveMovementImpairingAuras();
 
         Player* gamer = GetCaster()->ToPlayer();
-        int mapid = caster->GetMapId();
 
         // Tente: 292769
         // Sac: 276247
@@ -230,6 +229,8 @@ class spell_gen_adaptive_warding : public AuraScript
             case SPELL_SCHOOL_NORMAL:
             case SPELL_SCHOOL_HOLY:
             return false;
+            default:
+            break;
         }
 
         return true;
@@ -6394,17 +6395,21 @@ public:
                 break;
             case SPELL_SPEED_RAM_TROT:
                 if (pCaster->HasAura(SPELL_RAM_FATIGUE))
+                {
                     if (pCaster->GetAura(SPELL_RAM_FATIGUE)->GetStackAmount() <= 2)
                         pCaster->RemoveAura(SPELL_RAM_FATIGUE);
                     else
                         pCaster->GetAura(SPELL_RAM_FATIGUE)->ModStackAmount(-2);
+                }
                 break;
             case SPELL_SPEED_RAM_NORMAL:
                 if (pCaster->HasAura(SPELL_RAM_FATIGUE))
+                {
                     if (pCaster->GetAura(SPELL_RAM_FATIGUE)->GetStackAmount() <= 4)
                         pCaster->RemoveAura(SPELL_RAM_FATIGUE);
                     else
                         pCaster->GetAura(SPELL_RAM_FATIGUE)->ModStackAmount(-4);
+                }
                 break;
             }
             if (pCaster->HasAura(SPELL_RAM_FATIGUE))
@@ -6928,8 +6933,8 @@ public:
         {
             if (Unit* pStandart = GetCaster())
             {
-                float bp0 = 0.f;
-                float bp1 = 0.f;
+                [[maybe_unused]] float bp0 = 0.f;
+                [[maybe_unused]] float bp1 = 0.f;
 
                 switch (pStandart->GetEntry())
                 {

@@ -512,18 +512,6 @@ public:
                 if (instance)
                     instance->SetBossState(DATA_RA_DEN, DONE);
 
-                // looting chest
-                uint32 chestID = 0;
-                switch (me->GetMap()->GetDifficultyID())
-                {
-                case DIFFICULTY_10_HC:
-                    chestID = 218997;
-                    break;
-                case DIFFICULTY_25_HC:
-                    chestID = 218998;
-                    break;
-                }
-
             }
         }
 
@@ -1233,6 +1221,8 @@ public:
             case DIFFICULTY_25_HC:
                 this->SetMaxDuration(5 * IN_MILLISECONDS);
                 this->SetDuration(5 * IN_MILLISECONDS);
+                break;
+            default:
                 break;
             }
         }

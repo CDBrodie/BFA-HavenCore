@@ -2118,11 +2118,11 @@ class spell_q12641_death_comes_from_on_high : public SpellScriptLoader
             {
                 Unit* caster = GetCaster();
 
-                if (Creature* npc = caster->FindNearestCreature(NPC_NEW_AVALON_FORGE, 45.0f))
+                if (caster->FindNearestCreature(NPC_NEW_AVALON_FORGE, 45.0f))
                     if (Player* player = GetCaster()->GetCharmerOrOwner()->ToPlayer())
                         player->KilledMonsterCredit(NPC_NEW_AVALON_FORGE);
 
-                if (Creature* npc = caster->FindNearestCreature(NPC_NEW_AVALON_TOWN_HALL, 45.0f))
+                if (caster->FindNearestCreature(NPC_NEW_AVALON_TOWN_HALL, 45.0f))
                     if (Player* player = GetCaster()->GetCharmerOrOwner()->ToPlayer())
                         player->KilledMonsterCredit(NPC_NEW_AVALON_TOWN_HALL);
 

@@ -903,6 +903,7 @@ class mob_amber_pool_stalker : public CreatureScript
 
                             events.ScheduleEvent(EVENT_VOLATILE_AMBER, 3000);
                         }
+                        /* fallthrough */
                         case EVENT_DRAW_POWER:
                         {
                             if (Creature* Unsok = pInstance->GetCreature(NPC_UNSOK))

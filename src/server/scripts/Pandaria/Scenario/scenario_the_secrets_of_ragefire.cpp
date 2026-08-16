@@ -169,7 +169,7 @@ struct scenario_the_secrets_of_ragefire : public InstanceScript
     }
 
 
-    void OnPlayerAreaUpdate(Player* player, uint32 newAreaId, uint32 /*oldAreaId*/ ) override
+    void OnPlayerAreaUpdate(Player* /*player*/, uint32 newAreaId, uint32 /*oldAreaId*/ ) override
     {
         if (!isLoadScenaro)
         {
@@ -478,6 +478,7 @@ struct scenario_the_secrets_of_ragefire : public InstanceScript
                     }
                 }
             }
+            /* fallthrough */
             case NPC_PATCH:
                 for (ObjectGuid guid : squadGuids)
                     if (Creature* creature = instance->GetCreature(guid))
@@ -535,7 +536,7 @@ public:
 
     struct ragefire_core_detonatorAI : public ScriptedAI
     {
-        ragefire_core_detonatorAI(Creature* creature) : ScriptedAI(creature), startTicking(false), msg("5")
+        ragefire_core_detonatorAI(Creature* creature) : ScriptedAI(creature), msg("5"), startTicking(false)
         {
             me->AddNpcFlag(UNIT_NPC_FLAG_SPELLCLICK);
         }
@@ -1024,7 +1025,7 @@ public:
 
     struct ragefire_core_npc_tickerAI : public ScriptedAI
     {
-        ragefire_core_npc_tickerAI(Creature* creature) : ScriptedAI(creature), _cannonBalls(0), meetUp(false), _batteries(0), _poolPony(false), _eggYolk(false), _count(0)
+        ragefire_core_npc_tickerAI(Creature* creature) : ScriptedAI(creature), _cannonBalls(0), _batteries(0), _poolPony(false), _eggYolk(false), meetUp(false), _count(0)
         {
             instance = me->GetInstanceScript();
         }

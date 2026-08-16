@@ -228,12 +228,8 @@ class spell_pal_beacon_of_light_proc : public AuraScript
         return pct;
     }
 
-    bool CheckProc(ProcEventInfo& eventInfo)
+    bool CheckProc(ProcEventInfo& /*eventInfo*/)
     {
-        Unit* ownerOfBeacon = GetTarget();
-        Unit* targetOfBeacon = GetCaster();
-        Unit* targetOfHeal = eventInfo.GetActionTarget();
-
         //if (eventInfo.GetSpellInfo() && eventInfo.GetSpellInfo()->Id != SPELL_PALADIN_BEACON_OF_LIGHT_HEAL && eventInfo.GetSpellInfo()->Id != SPELL_PALADIN_LIGHT_OF_THE_MARTYR && targetOfBeacon->IsWithinLOSInMap(ownerOfBeacon) && targetOfHeal->GetGUID() != targetOfBeacon->GetGUID())
             return true;
 

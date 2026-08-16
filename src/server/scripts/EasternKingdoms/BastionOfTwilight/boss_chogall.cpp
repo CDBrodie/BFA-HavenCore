@@ -888,7 +888,7 @@ public:
         InstanceScript* pInstance;
         EventMap events;
 
-        void IsSummonedBy(Unit* owner)
+        void IsSummonedBy(Unit* /*owner*/)
         {
             events.ScheduleEvent(EVENT_DEPRAVITY, urand(19000, 21000));
             events.ScheduleEvent(EVENT_CORRUPTING_CRASH, urand(5000, 8000));
@@ -1016,7 +1016,7 @@ public:
             me->SetReactState(REACT_PASSIVE);
         }
 
-        void IsSummonedBy(Unit* owner)
+        void IsSummonedBy(Unit* /*owner*/)
         {
             DoCast(me, SPELL_CORRUPTION_OF_THE_OLD_GOD_VISUAL);
         }
@@ -1025,7 +1025,7 @@ public:
         {
         }
 
-        void JustDied(Unit* killer)
+        void JustDied(Unit* /*killer*/)
         {
         }
 
@@ -1161,7 +1161,7 @@ public:
         {
         }
 
-        void JustDied(Unit* killer)
+        void JustDied(Unit* /*killer*/)
         {
             me->DespawnOrUnsummon();
         }
@@ -1234,7 +1234,7 @@ public:
         {
         }
 
-        void JustDied(Unit* killer)
+        void JustDied(Unit* /*killer*/)
         {
         }
 

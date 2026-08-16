@@ -119,7 +119,7 @@ class validStatuePredicate
 public:
     bool operator() (WorldObject* target) const
     {
-        return target && target->ToPlayer() || ((target->ToCreature()->AI() && target->ToCreature()->AI()->GetData(DATA_STATUE_DESTROYED) == 1) || target->GetEntry() != NPC_JINROKH_STATUE);
+        return (target && target->ToPlayer()) || ((target->ToCreature()->AI() && target->ToCreature()->AI()->GetData(DATA_STATUE_DESTROYED) == 1) || target->GetEntry() != NPC_JINROKH_STATUE);
     }
 };
 
@@ -325,7 +325,7 @@ public:
             MakeStatuesPassive();
         }
 
-        void EnterCombat(Unit* pWho)
+        void EnterCombat(Unit* /*unit*/)
         {
             events.ScheduleEvent(EVENT_STATIC_BURST, 24000);
             events.ScheduleEvent(EVENT_CHECK_PLAYERS_DISTANCE, 500, 0, 0);
@@ -403,7 +403,7 @@ public:
                 }
         }
 
-        void JustDied(Unit* pKiller)
+        void JustDied(Unit* /*killer*/)
         {
             _JustDied();
             UnsummonFissure();
@@ -729,6 +729,7 @@ public:
                         break;
                     }
                 }
+                /* fallthrough */
                 case EVENT_MOVE_TO_PLAYERS:
                 {
                     if (Unit* target = me->GetVictim())
@@ -892,7 +893,7 @@ public:
 
         /*void SelectTargets(std::list<WorldObject*>&targets)
         {
-            /*if (GetCaster())
+            if (GetCaster())
             {
                 targets.remove_if(notPlayerPredicate());
                 targets.remove_if(notInLosPredicate(GetCaster()));
@@ -1038,7 +1039,7 @@ public:
                     // already handled in npc events
                     //pCaster->CastSpell(pUnit, violent ? SPELL_VIOLENT_LIGHTNING_DETONATION : SPELL_FOCUSED_LIGHTNING_DETONATION, true);
 
-                    /*if (!should_conduct) removed because we will handle it manually not via a spellscript
+                    if (!should_conduct) removed because we will handle it manually not via a spellscript
                     {
                         pCaster->SummonCreature(NPC_LIGHTNING_FISSURE, pCaster->GetPositionX(), pCaster->GetPositionY(), pCaster->GetPositionZ(), pCaster->GetOrientation(), TEMPSUMMON_MANUAL_DESPAWN);
                     }*/

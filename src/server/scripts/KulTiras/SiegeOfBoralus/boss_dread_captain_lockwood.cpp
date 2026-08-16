@@ -91,7 +91,7 @@ struct boss_dread_captain_lockwood : public BossAI
 		}
 	}
 
-	void EnterCombat(Unit* u) override
+	void EnterCombat(Unit* /*unit*/) override
 	{
 		_EnterCombat();
 		Talk(SAY_AGGRO);
@@ -103,7 +103,7 @@ struct boss_dread_captain_lockwood : public BossAI
 		events.ScheduleEvent(EVENT_WITHDRAW, 30s);	
 	}
 
-	void JustDied(Unit* u) override
+	void JustDied(Unit* /*killer*/) override
 	{		
 		_JustDied();
 		Talk(SAY_DEATH);
@@ -144,7 +144,7 @@ struct boss_dread_captain_lockwood : public BossAI
 		}
 
 		case EVENT_CLEAR_THE_DECK:
-			if (Unit* tar = SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 30.0f, true))
+			if (SelectTarget(SELECT_TARGET_TOPAGGRO, 0, 30.0f, true))
 			{
 				DoCastAOE(CLEAR_THE_DECK, true);
 			}
@@ -164,7 +164,7 @@ struct boss_dread_captain_lockwood : public BossAI
 					dread_cannon->CastSpell(nullptr, DREAD_VOLLEY_CHANNEL);
 					if (Creature* lockwoodbunny = me->FindNearestCreature(NPC_DREAD_CANNON_BUNNY, 100.0f, true))
 					{
-						lockwoodbunny->GetScheduler().Schedule(3000ms, [lockwoodbunny](TaskContext context)
+						lockwoodbunny->GetScheduler().Schedule(3000ms, [lockwoodbunny](TaskContext /*context*/)
 						{
 							std::list<Creature*> c_list;
 							lockwoodbunny->GetCreatureListWithEntryInGrid(c_list, NPC_CANNON_BARRAGE, 250.0f);

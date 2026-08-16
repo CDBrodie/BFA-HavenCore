@@ -450,17 +450,17 @@ struct boss_mistress_sasszine : BossAI
         case SPELL_THUNDERING_SHOCK_FILTER:
             DoCast(target, SPELL_THUNDERING_SHOCK_SUMMON, true);
             break;
-        case SPELL_CONSUMING_HUNGER_FILTER:
+        /*case SPELL_CONSUMING_HUNGER_FILTER:
             if (auto summon = me->SummonCreature(NPC_RAZORJAW_WAVERUNNER, target->GetPosition()))
             {
-               // summon->AddDelayedEvent(200, [summon, targetGuid]() -> void
-              //  {
-                  //  if (summon)
-                      //  if (Unit* target = ObjectAccessor::GetUnit(*summon, targetGuid))
-                      //      summon->CastSpell(target, SPELL_CONSUMING_HUNGER_RIDE_VEH, true);
-             //   });
+                summon->AddDelayedEvent(200, [summon, targetGuid]() -> void
+                {
+                    if (summon)
+                        if (Unit* target = ObjectAccessor::GetUnit(*summon, targetGuid))
+                            summon->CastSpell(target, SPELL_CONSUMING_HUNGER_RIDE_VEH, true);
+                });
             }
-            break;
+            break;*/
         case SPELL_DREAD_SHARK_FILTER_1:
         case SPELL_DREAD_SHARK_FILTER_2:
             target->CastSpell(target, SPELL_DREAD_SHARK_DMG, true);
@@ -989,13 +989,13 @@ class spell_sasszine_burden_of_pain : public AuraScript
 {
     PrepareAuraScript(spell_sasszine_burden_of_pain);
 
-    void CalculateAmount(AuraEffect const* /*aurEff*/, float& amount, bool& /*canBeRecalculated*/)
-    {
-        amount = -1;
-    }
+    //void CalculateAmount(AuraEffect const* /*aurEff*/, float& amount, bool& /*canBeRecalculated*/)
+    //{
+    //    amount = -1;
+    //}
 
-    void Absorb(AuraEffect* /*AuraEffect**/, DamageInfo& dmgInfo, float& absorbAmount)
-    {
+    //void Absorb(AuraEffect* // *AuraEffect*///, DamageInfo& dmgInfo, float& absorbAmount)
+    /*{
         absorbAmount = 0;
 
         auto target = GetUnitOwner();
@@ -1006,14 +1006,14 @@ class spell_sasszine_burden_of_pain : public AuraScript
         if (dmgInfo.GetSchoolMask() == SPELL_SCHOOL_MASK_NORMAL)
         {
             float damage = dmgInfo.GetDamage();
-           // target->CastCustomSpell(target, SPELL_BURDEN_OF_PAIN_SHARE_DMG, &damage, NULL, NULL, true);
+            target->CastCustomSpell(target, SPELL_BURDEN_OF_PAIN_SHARE_DMG, &damage, NULL, NULL, true);
         }
-    }
+    }*/
 
     void Register() override
     {
-      //  DoEffectCalcAmount += AuraEffectCalcAmountFn(spell_sasszine_burden_of_pain::CalculateAmount, EFFECT_1, SPELL_AURA_SCHOOL_ABSORB);
-      //  OnEffectAbsorb += AuraEffectAbsorbFn(spell_sasszine_burden_of_pain::Absorb, EFFECT_1, SPELL_AURA_SCHOOL_ABSORB);
+        //DoEffectCalcAmount += AuraEffectCalcAmountFn(spell_sasszine_burden_of_pain::CalculateAmount, EFFECT_1, SPELL_AURA_SCHOOL_ABSORB);
+        //OnEffectAbsorb += AuraEffectAbsorbFn(spell_sasszine_burden_of_pain::Absorb, EFFECT_1, SPELL_AURA_SCHOOL_ABSORB);
     }
 };
 
@@ -1024,18 +1024,18 @@ class spell_sasszine_delicious_bufferfish : public AuraScript
 
     bool specHealer = false;
 
-    void OnApply(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
-    {
+    //void OnApply(AuraEffect const* aurEff, AuraEffectHandleModes // *mode*///)
+    /*{
         if (auto player = GetTarget()->ToPlayer())
         {
-         //   specHealer = player->GetSpecializationRole() == ROLES_HEALER;
+            specHealer = player->GetSpecializationRole() == ROLES_HEALER;
 
-           // if (specHealer)
-               // player->CastSpellDuration(player, SPELL_DELICIOUS_BUFFERFISH_ENERGIZE, true, 0, 10);
-           // else
-              //  player->CastSpellDuration(player, SPELL_DELICIOUS_BUFFERFISH_MOD_DMG, true, 0, 10);
+            if (specHealer)
+                player->CastSpellDuration(player, SPELL_DELICIOUS_BUFFERFISH_ENERGIZE, true, 0, 10);
+            else
+                player->CastSpellDuration(player, SPELL_DELICIOUS_BUFFERFISH_MOD_DMG, true, 0, 10);
         }
-    }
+    }*/
 
     void OnRemove(AuraEffect const* aurEff, AuraEffectHandleModes /*mode*/)
     {
@@ -1066,7 +1066,7 @@ class spell_sasszine_delicious_bufferfish : public AuraScript
 
     void Register()
     {
-        OnEffectApply += AuraEffectApplyFn(spell_sasszine_delicious_bufferfish::OnApply, EFFECT_0, SPELL_AURA_PERIODIC_DUMMY, AURA_EFFECT_HANDLE_REAL);
+        //OnEffectApply += AuraEffectApplyFn(spell_sasszine_delicious_bufferfish::OnApply, EFFECT_0, SPELL_AURA_PERIODIC_DUMMY, AURA_EFFECT_HANDLE_REAL);
         OnEffectRemove += AuraEffectRemoveFn(spell_sasszine_delicious_bufferfish::OnRemove, EFFECT_0, SPELL_AURA_PERIODIC_DUMMY, AURA_EFFECT_HANDLE_REAL);
         OnEffectPeriodic += AuraEffectPeriodicFn(spell_sasszine_delicious_bufferfish::OnTick, EFFECT_0, SPELL_AURA_PERIODIC_DUMMY);
     }

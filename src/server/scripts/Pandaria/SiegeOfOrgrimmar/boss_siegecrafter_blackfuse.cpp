@@ -557,6 +557,7 @@ class WeaponSpawnHelper
                 case WeaponTypes::WEAPON_LASER_TURRET: return NPC_DEACTIVATED_LASER_TURRET;
                 case WeaponTypes::WEAPON_ELECTROMAGNET: return NPC_DEACTIVATED_ELECTROMAGNET;
                 case WeaponTypes::WEAPON_CRAWLER_MINE: return NPC_DISASSEMBLED_CRAWLER_MINES;
+                default: break;
             }
             return 0;
         }
@@ -680,6 +681,8 @@ class WeaponSpawnHelper
                     return CreateActivatedLaserTurretBase(pos);
                 case WEAPON_ELECTROMAGNET:
                     return CreateActivatedElectromagnetBase(pos);
+                default:
+                    break;
             }
 
             return NULL;
@@ -725,6 +728,8 @@ class WeaponSpawnHelper
                 // We create electromagnet as base in CreateActivatedWeaponBase
                 //case WEAPON_ELECTROMAGNET:
                 //    return CreateActivatedElectromagnet(pos);
+                default:
+                    break;
             }
 
             return NULL;
@@ -896,7 +901,7 @@ class boss_siegecrafter_blackfuse : public CreatureScript
                 me->SetReactState(ReactStates::REACT_DEFENSIVE);
             }
 
-            void EnterCombat(Unit* who) override
+            void EnterCombat(Unit* /*unit*/) override
             {
                 Talk(SAY_AGGRO);
 
@@ -926,7 +931,7 @@ class boss_siegecrafter_blackfuse : public CreatureScript
                 }
             }
 
-            void JustDied(Unit* who)
+            void JustDied(Unit* /*killer*/)
             {
                 Talk(SAY_DEATH_1);
 
@@ -1305,8 +1310,8 @@ class npc_siegecrafter_blackfuse_sawblade : public CreatureScript
                         HandleJumpToElectromagnet();
                     }
                 }
-                else if (type == POINT_MOTION_TYPE && id == POINT_SAWBLADE_ELECTROMAGNET || // second way for electromagnet without 'jump' spells
-                        type == EFFECT_MOTION_TYPE && id == EVENT_CHARGE)                   // third way for electromagnet without 'jump' spells
+                else if ((type == POINT_MOTION_TYPE && id == POINT_SAWBLADE_ELECTROMAGNET) || // second way for electromagnet without 'jump' spells
+                        (type == EFFECT_MOTION_TYPE && id == EVENT_CHARGE))                   // third way for electromagnet without 'jump' spells
                 {
                     if (m_IsPulledByElectromagnet)
                     {
@@ -1484,7 +1489,7 @@ class npc_siegecrafter_blackfuse_automated_shredder : public CreatureScript
                 me->AddAura(SPELL_REACTIVE_ARMOR, me);
             }
 
-            void EnterCombat(Unit* who) override
+            void EnterCombat(Unit* /*unit*/) override
             {
                 events.ScheduleEvent(EVENT_OVERLOAD, TIMER_OVERLOAD);
                 events.ScheduleEvent(EVENT_DEATH_FROM_ABOVE, TIMER_DEATH_FROM_ABOVE_FIRST);
@@ -1499,7 +1504,7 @@ class npc_siegecrafter_blackfuse_automated_shredder : public CreatureScript
                 }
             }
 
-            void JustDied(Unit* who) override
+            void JustDied(Unit* /*killer*/) override
             {
                 // We handle it at 'SummonedCreatureDies'
                 //DoCast(me, SPELL_AUTOMATED_SHREDDER_DEATH_NOTIFY, true);
@@ -1695,7 +1700,7 @@ class npc_siegecrafter_blackfuse_siege_deactivated_weapon : public CreatureScrip
 
             }
 
-            void JustDied(Unit* killer) override
+            void JustDied(Unit* /*killer*/) override
             {
                 HandleWeaponDestroyed();
             }
@@ -2247,7 +2252,7 @@ class npc_siegecrafter_blackfuse_crawler_mine : public CreatureScript
                 }
             }
 
-            void JustDied(Unit* killer) override
+            void JustDied(Unit* /*killer*/) override
             {
                 if (IsOvercharged())
                     CreateNewCrawlerMines(2);
@@ -3349,6 +3354,7 @@ struct spell_area_siegecrafter_blackfuse_laser_ground_effect : AreaTriggerAI
 
     bool OnRemoveTarget(Unit* target, bool /*byExpire*/)
     {
+        return true;
     }
 };
 

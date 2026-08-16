@@ -339,7 +339,7 @@ public:
             else if(player->GetMapId() == MAP_AGS)
             {
                 sLFGMgr->Clean();
-                switch (uint32 entryID = me->GetEntry())
+                switch ([[maybe_unused]] uint32 entryID = me->GetEntry())
                 {
                 case   ENTRY_AURINOR:
                     sLFGMgr->JoinPersonalLfg(player, LFG_DUNGEON_AURINOR);
@@ -421,7 +421,7 @@ struct npc_temporal_anomaly_125856 : public ScriptedAI
 
     void OnSpellClick(Unit* clicker, bool& /*result*/)
     {
-        if (Player* player = clicker->ToPlayer())
+        if ([[maybe_unused]] Player* player = clicker->ToPlayer())
         {
             if (instance->GetData(DATA_STAGE_1) == DONE)
             {

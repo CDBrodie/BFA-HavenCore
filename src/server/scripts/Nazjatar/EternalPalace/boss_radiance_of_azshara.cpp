@@ -212,7 +212,7 @@ public:
                 Talk(5);
         }
 
-        void EnterEvadeMode(EvadeReason w) override
+        void EnterEvadeMode(EvadeReason /*w*/) override
         {
             _JustReachedHome();
             summons.DespawnAll();
@@ -451,7 +451,7 @@ public:
             for (std::list<Player*>::iterator itr = targets.begin(); itr != targets.end(); ++itr)
             {
                 std::ostringstream str;
-                str << (*itr)->GetName(); " is targeted by |cFFF00000|h[Arcane Bomb]|h|r!";
+                str << (*itr)->GetName() << " is targeted by |cFFF00000|h[Arcane Bomb]|h|r!";
                 caster->TextEmote(str.str().c_str(), 0, true);
                 caster->CastSpell((*itr), SPELL_ARCANE_BOMB_VEH, true);
             }

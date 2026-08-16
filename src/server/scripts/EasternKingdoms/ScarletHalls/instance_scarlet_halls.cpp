@@ -31,10 +31,10 @@ struct instance_scarlet_halls : public InstanceScript
             break;
         }
         if (instance->IsNormal())
-            if (creature->GetEntry() != NPC_HOUNDMASTER_BRAUN || NPC_ARMSMASTER_HARLAN || NPC_FLAMEWEAVER_KOEGLER)
+            if (creature->GetEntry() != NPC_HOUNDMASTER_BRAUN && creature->GetEntry() != NPC_ARMSMASTER_HARLAN && creature->GetEntry() != NPC_FLAMEWEAVER_KOEGLER)
                 creature->SetLevel(RAND(21, 30));
         if (instance->IsHeroic())
-            if (creature->GetEntry() != NPC_HOUNDMASTER_BRAUN || NPC_ARMSMASTER_HARLAN || NPC_FLAMEWEAVER_KOEGLER)
+            if (creature->GetEntry() != NPC_HOUNDMASTER_BRAUN && creature->GetEntry() != NPC_ARMSMASTER_HARLAN && creature->GetEntry() != NPC_FLAMEWEAVER_KOEGLER)
                 creature->SetLevel(RAND(90, 91));
     }
 };

@@ -302,7 +302,7 @@ struct korkron_dark_shaman_AI : public BossAI
         m_IsBerserkDone = false;
     }
 
-    void EnterCombat(Unit* who) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         ChangeHomePositions();
 
@@ -319,7 +319,7 @@ struct korkron_dark_shaman_AI : public BossAI
         SummonMount();
     }
 
-    void JustDied(Unit* killer)
+    void JustDied(Unit* /*killer*/)
     {
         _JustDied();
 
@@ -377,7 +377,7 @@ protected:
         return IsHaromm() ? GetKardris() : GetHaromm();
     }
 
-    virtual void SpawnTotem(TotemTypes totemType) { }
+    virtual void SpawnTotem(TotemTypes /*totemType*/) { }
 
     virtual void DoBloodlust() { }
 
@@ -725,7 +725,7 @@ class boss_earthbreaker_haromm : public CreatureScript
                         break;
                     case EVENT_FOUL_STREAM:
                     {
-                        Unit* target = SelectTarget(SELECT_TARGET_RANDOM, -20.0f, 0.0f, true, -SPELL_TOXIC_MIST);
+                        Unit* target = SelectTarget(SELECT_TARGET_RANDOM, 0, 20.0f, true, -SPELL_TOXIC_MIST);
                         if (!target)
                             target = SelectTarget(SELECT_TARGET_RANDOM, 0, 0.0f, true, -SPELL_TOXIC_MIST);
                         if (!target)
@@ -965,7 +965,7 @@ class npc_korkron_dark_shaman_wolf : public CreatureScript
                 me->SetReactState(REACT_DEFENSIVE);
             }
 
-            void EnterCombat(Unit* who)
+            void EnterCombat(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_SWIPE, TIMER_SWIPE_FIRST);
                 events.ScheduleEvent(EVENT_REND, TIMER_REND_FIRST);
@@ -980,7 +980,7 @@ class npc_korkron_dark_shaman_wolf : public CreatureScript
                 }
             }
 
-            void JustDied(Unit* who)
+            void JustDied(Unit* /*killer*/)
             {
                 events.Reset();
                 summons.DespawnAll();
@@ -1048,7 +1048,7 @@ class npc_korkron_dark_shaman_ash_elemental : public CreatureScript
                 summons.DespawnAll();
             }
 
-            void JustDied(Unit* who)
+            void JustDied(Unit* /*killer*/)
             {
                 events.Reset();
                 summons.DespawnAll();
@@ -1425,8 +1425,6 @@ class spell_korkron_dark_shaman_ashen_wall : public SpellScriptLoader
             {
                 if (!GetCaster() || !GetHitUnit())
                     return;
-
-                Position centerPos = GetHitUnit()->GetPosition();
 
                 for (uint8 i = 0; i < 8; ++i)
                 {

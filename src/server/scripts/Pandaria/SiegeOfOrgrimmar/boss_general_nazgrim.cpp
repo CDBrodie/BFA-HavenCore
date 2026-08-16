@@ -359,7 +359,7 @@ class boss_general_nazgrim : public CreatureScript
                 }
             }
 
-            void MovementInform(uint32 p_Type, uint32 p_Id) override
+            void MovementInform(uint32 /*p_Type*/, uint32 p_Id) override
             {
                 if (p_Id == EVENT_JUMP)
                 {
@@ -368,7 +368,7 @@ class boss_general_nazgrim : public CreatureScript
                 }
             }
 
-            void JustDied(Unit* who) override
+            void JustDied(Unit* /*killer*/) override
             {
                 _JustDied();
 
@@ -746,7 +746,7 @@ struct npc_nazgrim_korkron_addAI : public ScriptedAI
             }
         }
 
-        void JustDied(Unit* who) override
+        void JustDied(Unit* /*killer*/) override
         {
             events.Reset();
             summons.DespawnAll();
@@ -1044,7 +1044,7 @@ class npc_general_nazgrim_korkron_warshaman : public CreatureScript
                 npc_nazgrim_korkron_addAI::Reset();
             }
 
-            void EnterCombat(Unit* who)
+            void EnterCombat(Unit* /*unit*/)
             {
             }
 
@@ -1131,7 +1131,7 @@ class npc_general_nazgrim_korkron_sniper : public CreatureScript
                 SetEquipmentSlots(false, 103953, 0, 103953);
             }
 
-            void EnterCombat(Unit* who)  override
+            void EnterCombat(Unit* /*unit*/)  override
             {
             }
 
@@ -1303,7 +1303,7 @@ class npc_general_nazgrim_ravager : public CreatureScript
         struct npc_general_nazgrim_ravagerAI : public ScriptedAI
         {
             npc_general_nazgrim_ravagerAI(Creature* creature) : ScriptedAI(creature),
-                m_IsMoving(false), m_BeginMoveTimer(1000)
+                m_BeginMoveTimer(1000), m_IsMoving(false)
             {
                 me->SetUnitFlags(UnitFlags(UNIT_FLAG_NON_ATTACKABLE | UNIT_FLAG_NOT_SELECTABLE | UNIT_FLAG_IMMUNE_TO_PC));
                 me->SetReactState(REACT_PASSIVE);
@@ -1424,7 +1424,7 @@ class npc_general_nazgrim_orgrimmar_faithful : public CreatureScript
                 me->SetEmoteState(Emote::EMOTE_STATE_READY2H);
             }
 
-            void EnterCombat(Unit* who) override
+            void EnterCombat(Unit* /*unit*/) override
             {
                 DoAggro();
             }

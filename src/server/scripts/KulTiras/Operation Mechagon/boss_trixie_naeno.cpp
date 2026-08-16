@@ -118,7 +118,7 @@ struct boss_trixie_naeno : public BossAI
             Talk(SAY_NAENO_AGGRO);
             if (Creature* mechacycle = me->FindNearestCreature(NPC_MECHACYCLE, 100.f, true))
             {                 
-                me->NearTeleportTo(mechacycle->GetPosition()), false;
+                me->NearTeleportTo(mechacycle->GetPosition(), false);
                 me->EnterVehicle(mechacycle);
                 events.SetPhase(PHASE_VEHICLE);
                 events.ScheduleEvent(EVENT_PEDAL_TO_THE_METAL, 5s);
@@ -167,7 +167,7 @@ struct boss_trixie_naeno : public BossAI
             {                
                 //me->CastSpell(stalker->GetPosition(), SPELL_ELECTRIC_SLIDE, false);
                 me->GetMotionMaster()->MoveJump(stalker->GetPosition(), 0.8F, 30.0f, 30.0f, true);
-                me->GetScheduler().Schedule(3s, [this] (TaskContext context)
+                me->GetScheduler().Schedule(3s, [this] (TaskContext /*context*/)
                 {
                     me->RemoveAura(SPELL_ELECTRIC_SLIDE);
                 });
@@ -218,7 +218,7 @@ struct boss_trixie_naeno : public BossAI
                 events.ScheduleEvent(EVENT_PEDAL_TO_THE_METAL, 5s);
                 events.ScheduleEvent(EVENT_BURNOUT, 10s);                
                 events.ScheduleEvent(EVENT_EXIT_VEHICLE, 60s);
-                me->NearTeleportTo(mechacycle->GetPosition()), false;
+                me->NearTeleportTo(mechacycle->GetPosition(), false);
                 me->EnterVehicle(mechacycle);
                 events.SetPhase(PHASE_VEHICLE);
             }            
@@ -268,7 +268,7 @@ struct boss_trixie_naeno : public BossAI
         }
     }
 
-    void JustDied(Unit* killer) override
+    void JustDied(Unit* /*killer*/) override
     {
         switch (me->GetEntry())
         {

@@ -1109,7 +1109,7 @@ class boss_sha_of_pride : public CreatureScript
                     DoStartNoMovement(who);
             }
 
-            void EnterCombat(Unit* who) override
+            void EnterCombat(Unit* /*unit*/) override
             {
                 Talk(SAY_AGGRO);
 
@@ -1176,7 +1176,7 @@ class boss_sha_of_pride : public CreatureScript
                 m_PrisonController.FreePlayer(victim->GetGUID());
             }
 
-            void JustDied(Unit* who)
+            void JustDied(Unit* /*killer*/)
             {
                 _JustDied();
 
@@ -1201,6 +1201,8 @@ class boss_sha_of_pride : public CreatureScript
                         break;
                     case DIFFICULTY_25_HC:
                         instance->DoRespawnGameObject(instance->GetObjectGuid(DATA_VAULT_OF_FORBIDDEN_TREASURES_25H), DAY);
+                        break;
+                    default:
                         break;
                 }
             }
@@ -1380,6 +1382,8 @@ class boss_sha_of_pride : public CreatureScript
                     case DIFFICULTY_25_HC:
                         me->SummonCreature(NPC_MANIFESTATION_OF_PRIDE, manifestationPos25Man1);
                         me->SummonCreature(NPC_MANIFESTATION_OF_PRIDE, manifestationPos25Man2);
+                        break;
+                    default:
                         break;
                 }
             }
@@ -1735,7 +1739,7 @@ class npc_sha_of_pride_lingering_corruption : public CreatureScript
 
             }
 
-            void JustDied(Unit* who)
+            void JustDied(Unit* /*killer*/)
             {
                 DoCastAOE(SPELL_CORRUPTED_TOUCH, true);
 
@@ -1801,12 +1805,12 @@ class npc_sha_of_pride_manifestation_of_pride : public CreatureScript
                 DoCast(me, SPELL_MANIFESTATION_SPAWN, true);
             }
 
-            void EnterCombat(Unit* who)
+            void EnterCombat(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_GET_READY, 3000);
             }
 
-            void JustDied(Unit* who)
+            void JustDied(Unit* /*killer*/)
             {
                 DoCastAOE(SPELL_LAST_WORD, true);
 
@@ -1881,13 +1885,13 @@ class npc_sha_of_pride_reflection : public CreatureScript
                 DoCast(me, SPELL_SELF_REFLECTION_SPAWN, true);
             }
 
-            void EnterCombat(Unit* who)
+            void EnterCombat(Unit* /*unit*/)
             {
                 events.ScheduleEvent(EVENT_REFLECTION_DMG, 3000);
                 events.ScheduleEvent(EVENT_MOVE, 4000);
             }
 
-            void JustDied(Unit* who)
+            void JustDied(Unit* /*killer*/)
             {
                 me->DespawnOrUnsummon(2000);
             }
@@ -2069,10 +2073,10 @@ class go_sha_of_pride_shadow_prison_trap : public GameObjectScript
                         return;
 
                     //               _______A
-                    //        /\
-                    //       /  \
+                    //        /\.
+                    //       /  \.
                     //      /    \   _______B
-                    //     /@@@@@@\
+                    //     /@@@@@@\.
                     //    /@@@@@@@@\ _______C
                     //
                     //   1<--------->2      1 and 2 - angles, A-C - radius, B-C - height for area

@@ -1117,7 +1117,7 @@ class boss_spirit_kings : public CreatureScript
                         case EVENT_VOLLEY_3:
                         {
                             me->CastSpell(me, volleySpells[eventId - EVENT_VOLLEY_1], false);
-                            events.ScheduleEvent(eventId == EVENT_VOLLEY_3 ? EVENT_VOLLEY_1: eventId + 1, eventId == EVENT_VOLLEY_3 ? urand(15000, 20000): 50);
+                            events.ScheduleEvent(eventId == EVENT_VOLLEY_3 ? uint32(EVENT_VOLLEY_1) : eventId + 1, eventId == EVENT_VOLLEY_3 ? urand(15000, 20000): 50);
                             break;
                         }
                         case EVENT_RAIN_OF_ARROWS:

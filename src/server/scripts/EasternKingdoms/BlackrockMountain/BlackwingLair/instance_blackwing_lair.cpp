@@ -27,14 +27,14 @@
 
 DoorData const doorData[] =
 {
-    { GO_PORTCULLIS,             DATA_RAZORGORE_THE_UNTAMED,  DOOR_TYPE_PASSAGE },
-    { GO_DRAKE_RIDER_PORTCULLIS, DATA_VAELASTRAZ_THE_CORRUPT, DOOR_TYPE_PASSAGE },
-    { GO_ALTERAC_VALLEY_GATE,    DATA_BROODLORD_LASHLAYER,    DOOR_TYPE_PASSAGE },
-    { GO_GATE,                   DATA_FIREMAW,                DOOR_TYPE_PASSAGE },
-    { GO_GATE,                   DATA_EBONROC,                DOOR_TYPE_PASSAGE },
-    { GO_GATE,                   DATA_FLAMEGOR,               DOOR_TYPE_PASSAGE },
-    { GO_VACCUUM_EXIT_GATE,      DATA_CHROMAGGUS,             DOOR_TYPE_PASSAGE },
-    { 0,                         0,                           DOOR_TYPE_ROOM } // END
+    { GO_PORTCULLIS,             DATA_RAZORGORE_THE_UNTAMED,  DOOR_TYPE_PASSAGE , BOUNDARY_NONE },
+    { GO_DRAKE_RIDER_PORTCULLIS, DATA_VAELASTRAZ_THE_CORRUPT, DOOR_TYPE_PASSAGE , BOUNDARY_NONE },
+    { GO_ALTERAC_VALLEY_GATE,    DATA_BROODLORD_LASHLAYER,    DOOR_TYPE_PASSAGE , BOUNDARY_NONE },
+    { GO_GATE,                   DATA_FIREMAW,                DOOR_TYPE_PASSAGE , BOUNDARY_NONE },
+    { GO_GATE,                   DATA_EBONROC,                DOOR_TYPE_PASSAGE , BOUNDARY_NONE },
+    { GO_GATE,                   DATA_FLAMEGOR,               DOOR_TYPE_PASSAGE , BOUNDARY_NONE },
+    { GO_VACCUUM_EXIT_GATE,      DATA_CHROMAGGUS,             DOOR_TYPE_PASSAGE , BOUNDARY_NONE },
+    { 0,                         0,                           DOOR_TYPE_ROOM , BOUNDARY_NONE } // END
 };
 
 ObjectData const creatureData[] =

@@ -224,7 +224,7 @@ public:
             }
         }
 
-        void MoveInLineOfSight(Unit* who)
+        void MoveInLineOfSight(Unit* /*who*/)
         {
             if (!introText)
             {
@@ -240,12 +240,12 @@ public:
             }
         }
 
-        void KilledUnit(Unit* at)
+        void KilledUnit(Unit* /*at*/)
         {
             SelectSoundAndText(me, 5);
         }
 
-        void EnterEvadeMode(EvadeReason why)
+        void EnterEvadeMode(EvadeReason /*why*/)
         {
             instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
             DespawnCreature(NPC_SUNKEN_DENIZEN);
@@ -306,17 +306,17 @@ public:
                     {
                         uint32 specialization = player->GetSpecializationId();
 
-                        if (player->getClass() == CLASS_PRIEST && specialization == TALENT_SPEC_PRIEST_DISCIPLINE ||
-                            player->getClass() == CLASS_PRIEST && specialization == TALENT_SPEC_PRIEST_HOLY ||
-                            player->getClass() == CLASS_DRUID && specialization == TALENT_SPEC_DRUID_RESTORATION ||
-                            player->getClass() == CLASS_MONK && specialization == TALENT_SPEC_MONK_MISTWEAVER ||
-                            player->getClass() == CLASS_SHAMAN && specialization == TALENT_SPEC_SHAMAN_RESTORATION ||
-                            player->getClass() == CLASS_WARRIOR && specialization == TALENT_SPEC_WARRIOR_PROTECTION ||
-                            player->getClass() == CLASS_DEATH_KNIGHT && specialization == TALENT_SPEC_DEATHKNIGHT_BLOOD || 
-                            player->getClass() == CLASS_PALADIN && specialization == TALENT_SPEC_PALADIN_PROTECTION ||
-                            player->getClass() == CLASS_MONK && specialization == TALENT_SPEC_MONK_BREWMASTER ||
-                            player->getClass() == CLASS_DEMON_HUNTER && specialization == TALENT_SPEC_DEMON_HUNTER_VENGEANCE ||
-                            player->getClass() == CLASS_DRUID && specialization == TALENT_SPEC_DRUID_BEAR)
+                        if ((player->getClass() == CLASS_PRIEST && specialization == TALENT_SPEC_PRIEST_DISCIPLINE) ||
+                            (player->getClass() == CLASS_PRIEST && specialization == TALENT_SPEC_PRIEST_HOLY) ||
+                            (player->getClass() == CLASS_DRUID && specialization == TALENT_SPEC_DRUID_RESTORATION) ||
+                            (player->getClass() == CLASS_MONK && specialization == TALENT_SPEC_MONK_MISTWEAVER) ||
+                            (player->getClass() == CLASS_SHAMAN && specialization == TALENT_SPEC_SHAMAN_RESTORATION) ||
+                            (player->getClass() == CLASS_WARRIOR && specialization == TALENT_SPEC_WARRIOR_PROTECTION) ||
+                            (player->getClass() == CLASS_DEATH_KNIGHT && specialization == TALENT_SPEC_DEATHKNIGHT_BLOOD) ||
+                            (player->getClass() == CLASS_PALADIN && specialization == TALENT_SPEC_PALADIN_PROTECTION) ||
+                            (player->getClass() == CLASS_MONK && specialization == TALENT_SPEC_MONK_BREWMASTER) ||
+                            (player->getClass() == CLASS_DEMON_HUNTER && specialization == TALENT_SPEC_DEMON_HUNTER_VENGEANCE) ||
+                            (player->getClass() == CLASS_DRUID && specialization == TALENT_SPEC_DRUID_BEAR))
                         {
                             dps = false;
                         }
@@ -399,7 +399,7 @@ public:
                     if (Player* player = i->GetSource())
                     {
                         if (!player->IsGameMaster() && player->IsAlive() &&
-                            player->HasAura(SPELL_GRASP_OF_THE_SUNKEN_CITY_DPS_PHASE) || player->HasAura(SPELL_GRASP_OF_THE_SUNKEN_CITY_TANK_PHASE))
+                            (player->HasAura(SPELL_GRASP_OF_THE_SUNKEN_CITY_DPS_PHASE) || player->HasAura(SPELL_GRASP_OF_THE_SUNKEN_CITY_TANK_PHASE)))
                             checkAlive = true;
                         else
                             checkAlive = false;
@@ -454,7 +454,7 @@ public:
             SelectSoundAndText(me, 4);
         }
 
-        void EnterCombat(Unit* w)
+        void EnterCombat(Unit* /*unit*/)
         {
             SelectSoundAndText(me, 2);
 
@@ -487,11 +487,11 @@ public:
                     {
                         uint32 specialization = player->GetSpecializationId();
 
-                        if (player->getClass() == CLASS_PRIEST && specialization == TALENT_SPEC_PRIEST_DISCIPLINE ||
-                            player->getClass() == CLASS_PRIEST && specialization == TALENT_SPEC_PRIEST_HOLY ||
-                            player->getClass() == CLASS_DRUID && specialization == TALENT_SPEC_DRUID_RESTORATION ||
-                            player->getClass() == CLASS_MONK && specialization == TALENT_SPEC_MONK_MISTWEAVER ||
-                            player->getClass() == CLASS_SHAMAN && specialization == TALENT_SPEC_SHAMAN_RESTORATION)
+                        if ((player->getClass() == CLASS_PRIEST && specialization == TALENT_SPEC_PRIEST_DISCIPLINE) ||
+                            (player->getClass() == CLASS_PRIEST && specialization == TALENT_SPEC_PRIEST_HOLY) ||
+                            (player->getClass() == CLASS_DRUID && specialization == TALENT_SPEC_DRUID_RESTORATION) ||
+                            (player->getClass() == CLASS_MONK && specialization == TALENT_SPEC_MONK_MISTWEAVER) ||
+                            (player->getClass() == CLASS_SHAMAN && specialization == TALENT_SPEC_SHAMAN_RESTORATION))
                         {
                             isHealer = true;
                         }
@@ -649,7 +649,7 @@ public:
             events.Reset();
         }
 
-        void EnterCombat(Unit* w)
+        void EnterCombat(Unit* /*unit*/)
         {
             events.ScheduleEvent(EVENT_TENTACLE_SLAM, TIMER_TENTACLE_SLAM);
         }

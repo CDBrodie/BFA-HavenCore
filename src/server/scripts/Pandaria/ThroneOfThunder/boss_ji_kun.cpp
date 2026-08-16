@@ -422,7 +422,7 @@ public:
             RemoveFeathers();
         }
 
-        void EnterCombat(Unit* who)
+        void EnterCombat(Unit* /*unit*/)
         {
             nests = 0; // just to be sure its reseted
             DoCast(me, SPELL_INFECTED_TALONS_AURA);
@@ -494,7 +494,7 @@ public:
                 }
         }
 
-        void JustDied(Unit* pKiller) override
+        void JustDied(Unit* /*killer*/) override
         {
             RemoveScreech();
             RemoveAllAurasAndDespawnSummons();
@@ -799,6 +799,8 @@ public:
                 case DIFFICULTY_25_N:
                     UpdateNestState25();
                     break;
+                default:
+                    break;
                 }
                 events.ScheduleEvent(EVENT_ACTIVATE_NESTS, 30000, 0, 0);
                 events.ScheduleEvent(EVENT_FEED_YOUNG, 5000);
@@ -985,6 +987,8 @@ public:
                 //me->SummonCreature(NPC_MATURE_EGG_OF_JIKUN, me->GetPositionX() - 7.0f, me->GetPositionY(), me->GetPositionZ(), TEMPSUMMON_DEAD_DESPAWN);
                 me->SummonCreature(NPC_MATURE_EGG_OF_JIKUN, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(), TEMPSUMMON_DEAD_DESPAWN);
                 break;
+            default:
+                break;
             }
         }
 
@@ -1006,6 +1010,8 @@ public:
                 me->SummonCreature(NPC_YOUNG_EGG_OF_JIKUN, me->GetPositionX() + 7.0f, me->GetPositionY(), me->GetPositionZ(), TEMPSUMMON_DEAD_DESPAWN);
                 me->SummonCreature(NPC_YOUNG_EGG_OF_JIKUN, me->GetPositionX() - 7.0f, me->GetPositionY(), me->GetPositionZ(), TEMPSUMMON_DEAD_DESPAWN);
                 me->SummonCreature(NPC_YOUNG_EGG_OF_JIKUN, me->GetPositionX(), me->GetPositionY(), me->GetPositionZ(), TEMPSUMMON_DEAD_DESPAWN);
+                break;
+            default:
                 break;
             }
         }
@@ -1779,7 +1785,7 @@ public:
 
     bool OnGossipHello(Player* player, GameObject* go)
     {
-        if (player->HasAura(SPELL_LESSON_OF_ICARUS || player->IsGameMaster()))
+        if (player->HasAura(SPELL_LESSON_OF_ICARUS) || player->IsGameMaster())
             return true;
 
         // 3 stacks heroic, 4 normal
@@ -1973,6 +1979,8 @@ public:
                         break;
                     case DIFFICULTY_25_HC:
                         damage = 554999;
+                        break;
+                    default:
                         break;
                     }
 

@@ -254,7 +254,7 @@ struct boss_conclave_of_the_chosen : public BossAI
             {
                 me->CastSpell(target, SPELL_CRAWLING_HEX, true);
                 target->SetDisplayId(48056);
-                target->GetScheduler().Schedule(6s, [this, target](TaskContext context)
+                target->GetScheduler().Schedule(6s, [this, target](TaskContext /*context*/)
                 {
                     target->DeMorph();
                 });
@@ -628,7 +628,7 @@ struct npc_ravenous_stalker : public ScriptedAI
 
     void MoveInLineOfSight(Unit* unit) override
     {
-        if (unit->GetEntry() == NPC_GONK || unit->GetEntry() == NPC_PAKU || unit->GetEntry() == NPC_KIMBUL || unit->GetEntry() == NPC_AKUNDA && me->GetDistance2d(unit) <= 5.0f)
+        if (unit->GetEntry() == NPC_GONK || unit->GetEntry() == NPC_PAKU || unit->GetEntry() == NPC_KIMBUL || (unit->GetEntry() == NPC_AKUNDA && me->GetDistance2d(unit) <= 5.0f))
         {
             if (!me->HasAura(SPELL_PACK_HUNTER))
                 me->AddAura(SPELL_PACK_HUNTER);
@@ -636,7 +636,7 @@ struct npc_ravenous_stalker : public ScriptedAI
             if (!unit->HasAura(SPELL_PACK_HUNTER))
                 unit->AddAura(SPELL_PACK_HUNTER);
         }
-        if (unit->GetEntry() == NPC_GONK || unit->GetEntry() == NPC_PAKU || unit->GetEntry() == NPC_KIMBUL || unit->GetEntry() == NPC_AKUNDA && me->GetDistance2d(unit) > 5.0f)
+        if (unit->GetEntry() == NPC_GONK || unit->GetEntry() == NPC_PAKU || unit->GetEntry() == NPC_KIMBUL || (unit->GetEntry() == NPC_AKUNDA && me->GetDistance2d(unit) > 5.0f))
         {
             if (me->HasAura(SPELL_PACK_HUNTER))
                 me->RemoveAura(SPELL_PACK_HUNTER);

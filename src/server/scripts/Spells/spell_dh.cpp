@@ -3936,7 +3936,7 @@ class spell_dh_annihilation : public SpellScript
 {
     PrepareSpellScript(spell_dh_annihilation);
 
-    void HandleHit(SpellMissInfo missInfo)
+    void HandleHit(SpellMissInfo /*missInfo*/)
     {
         if (Unit* caster = GetCaster())
         {

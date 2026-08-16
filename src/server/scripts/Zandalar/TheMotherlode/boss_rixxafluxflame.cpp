@@ -90,7 +90,7 @@ public:
         instance->SetBossState(DATA_RIXXA_FLUXFLAME, DONE);
     }
 
-    void KilledUnit(Unit* victim) override
+    void KilledUnit(Unit* /*victim*/) override
     {
 
     }

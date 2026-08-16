@@ -101,7 +101,7 @@ public:
     {
         PrepareAuraScript(spell_burst_sots_AuraScript);
 
-        void OnTick(AuraEffect const* aurEff)
+        void OnTick(AuraEffect const* /*aurEff*/)
         {
             GetTarget()->CastSpell(GetTarget(), SPELL_BURST, true);
         }

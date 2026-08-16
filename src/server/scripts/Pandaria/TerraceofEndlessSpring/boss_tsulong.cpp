@@ -241,7 +241,7 @@ public:
             CreatureAI::MoveInLineOfSight(pWho);
         }
 
-        void EnterCombat(Unit* pWho) override
+        void EnterCombat(Unit* /*unit*/) override
         {
 
             instance->SendEncounterUnit(ENCOUNTER_FRAME_ENGAGE, me);
@@ -421,7 +421,7 @@ public:
             }
         }
 
-        void HandleDefeat(Unit* attacker)
+        void HandleDefeat(Unit* /*attacker*/)
         {
             if (hasBeenDefeated)
                 return;
@@ -642,6 +642,8 @@ public:
                         me->SummonCreature(NPC_THE_DARK_OF_THE_NIGHT, -1012.67f, -3010.40f, 12.56f, me->GetOrientation(), TEMPSUMMON_MANUAL_DESPAWN);
                         me->SummonCreature(NPC_THE_DARK_OF_THE_NIGHT, -1054.45f, -3033.09f, 12.56f, me->GetOrientation(), TEMPSUMMON_MANUAL_DESPAWN);
                         me->SummonCreature(NPC_THE_DARK_OF_THE_NIGHT, -1038.71f, -3070.08f, 12.56f, me->GetOrientation(), TEMPSUMMON_MANUAL_DESPAWN);
+                        break;
+                    default:
                         break;
                     }
                     break;
@@ -1314,6 +1316,8 @@ public:
                 break;
             case DIFFICULTY_25_HC:
                 amplitude = 10000;
+                break;
+            default:
                 break;
             }
         }

@@ -114,7 +114,7 @@ struct boss_nzoth : public BossAI
         me->SetPower(POWER_ENERGY, 0);        
         SetCombatMovement(false);
         if (me->IsFalling())
-            me->UpdatePosition(me->GetHomePosition()), true;
+            me->UpdatePosition(me->GetHomePosition(), true);
         //me->AddUnitFlag(UnitFlags(UNIT_FLAG_IMMUNE_TO_PC | UNIT_FLAG_IMMUNE_TO_NPC));
         this->tentacles = 0;
     }
@@ -143,7 +143,7 @@ struct boss_nzoth : public BossAI
         }
     }
 
-    void EnterCombat(Unit* u) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         Talk(SAY_AGGRO);
         _EnterCombat();
@@ -255,11 +255,11 @@ struct boss_nzoth : public BossAI
         switch (eventId)
         {
         case EVENT_MINDGRASP:
-            if (this->phase1 = true)
+            if (this->phase1 == true)
             {
                 me->CastSpell(nullptr, SPELL_MINDGRASP_CHANNEL);
             }
-            else if (this->phase3 = true)
+            else if (this->phase3 == true)
             {
                 me->CastSpell(nullptr, SPELL_MINDGRASP_CHANNEL);
             }
@@ -267,7 +267,7 @@ struct boss_nzoth : public BossAI
             break;
 
         case EVENT_ETERNAL_HUNGER:
-            if (this->phase2 = true)
+            if (this->phase2 == true)
             {
                 me->AddAura(SPELL_ETERNAL_TORMENT_AURA_TRIGGER);
             }            
@@ -283,7 +283,7 @@ struct boss_nzoth : public BossAI
             break;
 
         case EVENT_HARVESTER:
-            if (this->phase3 = true)
+            if (this->phase3 == true)
             {
                 auto* harvest = DoSummon(NPC_THOUGHT_HARVESTER, me->GetRandomPoint(harvester_pos, 30.0f));
             }            
@@ -291,7 +291,7 @@ struct boss_nzoth : public BossAI
 
         case EVENT_CATACLYSMIC_FLAMES:
         {
-            if (this->phase2 = true)
+            if (this->phase2 == true)
             {
                 UnitList tarlist;
                 SelectTargetList(tarlist, 10, SELECT_TARGET_RANDOM, 100.0f, true);
@@ -361,7 +361,7 @@ struct npc_psychus : public ScriptedAI
         me->SetPower(POWER_ENERGY, 0);
     }
 
-    void EnterCombat(Unit* unit) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         me->AddAura(SPELL_PERIODIC_ENERGY_GAIN);
         events.ScheduleEvent(EVENT_MINDWRACK, 3s);
@@ -397,7 +397,7 @@ struct npc_psychus : public ScriptedAI
         }
     }
 
-    void JustDied(Unit* u) override
+    void JustDied(Unit* /*killer*/) override
     {
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
         if (Creature* nzoth = instance->GetCreature(NPC_NZOTH))
@@ -445,7 +445,7 @@ struct npc_exposed_synapse : public ScriptedAI
         me->SetDisplayId(76612);
     }
 
-    void EnterCombat(Unit* u) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         events.ScheduleEvent(EVENT_PROBE_MIND, 3s);
     }
@@ -461,7 +461,7 @@ struct npc_exposed_synapse : public ScriptedAI
         }
     }
 
-    void JustDied(Unit* u) override
+    void JustDied(Unit* /*killer*/) override
     {
         if (Creature* psychus = me->FindNearestCreature(NPC_PSYCHUS, 8.0f, true))
         {
@@ -498,7 +498,7 @@ struct npc_basher_tentacle : public ScriptedAI
         me->AddUnitState(UNIT_STATE_ROOT);
     }
 
-    void EnterCombat(Unit* u) override
+    void EnterCombat(Unit* /*unit*/) override
     {
         events.ScheduleEvent(EVENT_TUMULTUOUS_BURST, 1s);
         events.ScheduleEvent(EVENT_VOID_LASH, 3s);
@@ -532,7 +532,7 @@ struct npc_basher_tentacle : public ScriptedAI
         }
     }
 
-    void JustDied(Unit* u) override
+    void JustDied(Unit* /*killer*/) override
     {
         instance->SendEncounterUnit(ENCOUNTER_FRAME_DISENGAGE, me);
     }
@@ -573,7 +573,7 @@ struct npc_spike_tentacle : public ScriptedAI
         }
     }
 
-    void JustDied(Unit* u) override
+    void JustDied(Unit* /*killer*/) override
     {
         UnitList tarlist;
         SelectTargetList(tarlist, 10, SELECT_TARGET_RANDOM, 100.0f, true);

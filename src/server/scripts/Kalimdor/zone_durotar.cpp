@@ -181,7 +181,7 @@ struct npc_kijara_37969 : public ScriptedAI
     void sQuestAccept(Player* player, Quest const* quest) override
     {
         if (quest->ID == QUEST_YOUNG_AND_VICIOUS)
-            player->SummonCreature(NPC_SWIFTCLAW, -1553.891f, -5304.168f, 8.625f), TEMPSUMMON_TIMED_DESPAWN, 60000;
+            player->SummonCreature(NPC_SWIFTCLAW, -1553.891f, -5304.168f, 8.625f, 0.0f, TEMPSUMMON_TIMED_DESPAWN, 60000);
     }
 };
 
@@ -197,7 +197,7 @@ struct npc_swiftclaw_37989 : public ScriptedAI
         {
             player->KilledMonsterCredit(37989);
             me->RemoveNpcFlag(UNIT_NPC_FLAG_SPELLCLICK);
-            me->GetScheduler().Schedule(30s, [this, player](TaskContext context)
+            me->GetScheduler().Schedule(30s, [this, player](TaskContext /*context*/)
             {
                 if (!player)
                     return;
