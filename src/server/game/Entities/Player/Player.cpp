@@ -3318,14 +3318,42 @@ bool Player::AddSpell(uint32 spellId, bool active, bool learning, bool dependent
         return false;
     }
 
-    // update free primary prof.points (if any, can be none in case GM .learn prof. learning)
-    if (uint32 freeProfs = GetFreePrimaryProfessionPoints())
-    {
-        if (spellInfo->IsPrimaryProfessionFirstRank())
-            SetFreePrimaryProfessions(freeProfs - 1);
-    }
-
     SkillLineAbilityMapBounds skill_bounds = sSpellMgr->GetSkillLineAbilityMapBounds(spellId);
+
+    // Only consume a primary profession slot for the top-level profession.
+    // Dependent/child skill-line spells must not consume another slot.
+    if (!dependent && spellInfo->IsPrimaryProfessionFirstRank())
+    {
+        bool alreadyHasProfession = false;
+
+        for (SkillLineAbilityMap::const_iterator itr = skill_bounds.first; itr != skill_bounds.second; ++itr)
+        {
+            uint32 skillLineId = itr->second->SkillLine;
+            SkillLineEntry const* skillLine = sSkillLineStore.LookupEntry(skillLineId);
+            if (!skillLine)
+                continue;
+
+            uint32 parentSkillLineId = skillLine->ParentSkillLineID
+                ? uint32(skillLine->ParentSkillLineID)
+                : skillLineId;
+
+            SkillLineEntry const* parentSkillLine = sSkillLineStore.LookupEntry(parentSkillLineId);
+            if (!parentSkillLine || parentSkillLine->CategoryID != SKILL_CATEGORY_PROFESSION)
+                continue;
+
+            if (HasSkill(parentSkillLineId))
+            {
+                alreadyHasProfession = true;
+                break;
+            }
+        }
+
+        if (!alreadyHasProfession)
+        {
+            if (uint32 freeProfs = GetFreePrimaryProfessionPoints())
+                SetFreePrimaryProfessions(freeProfs - 1);
+        }
+    }
 
     if (SpellLearnSkillNode const* spellLearnSkill = sSpellMgr->GetSpellLearnSkill(spellId))
     {
@@ -5807,26 +5835,6 @@ bool Player::UpdateSkillPro(uint16 skillId, int32 chance, uint32 step)
         new_value = max;
 
     SetSkillRank(itr->second.pos, new_value);
-
-    // Classic Inscription progression is resolved from the expansion-specific
-    // recipe skill line to the parent skill, so explicitly send the skill-up
-    // chat notification for that parent skill. Other professions already
-    // receive their native client notification and must not be duplicated.
-    if (skillId == SKILL_INSCRIPTION || skillId == SKILL_ENGINEERING)
-    {
-        if (SkillLineEntry const* skillLine = sSkillLineStore.LookupEntry(skillId))
-        {
-            LocaleConstant locale = GetSession()->GetSessionDbcLocale();
-
-            std::ostringstream skillMessage;
-            skillMessage << "Your skill in " << skillLine->DisplayName->Str[locale]
-                         << " has increased to " << new_value << ".";
-
-            WorldPackets::Chat::Chat packet;
-            packet.Initialize(CHAT_MSG_SKILL, LANG_UNIVERSAL, this, this, skillMessage.str());
-            SendDirectMessage(packet.Write());
-        }
-    }
 
     if (itr->second.uState != SKILL_NEW)
         itr->second.uState = SKILL_CHANGED;
