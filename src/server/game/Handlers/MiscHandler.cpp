@@ -84,7 +84,7 @@ void WorldSession::HandleRepopRequest(WorldPackets::Misc::RepopRequest& /*packet
             {
                 Position resurectPosition;
 
-                if (instanceScript->GetCheckPoint().is_initialized())
+                if (instanceScript->GetCheckPoint().has_value())
                     resurectPosition = *instanceScript->GetCheckPoint();
                 else if (WorldSafeLocsEntry const* entranceLocation = sObjectMgr->GetWorldSafeLoc(instanceScript->GetEntranceLocation()))
                     resurectPosition.Relocate(entranceLocation->Loc);

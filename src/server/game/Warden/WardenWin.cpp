@@ -34,6 +34,7 @@
 #include "World.h"
 #include "WorldPacket.h"
 #include "WorldSession.h"
+#include <sstream>
 
 WardenWin::WardenWin() : Warden(), _serverTicks(0) {}
 

@@ -4626,7 +4626,7 @@ void Spell::SendChannelStart(uint32 duration)
 
     if (schoolImmunityMask || mechanicImmunityMask)
     {
-        spellChannelStart.InterruptImmunities = boost::in_place();
+        spellChannelStart.InterruptImmunities.emplace();
         spellChannelStart.InterruptImmunities->SchoolImmunities = schoolImmunityMask;
         spellChannelStart.InterruptImmunities->Immunities = mechanicImmunityMask;
     }

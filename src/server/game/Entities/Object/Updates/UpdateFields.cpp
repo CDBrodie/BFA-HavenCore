@@ -2837,12 +2837,12 @@ namespace UF
         data.WriteBit(BankAutoSortDisabled);
         data.WriteBit(SortBagsRightToLeft);
         data.WriteBit(InsertItemsLeftToRight);
-        data.WriteBit(QuestSession.is_initialized());
+        data.WriteBit(QuestSession.has_value());
         for (std::size_t i = 0; i < CharacterRestrictions.size(); ++i)
         {
             CharacterRestrictions[i].WriteCreate(data, owner, receiver);
         }
-        if (QuestSession.is_initialized())
+        if (QuestSession.has_value())
         {
             QuestSession->WriteCreate(data, owner, receiver);
         }
@@ -3524,10 +3524,10 @@ namespace UF
         data.FlushBits();
         if (changesMask[98])
         {
-            data.WriteBit(QuestSession.is_initialized());
+            data.WriteBit(QuestSession.has_value());
             if (changesMask[103])
             {
-                if (QuestSession.is_initialized())
+                if (QuestSession.has_value())
                 {
                     QuestSession->WriteUpdate(data, ignoreNestedChangesMask, owner, receiver);
                 }
