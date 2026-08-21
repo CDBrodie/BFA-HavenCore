@@ -6,3 +6,4 @@ build/
 .superpowers/
 docs/superpowers/
 TODO.md
+/.cache
