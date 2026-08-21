@@ -1605,10 +1605,6 @@ class spell_gen_elune_candle : public SpellScriptLoader
         }
 };
 
-// 267560 - Monel-Hardened Stirrups
-// BFA data exposes this effect as SPELL_AURA_DUMMY. While active it should
-// grant the same mounted gameobject-use permission represented by
-// PLAYER_LOCAL_FLAG_CAN_USE_OBJECTS_MOUNTED.
 class spell_gen_monel_hardened_stirrups : public AuraScript
 {
     PrepareAuraScript(spell_gen_monel_hardened_stirrups);
