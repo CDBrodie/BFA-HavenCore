@@ -5591,7 +5591,6 @@ SpellCastResult Spell::CheckCast(bool strict, uint32* param1 /*= nullptr*/, uint
                     || (effect->TargetA.GetTarget() == TARGET_GAMEOBJECT_TARGET && !m_targets.GetGOTarget()))
                     return SPELL_FAILED_BAD_TARGETS;
 					
-					//Fix for mining while mounted
 					if (GameObject* go = m_targets.GetGOTarget())
 {
     GameObjectTemplate const* goInfo = go->GetGOInfo();
@@ -5605,7 +5604,6 @@ SpellCastResult Spell::CheckCast(bool strict, uint32* param1 /*= nullptr*/, uint
         return SPELL_FAILED_NOT_MOUNTED;
     }
 }
-					//End fix for mining while mounted
 
                 Item* pTempItem = nullptr;
                 if (m_targets.GetTargetMask() & TARGET_FLAG_TRADE_ITEM)
