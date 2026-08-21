@@ -847,26 +847,6 @@ uint32 DB2Manager::LoadStores(std::string const& dataPath, LocaleConstant defaul
     LOAD_DB2(sSpellCooldownsStore);
     LOAD_DB2(sSpellDurationStore);
     LOAD_DB2(sSpellEffectStore);
-
-    // TEMPORARY DEBUG: dump SpellEffect.db2 rows for Monel-Hardened Stirrups (spell 267560).
-    // Remove this block before submitting the PR.
-    for (SpellEffectEntry const* effect : sSpellEffectStore)
-    {
-        if (effect->SpellID == 267560)
-        {
-            TC_LOG_ERROR("server",
-                "STIRRUPDEBUG Spell=%u EffectID=%u Index=%u Effect=%u Aura=%u BasePoints=%.2f Misc0=%d Misc1=%d Trigger=%u",
-                effect->SpellID,
-                effect->ID,
-                effect->EffectIndex,
-                effect->Effect,
-                effect->EffectAura,
-                effect->EffectBasePoints,
-                effect->EffectMiscValue[0],
-                effect->EffectMiscValue[1],
-                effect->EffectTriggerSpell);
-        }
-    }
     LOAD_DB2(sSpellEquippedItemsStore);
     LOAD_DB2(sSpellFocusObjectStore);
     LOAD_DB2(sSpellInterruptsStore);
