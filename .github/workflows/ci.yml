@@ -54,3 +54,9 @@ jobs:
     uses: ./.github/workflows/gcc-build.yml
     with:
       run_build: ${{ needs.changes.outputs.code == 'true' && !github.event.pull_request.draft }}
+
+  clang:
+    needs: changes
+    uses: ./.github/workflows/clang-build.yml
+    with:
+      run_build: ${{ needs.changes.outputs.code == 'true' && !github.event.pull_request.draft }}
