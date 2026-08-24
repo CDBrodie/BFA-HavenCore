@@ -21,6 +21,11 @@ target_compile_options(trinity-warning-interface
   INTERFACE
     /W3)
 
+# disable permissive mode to make msvc more eager to reject code that other compilers don't already accept
+target_compile_options(trinity-compile-option-interface
+  INTERFACE
+    /permissive-)
+
 # set up output paths ofr static libraries etc (commented out - shown here as an example only)
 #set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 #set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -55,17 +60,23 @@ if("${CMAKE_MAKE_PROGRAM}" MATCHES "MSBuild")
   target_compile_definitions(trinity-compile-option-interface
     INTERFACE
       -D_BUILD_DIRECTIVE="$(ConfigurationName)")
+
+  # multithreaded compiling on VS
+  target_compile_options(trinity-compile-option-interface
+    INTERFACE
+      /MP)
 else()
   # while all make-like generators do (nmake, ninja)
   target_compile_definitions(trinity-compile-option-interface
     INTERFACE
       -D_BUILD_DIRECTIVE="$<CONFIG>")
-endif()
 
-# multithreaded compiling on VS
-target_compile_options(trinity-compile-option-interface
-  INTERFACE
-    /MP)
+  # Forces writes to the PDB file to be serialized through mspdbsrv.exe (/FS)
+  # Enable faster PDB generation in parallel builds by minimizing RPC calls to mspdbsrv.exe (/Zf)
+  target_compile_options(trinity-compile-option-interface
+    INTERFACE
+      $<$<CONFIG:Debug,RelWithDebInfo>:/FS /Zf>)
+endif()
 
 if((PLATFORM EQUAL 64) OR (NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 19.0.23026.0) OR BUILD_SHARED_LIBS)
   # Enable extended object support
@@ -76,13 +87,12 @@ if((PLATFORM EQUAL 64) OR (NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS 19.0.2302
   message(STATUS "MSVC: Enabled increased number of sections in object files")
 endif()
 
-# /Zc:throwingNew.
-# When you specify Zc:throwingNew on the command line, it instructs the compiler to assume
-# that the program will eventually be linked with a conforming operator new implementation,
-# and can omit all of these extra null checks from your program.
-# http://blogs.msdn.com/b/vcblog/archive/2015/08/06/new-in-vs-2015-zc-throwingnew.aspx
-if(NOT (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 19.0.23026.0))
-  # makes this flag a requirement to build TC at all
+if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+  # /Zc:throwingNew.
+  # When you specify Zc:throwingNew on the command line, it instructs the compiler to assume
+  # that the program will eventually be linked with a conforming operator new implementation,
+  # and can omit all of these extra null checks from your program.
+  # http://blogs.msdn.com/b/vcblog/archive/2015/08/06/new-in-vs-2015-zc-throwingnew.aspx
   target_compile_options(trinity-compile-option-interface
     INTERFACE
       /Zc:throwingNew)
@@ -104,6 +114,11 @@ message(STATUS "MSVC: Disabled NON-SECURE warnings")
 target_compile_definitions(trinity-compile-option-interface
   INTERFACE
     -D_CRT_NONSTDC_NO_WARNINGS)
+
+# Force math constants like M_PI to be available
+target_compile_definitions(trinity-compile-option-interface
+  INTERFACE
+    -D_USE_MATH_DEFINES)
 
 message(STATUS "MSVC: Disabled POSIX warnings")
 
@@ -143,7 +158,8 @@ target_compile_options(trinity-compile-option-interface
     /w34100  # C4100 'identifier' : unreferenced formal parameter
     /w34101  # C4101: 'identifier' : unreferenced local variable
     /w34189  # C4189: 'identifier' : local variable is initialized but not referenced
-    /w34389) # C4189: 'equality-operator' : signed/unsigned mismatch
+    /w34389  # C4389: 'equality-operator' : signed/unsigned mismatch
+	  /w35054) # C5054: 'operator 'operator-name': deprecated between enumerations of different types'
 
 # Enable and treat as errors the following warnings to easily detect virtual function signature failures:
 # 'function' : member function does not override any base class virtual member function
@@ -152,6 +168,19 @@ target_compile_options(trinity-compile-option-interface
   INTERFACE
     /we4263
     /we4264)
+
+if(ASAN)
+  target_compile_definitions(trinity-compile-option-interface
+    INTERFACE
+      -D_DISABLE_STRING_ANNOTATION
+      -D_DISABLE_VECTOR_ANNOTATION)
+
+  target_compile_options(trinity-compile-option-interface
+    INTERFACE
+      /fsanitize=address)
+
+  message(STATUS "MSVC: Enabled Address Sanitizer ASan")
+endif()
 
 # Disable incremental linking in debug builds.
 # To prevent linking getting stuck (which might be fixed in a later VS version).
