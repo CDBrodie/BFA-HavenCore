@@ -36,7 +36,7 @@ if(PLATFORM EQUAL 64)
   # debugger functionality.
   target_compile_definitions(trinity-compile-option-interface
     INTERFACE
-      -D_WIN64)
+      _WIN64)
 
   message(STATUS "MSVC: 64-bit platform, enforced -D_WIN64 parameter")
 
@@ -54,23 +54,13 @@ else()
   message(STATUS "MSVC: Disabled Safe Exception Handlers for debug builds")
 endif()
 
-# Set build-directive (used in core to tell which buildtype we used)
 # msbuild/devenv don't set CMAKE_MAKE_PROGRAM, you can choose build type from a dropdown after generating projects
 if("${CMAKE_MAKE_PROGRAM}" MATCHES "MSBuild")
-  target_compile_definitions(trinity-compile-option-interface
-    INTERFACE
-      -D_BUILD_DIRECTIVE="$(ConfigurationName)")
-
   # multithreaded compiling on VS
   target_compile_options(trinity-compile-option-interface
     INTERFACE
       /MP)
 else()
-  # while all make-like generators do (nmake, ninja)
-  target_compile_definitions(trinity-compile-option-interface
-    INTERFACE
-      -D_BUILD_DIRECTIVE="$<CONFIG>")
-
   # Forces writes to the PDB file to be serialized through mspdbsrv.exe (/FS)
   # Enable faster PDB generation in parallel builds by minimizing RPC calls to mspdbsrv.exe (/Zf)
   target_compile_options(trinity-compile-option-interface
@@ -101,24 +91,24 @@ endif()
 # Define _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES - eliminates the warning by changing the strcpy call to strcpy_s, which prevents buffer overruns
 target_compile_definitions(trinity-compile-option-interface
   INTERFACE
-    -D_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES)
+    _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES)
 message(STATUS "MSVC: Overloaded standard names")
 
 # Ignore warnings about older, less secure functions
 target_compile_definitions(trinity-compile-option-interface
   INTERFACE
-    -D_CRT_SECURE_NO_WARNINGS)
+    _CRT_SECURE_NO_WARNINGS)
 message(STATUS "MSVC: Disabled NON-SECURE warnings")
 
 # Ignore warnings about POSIX deprecation
 target_compile_definitions(trinity-compile-option-interface
   INTERFACE
-    -D_CRT_NONSTDC_NO_WARNINGS)
+    _CRT_NONSTDC_NO_WARNINGS)
 
 # Force math constants like M_PI to be available
 target_compile_definitions(trinity-compile-option-interface
   INTERFACE
-    -D_USE_MATH_DEFINES)
+    _USE_MATH_DEFINES)
 
 message(STATUS "MSVC: Disabled POSIX warnings")
 
@@ -172,8 +162,8 @@ target_compile_options(trinity-compile-option-interface
 if(ASAN)
   target_compile_definitions(trinity-compile-option-interface
     INTERFACE
-      -D_DISABLE_STRING_ANNOTATION
-      -D_DISABLE_VECTOR_ANNOTATION)
+      _DISABLE_STRING_ANNOTATION
+      _DISABLE_VECTOR_ANNOTATION)
 
   target_compile_options(trinity-compile-option-interface
     INTERFACE
