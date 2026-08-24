@@ -1,0 +1,30 @@
+name: Clang
+
+on:
+  workflow_call:
+    inputs:
+      run_build:
+        description: Whether the changed paths warrant a native build.
+        required: true
+        type: boolean
+
+jobs:
+  build:
+    if: inputs.run_build
+    runs-on: ubuntu-24.04
+    steps:
+    - uses: actions/checkout@v6
+    - name: Install toolchain and system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y --no-install-recommends \
+          clang-17 ninja-build \
+          libboost-system-dev libboost-filesystem-dev libboost-program-options-dev libboost-iostreams-dev libboost-regex-dev \
+          libmysqlclient-dev libssl-dev libbz2-dev libreadline-dev zlib1g-dev
+    - name: Setup
+      env:
+        CC: clang-17
+        CXX: clang++-17
+      run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DWITH_WARNINGS=1 -DTOOLS=1 -DSCRIPTS=dynamic -DSERVERS=1 -DNOJEM=0 -DCMAKE_INSTALL_PREFIX=check_install
+    - name: Build
+      run: cmake --build build --target install --parallel
