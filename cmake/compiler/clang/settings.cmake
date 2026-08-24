@@ -54,6 +54,52 @@ if(ASAN)
   message(STATUS "Clang: Enabled Address Sanitizer")
 endif()
 
+if(MSAN)
+  target_compile_options(trinity-compile-option-interface
+    INTERFACE
+      -fno-omit-frame-pointer
+      -fsanitize=memory
+      -fsanitize-memory-track-origins
+      -mllvm
+      -msan-keep-going=1)
+
+  target_link_options(trinity-compile-option-interface
+    INTERFACE
+      -fno-omit-frame-pointer
+      -fsanitize=memory
+      -fsanitize-memory-track-origins)
+
+  message(STATUS "Clang: Enabled Memory Sanitizer MSan")
+endif()
+
+if(UBSAN)
+  target_compile_options(trinity-compile-option-interface
+    INTERFACE
+      -fno-omit-frame-pointer
+      -fsanitize=undefined)
+
+  target_link_options(trinity-compile-option-interface
+    INTERFACE
+      -fno-omit-frame-pointer
+      -fsanitize=undefined)
+
+  message(STATUS "Clang: Enabled Undefined Behavior Sanitizer UBSan")
+endif()
+
+if(TSAN)
+  target_compile_options(trinity-compile-option-interface
+    INTERFACE
+      -fno-omit-frame-pointer
+      -fsanitize=thread)
+
+  target_link_options(trinity-compile-option-interface
+    INTERFACE
+      -fno-omit-frame-pointer
+      -fsanitize=thread)
+
+  message(STATUS "Clang: Enabled Thread Sanitizer TSan")
+endif()
+
 # -Wno-narrowing needed to suppress a warning in g3d
 # -Wno-deprecated-register is needed to suppress 185 gsoap warnings on Unix systems.
 # -Wno-deprecated-copy needed to suppress a warning in g3d
