@@ -10,7 +10,6 @@
 
 set(BOOST_SEARCH_HINTS)
 if(WIN32)
-  set(BOOST_DEBUG ON)
   if(DEFINED ENV{BOOST_ROOT})
     set(BOOST_ROOT $ENV{BOOST_ROOT})
   endif()
@@ -73,12 +72,17 @@ target_compile_definitions(boost
     BOOST_SYSTEM_USE_UTF8)
 
 if (WITH_BOOST_STACKTRACE AND NOT WIN32)
-  message("*** libbacktrace will be linked")
+  message(STATUS "libbacktrace will be linked")
+
+  include(CheckIncludeFile)
 
   if (BOOST_STACKTRACE_BACKTRACE_INCLUDE_FILE)
-    CHECK_INCLUDE_FILE(${BOOST_STACKTRACE_BACKTRACE_INCLUDE_FILE} HAS_BACKTRACE)
+    check_include_file("${BOOST_STACKTRACE_BACKTRACE_INCLUDE_FILE}" HAS_BACKTRACE)
+    target_compile_definitions(boost
+      INTERFACE
+        BOOST_STACKTRACE_BACKTRACE_INCLUDE_FILE=${BOOST_STACKTRACE_BACKTRACE_INCLUDE_FILE})
   else()
-    CHECK_INCLUDE_FILE("backtrace.h" HAS_BACKTRACE)
+    check_include_file("backtrace.h" HAS_BACKTRACE)
   endif()
 
   if (NOT HAS_BACKTRACE)
