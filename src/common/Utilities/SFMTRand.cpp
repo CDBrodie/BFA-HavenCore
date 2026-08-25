@@ -28,7 +28,7 @@ SFMTRand::SFMTRand() noexcept
     if (dev.entropy() > 0)
     {
         std::array<uint32, SFMT_N32> seed;
-        std::ranges::generate(seed, std::ref(dev));
+        std::generate(seed.begin(), seed.end(), std::ref(dev));
 
         sfmt_init_by_array(&_state, seed.data(), seed.size());
     }
