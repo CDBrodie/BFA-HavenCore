@@ -1707,6 +1707,16 @@ void System::cpuid(CPUIDFunction func, uint32& eax, uint32& ebx, uint32& ecx, ui
 	edx = regs[3];
 }
 
+#elif defined(__aarch64__) || defined(G3D_OSX) && ! defined(G3D_OSX_INTEL)
+
+// non-x86 CPU; no CPUID
+void System::cpuid(CPUIDFunction func, uint32& eax, uint32& ebx, uint32& ecx, uint32& edx) {
+    eax = 0;
+    ebx = 0;
+    ecx = 0;
+    edx = 0;
+}
+
 #else
 
 // See http://sam.zoy.org/blog/2007-04-13-shlib-with-non-pic-code-have-inline-assembly-and-pic-mix-well
