@@ -20,10 +20,8 @@ target_compile_definitions(rapidjson
     RAPIDJSON_48BITPOINTER_OPTIMIZATION=0
     RAPIDJSON_ASSERT=WPAssert)
 
-if(CMAKE_SYSTEM_PROCESSOR MATCHES "(x86_64)|(AMD64|amd64)|(^i.86$)")
+if(TRINITY_SYSTEM_PROCESSOR MATCHES "x86|amd64")
   target_compile_definitions(rapidjson INTERFACE -DRAPIDJSON_SSE2)
-elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^arm")
-  target_compile_definitions(rapidjson INTERFACE -DRAPIDJSON_NEON)
-elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "^aarch64")
+elseif(TRINITY_SYSTEM_PROCESSOR MATCHES "^arm")
   target_compile_definitions(rapidjson INTERFACE -DRAPIDJSON_NEON)
 endif()
