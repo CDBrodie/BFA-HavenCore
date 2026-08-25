@@ -1180,7 +1180,7 @@ void AuctionHouseObject::BuildListBuckets(WorldPackets::AuctionHouse::AuctionLis
     if (filters.HasFlag(AuctionHouseFilterMask::UncollectedOnly))
     {
         knownAppearanceIds = player->GetSession()->GetCollectionMgr()->GetAppearanceIds();
-        knownPetSpecies.init_from_block_range(knownPetBits, knownPetBits + knownPetBitsCount);
+        knownPetSpecies = boost::dynamic_bitset<uint8>(knownPetBits, knownPetBits + knownPetBitsCount);
         if (knownPetSpecies.size() < sBattlePetSpeciesStore.GetNumRows())
             knownPetSpecies.resize(sBattlePetSpeciesStore.GetNumRows());
     }
