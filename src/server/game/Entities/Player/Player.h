@@ -961,7 +961,9 @@ class Player;
 struct BGData
 {
     BGData() : bgInstanceID(0), bgTypeID(BATTLEGROUND_TYPE_NONE), bgAfkReportedCount(0), bgAfkReportedTimer(0),
-        bgTeam(0), mountSpell(0) { ClearTaxiPath(); }
+        bgTeam(0), mountSpell(0), joinRole(0) { ClearTaxiPath(); }
+
+    uint8 joinRole;
 
     uint32 bgInstanceID;                    ///< This variable is set to bg->m_InstanceID,
                                             ///  when player is teleported to BG - (it is battleground's GUID)
@@ -2302,6 +2304,9 @@ class TC_GAME_API Player : public Unit, public GridObject<Player>
 
         void SetBGTeam(uint32 team);
         uint32 GetBGTeam() const;
+
+        uint8 GetBGQueuedRole() const { return m_bgData.joinRole; }
+        void SetBGQueuedRole(uint8 role) { m_bgData.joinRole = role; }
 
         void LeaveBattleground(bool teleportToEntryPoint = true);
         bool CanJoinToBattleground(Battleground const* bg) const;
