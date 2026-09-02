@@ -1926,7 +1926,7 @@ void Player::ProcessDelayedOperations()
 
             GetSession()->SendPetBattleFinalizeLocation(&request);
 
-            SetUnitFlags(UNIT_FLAG_IMMUNE_TO_NPC);
+            AddUnitFlag(UNIT_FLAG_IMMUNE_TO_NPC);
             SetFacingTo(GetAngle(matchMakingRequest.TeamPosition[!teamID].GetPositionX(), matchMakingRequest.TeamPosition[!teamID].GetPositionY()));
             SetRooted(true);
 
