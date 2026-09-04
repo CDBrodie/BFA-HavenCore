@@ -773,6 +773,10 @@ void Battleground::EndBattleground(uint32 winner)
     WorldPackets::Battleground::PVPMatchStatistics pvpLogData;
     BuildPvPLogDataPacket(pvpLogData);
 
+    WorldPackets::Battleground::PVPMatchComplete matchComplete;
+    matchComplete.Winner = (GetWinner() == BG_TEAM_ALLIANCE) ? 1 : ((GetWinner() == BG_TEAM_HORDE) ? 0 : -1);
+    matchComplete.Duration = GetElapsedTime() / IN_MILLISECONDS;
+
     BattlegroundQueueTypeId bgQueueTypeId = BattlegroundMgr::BGQueueTypeId(GetTypeID(), GetArenaType());
 
     RewardChestToTeam(winner);
@@ -870,6 +874,7 @@ void Battleground::EndBattleground(uint32 winner)
 
         BlockMovement(player);
 
+        player->SendDirectMessage(matchComplete.Write());
         player->SendDirectMessage(pvpLogData.Write());
 
         WorldPackets::Battleground::BattlefieldStatusActive battlefieldStatus;
@@ -1335,6 +1340,10 @@ void Battleground::BuildPvPLogDataPacket(WorldPackets::Battleground::PVPMatchSta
 
     pvpLogData.PlayerCount[BG_TEAM_HORDE] = int8(GetPlayersCountByTeam(HORDE));
     pvpLogData.PlayerCount[BG_TEAM_ALLIANCE] = int8(GetPlayersCountByTeam(ALLIANCE));
+
+    // Winner: BG_TEAM_ALLIANCE=1, BG_TEAM_HORDE=0, BG_TEAM_NEUTRAL=2 (in progress = -1)
+    uint8 bgWinner = GetWinner();
+    pvpLogData.Winner = (bgWinner == BG_TEAM_ALLIANCE) ? 1 : (bgWinner == BG_TEAM_HORDE) ? 0 : -1;
 }
 
 bool Battleground::UpdatePlayerScore(Player* player, uint32 type, uint32 value, bool doAddHonor)
