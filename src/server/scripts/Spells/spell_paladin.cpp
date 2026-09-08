@@ -1,4 +1,4 @@
-﻿/*
+/*
  * 2026 BFA-HavenCore
  *
  * This program is free software; you can redistribute it and/or modify it
@@ -457,37 +457,29 @@ class spell_pal_shield_of_the_righteous : public SpellScript
         {
             if (GetHitUnit())
             {
+                int32 previousDuration = 0;
+                if (Aura* aur = player->GetAura(SPELL_PALADIN_SHIELD_OF_THE_RIGHTEOUS_PROC))
+                    previousDuration = aur->GetDuration();
+
+                float strength = player->GetStat(STAT_STRENGTH);
+                float mastery = player->m_activePlayerData->Mastery;
+
+                // Base armor buff is 150% of Strength, scaled by Mastery %
+                float armorBuff = strength * 1.5f * (1.0f + (mastery / 100.0f));
+
                 if (player->FindNearestCreature(43499, 8) && player->HasAura(SPELL_PALADIN_CONSECRATION)) //if player is standing in his consecration all effects are increased by 20%
                 {
-                    int32 previousDuration = 0;
-
-                    if (Aura* aur = player->GetAura(SPELL_PALADIN_SHIELD_OF_THE_RIGHTEOUS_PROC))
-                        previousDuration = aur->GetDuration();
-
                     uint32 dmg = GetHitDamage();
                     dmg += dmg / 5;
                     SetHitDamage(dmg); //damage is increased by 20%
-
-                    float mastery = player->m_activePlayerData->Mastery;
-
-                    int32 reduction = int32(((-25 - int32(mastery / 2.0f)) * 120.0f) / 100.0f); //damage reduction is increased by 20%
-                    player->CastCustomSpell(player, SPELL_PALADIN_SHIELD_OF_THE_RIGHTEOUS_PROC, &reduction, nullptr, nullptr, true);
-
-                    if (Aura* aur = player->GetAura(SPELL_PALADIN_SHIELD_OF_THE_RIGHTEOUS_PROC))
-                        aur->SetDuration(aur->GetDuration() + previousDuration);
+                    armorBuff *= 1.2f;
                 }
-                else
-                {
-                    int32 previousDuration = 0;
 
-                    if (Aura* aur = player->GetAura(SPELL_PALADIN_SHIELD_OF_THE_RIGHTEOUS_PROC))
-                        previousDuration = aur->GetDuration();
+                int32 finalArmor = int32(armorBuff);
+                player->CastCustomSpell(player, SPELL_PALADIN_SHIELD_OF_THE_RIGHTEOUS_PROC, &finalArmor, nullptr, nullptr, true);
 
-                    player->CastSpell(player, SPELL_PALADIN_SHIELD_OF_THE_RIGHTEOUS_PROC, true);
-
-                    if (Aura* aur = player->GetAura(SPELL_PALADIN_SHIELD_OF_THE_RIGHTEOUS_PROC))
-                        aur->SetDuration(aur->GetDuration() + previousDuration);
-                }
+                if (Aura* aur = player->GetAura(SPELL_PALADIN_SHIELD_OF_THE_RIGHTEOUS_PROC))
+                    aur->SetDuration(aur->GetDuration() + previousDuration);
 
                 if (Aura* aura = player->GetAura(SPELL_PALADIN_RIGHTEOUS_PROTECTOR)) //reduce the CD of Light of the Protector and Avenging Wrath by 3
                 {
